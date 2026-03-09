@@ -25,5 +25,7 @@
     <string name="time_left">00:50 sec left</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="enter_your_email_phone">Enter your email/phone</string>
+    <string name="invalid_userid_or_password">Invalid userid or password</string>
+    <string name="authenticating">Authenticating</string>
 
 </resources>

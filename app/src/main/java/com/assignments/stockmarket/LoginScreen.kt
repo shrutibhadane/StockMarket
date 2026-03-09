@@ -15,12 +15,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +38,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import java.io.BufferedReader
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
 
 @Composable
 fun LoginScreen(
@@ -46,6 +56,10 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var usernameError by remember { mutableStateOf<String?>(null) }
     var passwordError by remember { mutableStateOf<String?>(null) }
+    var authError by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    val invalidCredentialsMessage = stringResource(R.string.invalid_userid_or_password)
 
     Box(
         modifier = Modifier
@@ -89,6 +103,7 @@ fun LoginScreen(
                 onValueChange = {
                     username = it
                     if (it.isNotEmpty()) usernameError = null
+                    authError = null
                 },
                 errorMessage = usernameError
             )
@@ -102,6 +117,7 @@ fun LoginScreen(
                 onValueChange = {
                     password = it
                     if (it.isNotEmpty()) passwordError = null
+                    authError = null
                 },
                 isPassword = true,
                 errorMessage = passwordError
@@ -133,7 +149,8 @@ fun LoginScreen(
                     .background(colorResource(R.color.button_background_color))
                     .border(2.dp, Color.White, CircleShape)
                     .clickable {
-                        // Validate before proceeding
+                        if (isLoading) return@clickable
+
                         var valid = true
                         if (username.isEmpty()) {
                             usernameError = "Username should not be empty"
@@ -143,17 +160,49 @@ fun LoginScreen(
                             passwordError = "Password should not be empty"
                             valid = false
                         }
-                        if (valid) {
-                            navController.navigate("mpin")
+
+                        if (!valid) return@clickable
+
+                        authError = null
+                        isLoading = true
+                        coroutineScope.launch {
+                            val success = authenticateUser(username.trim(), password.trim())
+                            isLoading = false
+                            if (success) {
+                                onLoginClick()
+                                navController.navigate("mpin")
+                            } else {
+                                authError = invalidCredentialsMessage
+                            }
                         }
                     },
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowForward,
-                    contentDescription = stringResource(R.string.login),
-                    tint = Color.White,
-                    modifier = Modifier.size(32.dp)
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(32.dp),
+                        color = Color.White,
+                        strokeWidth = 3.dp
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.ArrowForward,
+                        contentDescription = stringResource(R.string.login),
+                        tint = Color.White,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
+
+            if (authError != null) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = authError.orEmpty(),
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontFamily = PoppinsFamily,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
@@ -177,3 +226,42 @@ fun LoginScreen(
         }
     }
 }
+
+private suspend fun authenticateUser(username: String, password: String): Boolean = withContext(Dispatchers.IO) {
+    var connection: HttpURLConnection? = null
+
+    try {
+        connection = (URL(LOGIN_API_URL).openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 15_000
+            readTimeout = 15_000
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json")
+            setRequestProperty("Accept", "application/json")
+        }
+
+        val payload = JSONObject()
+            .put("username", username)
+            .put("password", password)
+            .toString()
+
+        OutputStreamWriter(connection.outputStream).use { writer ->
+            writer.write(payload)
+            writer.flush()
+        }
+
+        if (connection.responseCode != HttpURLConnection.HTTP_OK) {
+            return@withContext false
+        }
+
+        val body = BufferedReader(connection.inputStream.reader()).use { it.readText() }
+        val json = JSONObject(body)
+        json.optString("status").equals("OK", ignoreCase = true)
+    } catch (_: Exception) {
+        false
+    } finally {
+        connection?.disconnect()
+    }
+}
+
+private const val LOGIN_API_URL = "https://system-project-api.onrender.com/api/login"
