@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.StockMarket" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.StockMarket" parent="Base.Theme.StockMarket" />
+
+   <!-- <style name="Theme.StockMarket" parent="Base.Theme.StockMarket">
+        <item name="windowSplashScreenBackground">@color/screen_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_stock_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.StockMarket</item>
+    </style>-->
+</resources>

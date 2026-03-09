@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">TradeSphere</string>
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_login_screen">LoginScreen</string>
+    <string name="title_activity_forgot_password_screen">ForgotPasswordScreen</string>
+    <string name="title_activity_mpinscreen">MPINScreen</string>
+    <string name="title_activity_otpinput">OTPInput</string>
+
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="don_t_have_any_account_click_to_create">Don\'t have any account? Click to create</string>
+
+    <string name="sign_up">Sign up</string>
+    <string name="fullname">Fullname</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_an_account_click_to_login">Already have an account? Click to login</string>
+
+    <string name="mpin">MPIN</string>
+
+    <string name="otp">OTP</string>
+    <string name="resend_now">Resend now</string>
+    <string name="time_left">00:50 sec left</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="enter_your_email_phone">Enter your email/phone</string>
+
+</resources>
