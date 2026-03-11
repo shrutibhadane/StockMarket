@@ -241,7 +241,7 @@ private suspend fun authenticateUser(username: String, password: String): Boolea
         }
 
         val payload = JSONObject()
-            .put("username", username)
+            .put("user_id", username)
             .put("password", password)
             .toString()
 

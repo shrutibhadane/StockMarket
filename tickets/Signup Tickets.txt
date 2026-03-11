@@ -1,0 +1,1001 @@
+================================================================================
+                        SIGNUP SCREEN — JIRA TICKETS
+================================================================================
+
+
+--------------------------------------------------------------------------------
+S.No: 1
+--------------------------------------------------------------------------------
+Task Name:
+    Create SignUpScreen Composable skeleton
+
+Details of the task:
+    Create a new Kotlin file SignUpScreen.kt inside the stockmarket package.
+    Define a @Composable function SignUpScreen that accepts a NavController
+    and an optional onSignUpClick callback. Set up the basic Box and Column
+    layout with full-screen background color and horizontal padding.
+
+Technical Requirements:
+    - Jetpack Compose (Box, Column, Modifier)
+    - NavController parameter
+    - colorResource for screen_background
+    - padding(horizontal = 24.dp)
+
+Acceptance Criteria:
+    - SignUpScreen composable renders without crash
+    - Background fills entire screen with correct color
+    - NavController is passed and accessible
+    - Column is scrollable via verticalScroll
+
+
+--------------------------------------------------------------------------------
+S.No: 2
+--------------------------------------------------------------------------------
+Task Name:
+    Add logo and Sign Up title
+
+Details of the task:
+    Add the app logo image at the top of the screen using painterResource
+    and a "Sign up" title text below it. Use PoppinsFamily font, bold weight,
+    24sp size, white color, and center alignment.
+
+Technical Requirements:
+    - Image composable with R.drawable.ic_stock_logo
+    - Text composable with stringResource(R.string.sign_up)
+    - PoppinsFamily font, FontWeight.Bold, 24.sp
+    - Top padding of 80dp on the logo
+
+Acceptance Criteria:
+    - Logo displays correctly at the top
+    - "Sign up" title renders below logo
+    - Font family, size, weight, and color match specification
+    - 40dp spacer exists between title and first field
+
+
+--------------------------------------------------------------------------------
+S.No: 3
+--------------------------------------------------------------------------------
+Task Name:
+    Add First Name text field
+
+Details of the task:
+    Add a CustomTextField for "First Name" input. Wire it to a firstName
+    state variable. Display placeholder text from string resource.
+
+Technical Requirements:
+    - CustomTextField reusable composable
+    - remember { mutableStateOf("") } for firstName
+    - stringResource(R.string.first_name) for placeholder
+    - firstNameError state for error message
+
+Acceptance Criteria:
+    - First Name field renders with correct placeholder
+    - Typing updates the firstName state
+    - Error message slot is wired (null by default)
+
+
+--------------------------------------------------------------------------------
+S.No: 4
+--------------------------------------------------------------------------------
+Task Name:
+    Validate First Name — alphabets only
+
+Details of the task:
+    Implement inline validation on the First Name field. When the user types,
+    check that all characters are alphabetic letters. If any non-letter
+    character is found, show the error "First Name should contain only
+    alphabets". Clear error when input becomes valid.
+
+Technical Requirements:
+    - Kotlin Char.isLetter() check on each character
+    - firstNameError state updated in onValueChange
+    - Clear apiError on change
+
+Acceptance Criteria:
+    - Typing "John" shows no error
+    - Typing "John1" shows "First Name should contain only alphabets"
+    - Deleting the "1" clears the error immediately
+
+
+--------------------------------------------------------------------------------
+S.No: 5
+--------------------------------------------------------------------------------
+Task Name:
+    Add Last Name text field
+
+Details of the task:
+    Add a CustomTextField for "Last Name" input below the First Name field
+    with a 16dp spacer. Wire it to a lastName state variable.
+
+Technical Requirements:
+    - CustomTextField with stringResource(R.string.last_name)
+    - remember { mutableStateOf("") } for lastName
+    - lastNameError state for error message
+
+Acceptance Criteria:
+    - Last Name field renders below First Name with 16dp gap
+    - Typing updates the lastName state
+    - Placeholder text is correct
+
+
+--------------------------------------------------------------------------------
+S.No: 6
+--------------------------------------------------------------------------------
+Task Name:
+    Validate Last Name — alphabets only
+
+Details of the task:
+    Implement the same alphabets-only validation for Last Name as done for
+    First Name. Show "Last Name should contain only alphabets" on invalid
+    input.
+
+Technical Requirements:
+    - Kotlin Char.isLetter() check
+    - lastNameError state updated in onValueChange
+    - Clear apiError on change
+
+Acceptance Criteria:
+    - Typing "Doe" shows no error
+    - Typing "Doe2" shows error
+    - Correcting input clears error
+
+
+--------------------------------------------------------------------------------
+S.No: 7
+--------------------------------------------------------------------------------
+Task Name:
+    Add Username text field
+
+Details of the task:
+    Add a CustomTextField for "Username" input below the Last Name field
+    with 16dp spacing. Wire it to a username state variable.
+
+Technical Requirements:
+    - CustomTextField with stringResource(R.string.username)
+    - remember { mutableStateOf("") } for username
+    - usernameError state for error message
+
+Acceptance Criteria:
+    - Username field renders with correct placeholder
+    - State updates on typing
+    - 16dp gap from Last Name field
+
+
+--------------------------------------------------------------------------------
+S.No: 8
+--------------------------------------------------------------------------------
+Task Name:
+    Validate Username — allowed characters
+
+Details of the task:
+    Username must only contain letters, numbers, and the symbols #, *, &.
+    Use a Regex pattern ^[a-zA-Z0-9#*&]*$ to validate. Show error
+    "Username can only contain letters, numbers and #*&" if invalid
+    characters are typed.
+
+Technical Requirements:
+    - Regex("^[a-zA-Z0-9#*&]*$") pattern matching
+    - usernameError updated in onValueChange
+    - Clear apiError on change
+
+Acceptance Criteria:
+    - "user#1" shows no character error
+    - "user@1" shows the invalid character error
+    - Error clears when invalid character is removed
+
+
+--------------------------------------------------------------------------------
+S.No: 9
+--------------------------------------------------------------------------------
+Task Name:
+    Validate Username — minimum length
+
+Details of the task:
+    Username must be more than 5 characters long. If the user types a
+    username that is 5 or fewer characters, show "Username must be more
+    than 5 characters". This check runs alongside the character validation.
+
+Technical Requirements:
+    - Length check (it.length <= 5) in onValueChange
+    - usernameError uses when block for priority ordering
+
+Acceptance Criteria:
+    - "abc" shows length error
+    - "abcdef" shows no error (6 characters)
+    - "ab#" shows length error, not character error
+
+
+--------------------------------------------------------------------------------
+S.No: 10
+--------------------------------------------------------------------------------
+Task Name:
+    Add Email text field
+
+Details of the task:
+    Add a CustomTextField for "Email" input below the Username field with
+    16dp spacing. Wire it to an email state variable.
+
+Technical Requirements:
+    - CustomTextField with stringResource(R.string.email)
+    - remember { mutableStateOf("") } for email
+    - emailError state for error message
+
+Acceptance Criteria:
+    - Email field renders with correct placeholder
+    - State updates on typing
+    - Error slot is wired
+
+
+--------------------------------------------------------------------------------
+S.No: 11
+--------------------------------------------------------------------------------
+Task Name:
+    Implement email validation — @ symbol check
+
+Details of the task:
+    Create a validateEmail() helper function. First check: the email must
+    contain an "@" symbol. Return "Email must contain @" if missing.
+
+Technical Requirements:
+    - Private top-level function validateEmail(email: String): String?
+    - Check "@" !in email
+    - Return null when valid
+
+Acceptance Criteria:
+    - "test" returns "Email must contain @"
+    - "test@" passes this check (fails on later checks)
+
+
+--------------------------------------------------------------------------------
+S.No: 12
+--------------------------------------------------------------------------------
+Task Name:
+    Implement email validation — domain and TLD check
+
+Details of the task:
+    Extend validateEmail() to check that email splits into exactly 2 parts
+    at @, the domain part contains a dot, and the TLD (part after last dot)
+    is in the approved set: com, in, org, net, edu, gov, co, io, info, biz,
+    us, uk, ca, au.
+
+Technical Requirements:
+    - Split by "@" and validate parts.size == 2
+    - Check "." in domain
+    - Extract TLD via substringAfterLast(".")
+    - VALID_TLDS set defined at file level
+
+Acceptance Criteria:
+    - "user@example.com" returns null (valid)
+    - "user@example" returns "Email must have a valid domain"
+    - "user@example.xyz" returns "Invalid TLD. Use .com, .in, .org, etc."
+    - "user@.com" returns "Invalid email format"
+
+
+--------------------------------------------------------------------------------
+S.No: 13
+--------------------------------------------------------------------------------
+Task Name:
+    Wire email validation to the Email text field
+
+Details of the task:
+    Call validateEmail() inside the email field's onValueChange. Set
+    emailError to the returned message. Only validate when input is
+    non-empty.
+
+Technical Requirements:
+    - emailError = if (it.isNotEmpty()) validateEmail(it) else null
+    - Clear apiError on change
+
+Acceptance Criteria:
+    - Real-time validation shows/hides email errors as user types
+    - Empty field shows no error
+    - Valid email shows no error
+
+
+--------------------------------------------------------------------------------
+S.No: 14
+--------------------------------------------------------------------------------
+Task Name:
+    Add Phone Number text field
+
+Details of the task:
+    Add a CustomTextField for "Phone Number" below the Email field with
+    16dp spacing. Wire it to a phoneNumber state variable.
+
+Technical Requirements:
+    - CustomTextField with stringResource(R.string.phone_number)
+    - remember { mutableStateOf("") } for phoneNumber
+    - phoneNumberError state for error message
+
+Acceptance Criteria:
+    - Phone Number field renders with correct placeholder
+    - State updates on typing
+    - 16dp gap from Email field
+
+
+--------------------------------------------------------------------------------
+S.No: 15
+--------------------------------------------------------------------------------
+Task Name:
+    Validate Phone Number — digits only, auto-filter
+
+Details of the task:
+    In the onValueChange of Phone Number, filter the input to allow only
+    digit characters. Non-digit characters should be silently stripped.
+
+Technical Requirements:
+    - input.filter { it.isDigit() }
+    - Set phoneNumber to the filtered value
+
+Acceptance Criteria:
+    - Typing "123abc456" results in "123456" in the field
+    - Only numeric characters are ever stored in state
+
+
+--------------------------------------------------------------------------------
+S.No: 16
+--------------------------------------------------------------------------------
+Task Name:
+    Validate Phone Number — length check (10-15 digits)
+
+Details of the task:
+    After filtering, validate that the phone number is between 10 and 15
+    digits. Show "Phone number must be 10-15 digits" if out of range.
+
+Technical Requirements:
+    - Check filtered.length < 10 || filtered.length > 15
+    - phoneNumberError updated accordingly
+    - Clear apiError on change
+
+Acceptance Criteria:
+    - "12345" shows error (too short)
+    - "1234567890" shows no error (10 digits)
+    - 16-digit input shows error (too long)
+
+
+--------------------------------------------------------------------------------
+S.No: 17
+--------------------------------------------------------------------------------
+Task Name:
+    Add Password text field with focus tracking
+
+Details of the task:
+    Add a CustomTextField for "Password" wrapped in a Box with
+    onFocusChanged modifier. Track isPasswordFocused state. Pass
+    isPassword = true to show/hide toggle.
+
+Technical Requirements:
+    - Box with Modifier.onFocusChanged
+    - isPasswordFocused state variable
+    - CustomTextField with isPassword = true
+    - passwordError state for error message
+
+Acceptance Criteria:
+    - Password field renders with visibility toggle icon
+    - isPasswordFocused updates when field gains/loses focus
+    - Placeholder shows "Password"
+
+
+--------------------------------------------------------------------------------
+S.No: 18
+--------------------------------------------------------------------------------
+Task Name:
+    Implement password criteria — minimum 8 characters
+
+Details of the task:
+    Create a computed boolean hasMinLength that checks password.length >= 8.
+    This will be used to display criteria status.
+
+Technical Requirements:
+    - val hasMinLength = password.length >= 8
+    - Recomputed on every password state change
+
+Acceptance Criteria:
+    - "Abc1234" → hasMinLength is false (7 chars)
+    - "Abc12345" → hasMinLength is true (8 chars)
+
+
+--------------------------------------------------------------------------------
+S.No: 19
+--------------------------------------------------------------------------------
+Task Name:
+    Implement password criteria — uppercase letter
+
+Details of the task:
+    Create a computed boolean hasUpperCase that checks if password contains
+    at least one uppercase letter.
+
+Technical Requirements:
+    - val hasUpperCase = password.any { it.isUpperCase() }
+
+Acceptance Criteria:
+    - "abcdefgh" → false
+    - "Abcdefgh" → true
+
+
+--------------------------------------------------------------------------------
+S.No: 20
+--------------------------------------------------------------------------------
+Task Name:
+    Implement password criteria — lowercase letter
+
+Details of the task:
+    Create a computed boolean hasLowerCase that checks if password contains
+    at least one lowercase letter.
+
+Technical Requirements:
+    - val hasLowerCase = password.any { it.isLowerCase() }
+
+Acceptance Criteria:
+    - "ABCDEFGH" → false
+    - "ABCDEFGh" → true
+
+
+--------------------------------------------------------------------------------
+S.No: 21
+--------------------------------------------------------------------------------
+Task Name:
+    Implement password criteria — digit
+
+Details of the task:
+    Create a computed boolean hasDigit that checks if password contains
+    at least one numeric digit.
+
+Technical Requirements:
+    - val hasDigit = password.any { it.isDigit() }
+
+Acceptance Criteria:
+    - "Abcdefgh" → false
+    - "Abcdefg1" → true
+
+
+--------------------------------------------------------------------------------
+S.No: 22
+--------------------------------------------------------------------------------
+Task Name:
+    Implement password criteria — symbol
+
+Details of the task:
+    Create a computed boolean hasSymbol that checks if password contains
+    at least one character that is not a letter or digit.
+
+Technical Requirements:
+    - val hasSymbol = password.any { !it.isLetterOrDigit() }
+
+Acceptance Criteria:
+    - "Abcdefg1" → false
+    - "Abcdefg1!" → true
+
+
+--------------------------------------------------------------------------------
+S.No: 23
+--------------------------------------------------------------------------------
+Task Name:
+    Create allCriteriaMet composite boolean
+
+Details of the task:
+    Combine all five password criteria booleans into a single allCriteriaMet
+    boolean. This will control button enabled/disabled state.
+
+Technical Requirements:
+    - val allCriteriaMet = hasMinLength && hasUpperCase && hasLowerCase
+      && hasDigit && hasSymbol
+
+Acceptance Criteria:
+    - All five true → allCriteriaMet is true
+    - Any one false → allCriteriaMet is false
+
+
+--------------------------------------------------------------------------------
+S.No: 24
+--------------------------------------------------------------------------------
+Task Name:
+    Build PasswordCriteriaRow composable
+
+Details of the task:
+    Create a private @Composable function PasswordCriteriaRow that takes
+    a label string and a met boolean. Display a Check icon (green) when met,
+    Close icon (red) when not met, followed by the label text in the
+    matching color.
+
+Technical Requirements:
+    - Row with verticalAlignment CenterVertically
+    - Icons.Default.Check / Icons.Default.Close (16dp)
+    - Text with PoppinsFamily, 12.sp
+    - Color.Green when met, Color.Red when not met
+
+Acceptance Criteria:
+    - Row shows green check + green text when met = true
+    - Row shows red X + red text when met = false
+    - Icon and text are vertically centered with 6dp gap
+
+
+--------------------------------------------------------------------------------
+S.No: 25
+--------------------------------------------------------------------------------
+Task Name:
+    Show/hide password criteria list based on focus
+
+Details of the task:
+    Display the password criteria list (5 rows) only when the Password field
+    is focused and user has typed something. Hide the list when focus moves
+    to Confirm Password or any other field.
+
+Technical Requirements:
+    - showPasswordCriteria = isPasswordFocused && !isConfirmPasswordFocused
+      && password.isNotEmpty()
+    - Column with 5 PasswordCriteriaRow calls
+    - 8dp spacer above the criteria list
+
+Acceptance Criteria:
+    - Criteria list appears when password field is focused and non-empty
+    - Criteria list disappears when confirm password is focused
+    - Criteria list disappears when password field is empty
+    - Each row updates color in real-time as user types
+
+
+--------------------------------------------------------------------------------
+S.No: 26
+--------------------------------------------------------------------------------
+Task Name:
+    Add Confirm Password text field with focus tracking
+
+Details of the task:
+    Add a CustomTextField for "Confirm Password" wrapped in a Box with
+    onFocusChanged modifier. Track isConfirmPasswordFocused state. Pass
+    isPassword = true.
+
+Technical Requirements:
+    - Box with Modifier.onFocusChanged
+    - isConfirmPasswordFocused state variable
+    - CustomTextField with isPassword = true
+    - confirmPasswordError state for error message
+
+Acceptance Criteria:
+    - Confirm Password field renders with visibility toggle
+    - isConfirmPasswordFocused updates on focus change
+    - Password criteria list hides when this field is focused
+
+
+--------------------------------------------------------------------------------
+S.No: 27
+--------------------------------------------------------------------------------
+Task Name:
+    Validate Confirm Password — match check
+
+Details of the task:
+    In the onValueChange of Confirm Password, check if the value matches
+    the password. Show "Passwords do not match" if different, clear error
+    if matching. Also show error if empty.
+
+Technical Requirements:
+    - confirmPasswordError with when block
+    - Cross-check password != it
+    - Also update confirmPasswordError from password field's onValueChange
+
+Acceptance Criteria:
+    - Typing same password in both fields shows no error
+    - Mismatched passwords show "Passwords do not match"
+    - Empty confirm password shows "Confirm Password should not be empty"
+    - Changing password field updates confirm password error accordingly
+
+
+--------------------------------------------------------------------------------
+S.No: 28
+--------------------------------------------------------------------------------
+Task Name:
+    Build the circular submit button
+
+Details of the task:
+    Create a circular button (86dp) with CircleShape, white border, and
+    an ArrowForward icon. The button background should be faded (0.4 alpha)
+    when allCriteriaMet is false, and fully opaque when true.
+
+Technical Requirements:
+    - Box with .size(86.dp).clip(CircleShape)
+    - .background with conditional alpha based on allCriteriaMet
+    - .border(2.dp, Color.White, CircleShape)
+    - Icon tint also conditional on allCriteriaMet
+
+Acceptance Criteria:
+    - Button appears faded when password criteria not met
+    - Button appears fully colored when all criteria met
+    - Arrow icon matches button opacity
+    - Button is 86dp circle with white border
+
+
+--------------------------------------------------------------------------------
+S.No: 29
+--------------------------------------------------------------------------------
+Task Name:
+    Disable button when criteria not met or loading
+
+Details of the task:
+    In the clickable handler, return early if isLoading is true or if
+    allCriteriaMet is false. This prevents form submission when password
+    criteria are incomplete or a request is in flight.
+
+Technical Requirements:
+    - if (isLoading) return@clickable
+    - if (!allCriteriaMet) return@clickable
+    - Both checks before any validation logic
+
+Acceptance Criteria:
+    - Tapping faded button does nothing
+    - Tapping button during loading does nothing
+    - Button works normally when criteria met and not loading
+
+
+--------------------------------------------------------------------------------
+S.No: 30
+--------------------------------------------------------------------------------
+Task Name:
+    Implement full form validation on submit
+
+Details of the task:
+    When the button is tapped (and criteria/loading guards pass), run
+    complete validation on all fields: First Name, Last Name, Username,
+    Email, Phone Number, Password, Confirm Password. Set respective error
+    states and track a valid boolean. Return early if any validation fails.
+
+Technical Requirements:
+    - var valid = true pattern
+    - Each field check sets error and valid = false
+    - if (!valid) return@clickable at the end
+    - Reuse validateEmail() for email
+    - Reuse Regex for username
+
+Acceptance Criteria:
+    - All empty fields show respective "should not be empty" errors
+    - Invalid data shows specific error messages
+    - Form does not submit if any field is invalid
+    - All errors display simultaneously
+
+
+--------------------------------------------------------------------------------
+S.No: 31
+--------------------------------------------------------------------------------
+Task Name:
+    Show loading indicator in submit button
+
+Details of the task:
+    Replace the ArrowForward icon with a CircularProgressIndicator when
+    isLoading is true. Use white color, 32dp size, 3dp stroke width.
+
+Technical Requirements:
+    - if (isLoading) CircularProgressIndicator else Icon
+    - CircularProgressIndicator(color = White, strokeWidth = 3.dp)
+    - Modifier.size(32.dp)
+
+Acceptance Criteria:
+    - Spinner appears inside the button during API call
+    - Arrow icon returns after API call completes
+    - Spinner is white, centered in the circle button
+
+
+--------------------------------------------------------------------------------
+S.No: 32
+--------------------------------------------------------------------------------
+Task Name:
+    Define SIGNUP_API_URL constant
+
+Details of the task:
+    Define a private top-level constant for the signup API endpoint URL
+    to be used in the network call.
+
+Technical Requirements:
+    - private const val SIGNUP_API_URL =
+      "https://system-project-api.onrender.com/api/signup"
+    - Defined at file level, outside any function
+
+Acceptance Criteria:
+    - Constant is accessible from registerUser function
+    - URL is correct and points to the signup endpoint
+
+
+--------------------------------------------------------------------------------
+S.No: 33
+--------------------------------------------------------------------------------
+Task Name:
+    Create SignUpResult data class
+
+Details of the task:
+    Create a private data class SignUpResult with two fields: success
+    (Boolean) and message (String?, default null). This models the API
+    response for the signup call.
+
+Technical Requirements:
+    - private data class SignUpResult(val success: Boolean,
+      val message: String? = null)
+
+Acceptance Criteria:
+    - Can create success result: SignUpResult(success = true)
+    - Can create failure result: SignUpResult(false, "error message")
+    - Default message is null
+
+
+--------------------------------------------------------------------------------
+S.No: 34
+--------------------------------------------------------------------------------
+Task Name:
+    Implement registerUser suspend function — HTTP connection setup
+
+Details of the task:
+    Create a private suspend function registerUser that opens an
+    HttpURLConnection to SIGNUP_API_URL. Set POST method, 15-second
+    timeouts, Content-Type and Accept headers to application/json.
+
+Technical Requirements:
+    - withContext(Dispatchers.IO)
+    - URL(SIGNUP_API_URL).openConnection() as HttpURLConnection
+    - requestMethod = "POST", doOutput = true
+    - connectTimeout = 15_000, readTimeout = 15_000
+    - Content-Type: application/json, Accept: application/json
+
+Acceptance Criteria:
+    - Connection is created on IO dispatcher
+    - All headers and timeouts are set correctly
+    - Connection is stored for later disconnect in finally block
+
+
+--------------------------------------------------------------------------------
+S.No: 35
+--------------------------------------------------------------------------------
+Task Name:
+    Implement registerUser — build and send JSON payload
+
+Details of the task:
+    Build a JSONObject with keys: first_name, last_name, username, email,
+    phone_number, password. Write it to the connection's output stream.
+
+Technical Requirements:
+    - JSONObject with 6 .put() calls
+    - OutputStreamWriter to write payload
+    - Flush and close via .use {}
+
+Acceptance Criteria:
+    - JSON payload contains all 6 fields with correct keys
+    - Payload is written and flushed to the output stream
+    - Keys match API contract: first_name, last_name, username, email,
+      phone_number, password
+
+
+--------------------------------------------------------------------------------
+S.No: 36
+--------------------------------------------------------------------------------
+Task Name:
+    Implement registerUser — parse API response
+
+Details of the task:
+    Read the response from the API. Use inputStream for 2xx codes and
+    errorStream for others. Parse the JSON body and check if status
+    equals "OK". Return appropriate SignUpResult.
+
+Technical Requirements:
+    - Check responseCode in 200..299
+    - BufferedReader to read response body
+    - JSONObject to parse response
+    - Return SignUpResult(success = true) or SignUpResult(false, message)
+
+Acceptance Criteria:
+    - 201 response with status "OK" returns success
+    - 400 response with error message returns failure with that message
+    - 409 (duplicate email) returns failure with API message
+
+
+--------------------------------------------------------------------------------
+S.No: 37
+--------------------------------------------------------------------------------
+Task Name:
+    Implement registerUser — exception handling
+
+Details of the task:
+    Wrap the entire HTTP call in try-catch-finally. On any exception,
+    return a SignUpResult with the actual exception class name and message.
+    Always disconnect the connection in finally.
+
+Technical Requirements:
+    - catch (e: Exception)
+    - message = "Error: ${e.javaClass.simpleName}: ${e.message}"
+    - connection?.disconnect() in finally
+
+Acceptance Criteria:
+    - SocketTimeoutException shows "Error: SocketTimeoutException: ..."
+    - ConnectException shows "Error: ConnectException: ..."
+    - Connection is always disconnected regardless of outcome
+
+
+--------------------------------------------------------------------------------
+S.No: 38
+--------------------------------------------------------------------------------
+Task Name:
+    Wire API call to submit button via coroutine
+
+Details of the task:
+    In the button's clickable handler, after validation passes, set
+    isLoading = true and launch a coroutine to call registerUser(). On
+    completion, set isLoading = false and handle success/failure.
+
+Technical Requirements:
+    - rememberCoroutineScope()
+    - coroutineScope.launch { }
+    - Pass all trimmed field values to registerUser()
+    - Set isLoading before and after the call
+
+Acceptance Criteria:
+    - Loading indicator shows during API call
+    - isLoading resets to false after call completes
+    - All field values are trimmed before sending
+    - Success and failure paths are handled
+
+
+--------------------------------------------------------------------------------
+S.No: 39
+--------------------------------------------------------------------------------
+Task Name:
+    Show success dialog on signup completion
+
+Details of the task:
+    When the API returns success, set showSuccessDialog = true. Display an
+    AlertDialog with title "Congratulations! 🎉", message "Your account has
+    been created successfully!", and a single "Ok" confirm button. Prevent
+    dismiss by tapping outside.
+
+Technical Requirements:
+    - AlertDialog composable
+    - onDismissRequest = { } (empty — prevent outside dismiss)
+    - Title: PoppinsFamily, Bold, 20.sp
+    - Text: PoppinsFamily, 15.sp
+    - TextButton with "Ok", Bold, 16.sp
+
+Acceptance Criteria:
+    - Dialog appears after successful signup
+    - Cannot be dismissed by tapping outside
+    - Title, message, and button text are correct
+    - Font styling matches specification
+
+
+--------------------------------------------------------------------------------
+S.No: 40
+--------------------------------------------------------------------------------
+Task Name:
+    Navigate to MPIN screen on dialog "Ok" click
+
+Details of the task:
+    When the user taps "Ok" on the success dialog, dismiss the dialog and
+    navigate to the "mpin" route. Clear the sign_up screen from the back
+    stack so the user cannot go back to it.
+
+Technical Requirements:
+    - showSuccessDialog = false
+    - navController.navigate("mpin") {
+          popUpTo("sign_up") { inclusive = true }
+      }
+
+Acceptance Criteria:
+    - Tapping "Ok" closes the dialog
+    - App navigates to MPIN screen
+    - Pressing back from MPIN does NOT return to SignUp
+    - sign_up is removed from back stack
+
+
+--------------------------------------------------------------------------------
+S.No: 41
+--------------------------------------------------------------------------------
+Task Name:
+    Display API error message on screen
+
+Details of the task:
+    When the API returns a failure, show the error message in red text
+    below the submit button. Clear the error when the user modifies any
+    field.
+
+Technical Requirements:
+    - apiError state variable (String?)
+    - Text with Color.Red, 14.sp, PoppinsFamily, center aligned
+    - 12dp spacer above the error text
+    - apiError = null in every field's onValueChange
+
+Acceptance Criteria:
+    - API error like "Email already registered" displays in red
+    - Error disappears when user types in any field
+    - Error is centered and readable
+
+
+--------------------------------------------------------------------------------
+S.No: 42
+--------------------------------------------------------------------------------
+Task Name:
+    Add "Already have an account?" bottom navigation text
+
+Details of the task:
+    Add a clickable text at the bottom of the screen that says "Already
+    have an account? Click to login". On click, navigate to the "login"
+    route. Add proper spacing above it (30dp gap from button area,
+    weight spacer, 20dp bottom padding).
+
+Technical Requirements:
+    - Spacer(modifier = Modifier.weight(2f)) for push-to-bottom
+    - Spacer(modifier = Modifier.height(30.dp)) for gap
+    - Text with PoppinsFamily, Bold, 12.sp, white color
+    - .clickable { navController.navigate("login") }
+    - padding(bottom = 20.dp)
+
+Acceptance Criteria:
+    - Text is visible at the bottom of the screen
+    - Adequate gap exists between button area and this text
+    - Tapping navigates to login screen
+    - Text styling matches specification
+
+
+--------------------------------------------------------------------------------
+S.No: 43
+--------------------------------------------------------------------------------
+Task Name:
+    Add string resources for SignUp screen
+
+Details of the task:
+    Add all required string resources in strings.xml for the SignUp screen:
+    first_name, last_name, phone_number, email, signup_success,
+    signup_failed.
+
+Technical Requirements:
+    - <string name="first_name">First Name</string>
+    - <string name="last_name">Last Name</string>
+    - <string name="phone_number">Phone Number</string>
+    - <string name="email">Email</string>
+    - <string name="signup_success">Account created successfully</string>
+    - <string name="signup_failed">Sign up failed. Please try again.</string>
+
+Acceptance Criteria:
+    - All 6 strings exist in strings.xml
+    - No duplicate resource names
+    - Values match specification exactly
+
+
+--------------------------------------------------------------------------------
+S.No: 44
+--------------------------------------------------------------------------------
+Task Name:
+    Make the Sign Up screen scrollable
+
+Details of the task:
+    Since the SignUp screen has many fields, wrap the Column in a vertical
+    scroll modifier so all fields are accessible on smaller screens.
+
+Technical Requirements:
+    - rememberScrollState()
+    - Modifier.verticalScroll(scrollState)
+    - Applied to the main Column
+
+Acceptance Criteria:
+    - Screen scrolls when content exceeds screen height
+    - All fields are reachable by scrolling
+    - Scroll is smooth and responsive
+
+
+--------------------------------------------------------------------------------
+S.No: 45
+--------------------------------------------------------------------------------
+Task Name:
+    Define VALID_TLDS set for email validation
+
+Details of the task:
+    Define a private top-level Set of accepted TLD strings for email
+    domain validation. Include commonly used TLDs.
+
+Technical Requirements:
+    - private val VALID_TLDS = setOf("com", "in", "org", "net", "edu",
+      "gov", "co", "io", "info", "biz", "us", "uk", "ca", "au")
+    - Defined at file level
+
+Acceptance Criteria:
+    - Set contains all 14 specified TLDs
+    - Used by validateEmail() function
+    - Easily extensible for future TLDs
+
+
+================================================================================
+                              END OF TICKETS
+================================================================================
+

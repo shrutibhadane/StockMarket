@@ -27,5 +27,11 @@
     <string name="enter_your_email_phone">Enter your email/phone</string>
     <string name="invalid_userid_or_password">Invalid userid or password</string>
     <string name="authenticating">Authenticating</string>
+    <string name="email">Email</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="signup_success">Account created successfully</string>
+    <string name="signup_failed">Sign up failed. Please try again.</string>
 
 </resources>
