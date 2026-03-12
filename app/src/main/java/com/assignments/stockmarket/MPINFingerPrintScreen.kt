@@ -68,7 +68,7 @@ fun MPINFingerPrintScreen(
             // 🔹 MPIN
             Text(
                 text = stringResource(R.string.mpin),
-                color = Color(R.color.white),
+                color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -108,7 +108,7 @@ fun MPINFingerPrintScreen(
 
                         Text(
                             text = "Trade Sphere",
-                            color = Color(R.color.white),
+                            color = colorResource(R.color.white),
                             fontSize = 12.sp,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold
@@ -120,7 +120,7 @@ fun MPINFingerPrintScreen(
                     // Title
                     Text(
                         text = "Fingerprint Verification",
-                        color = Color(R.color.light_blue_text_color),
+                        color = colorResource(R.color.light_blue_text_color),
                         fontSize = 24.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.ExtraBold
@@ -131,7 +131,7 @@ fun MPINFingerPrintScreen(
                     // Subtitle
                     Text(
                         text = "Sign in using fingerprint",
-                        color = Color(R.color.white),
+                        color = colorResource(R.color.white),
                         fontSize = 12.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold
@@ -143,13 +143,13 @@ fun MPINFingerPrintScreen(
                     Icon(
                         painter = painterResource(R.drawable.ic_biometric),
                         contentDescription = "Fingerprint",
-                        tint = Color(R.color.white),
+                        tint = colorResource(R.color.white),
                         modifier = Modifier.size(120.dp)
                     )
 
                     Text(
                         text = "Scan your fingerprint",
-                        color = Color(R.color.white),
+                        color = colorResource(R.color.white),
                         fontSize = 12.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold
@@ -159,7 +159,7 @@ fun MPINFingerPrintScreen(
 
                     Text(
                         text = "Enter TradeSphere PIN",
-                        color = Color(R.color.extra_light_blue_text_color),
+                        color = colorResource(R.color.extra_light_blue_text_color),
                         fontSize = 20.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.ExtraBold

@@ -137,7 +137,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .align(Alignment.End)
                     .clickable {
-                        navController.navigate("dashboard")
+                        navController.navigate("forgot_password")
                     }
             )
 
