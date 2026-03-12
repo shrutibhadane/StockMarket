@@ -106,10 +106,10 @@ fun OTPScreen(
                 modifier = Modifier.padding(top = 100.dp)
             )
 
-            // 🔹 OTP Title
+            // 🔹 OTP
             Text(
                 text = stringResource(R.string.otp),
-                color = Color.White,
+                color = Color(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -119,7 +119,6 @@ fun OTPScreen(
 
             Spacer(modifier = Modifier.height(60.dp))
 
-            // 🔹 OTP Input — key resets the composable on resend
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -140,7 +139,6 @@ fun OTPScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // 🔹 Timer & Resend Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

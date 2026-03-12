@@ -132,7 +132,7 @@ fun SignUpScreen(
             // 🔹 Sign up Title
             Text(
                 text = stringResource(R.string.sign_up),
-                color = Color.White,
+                color = Color(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -425,7 +425,7 @@ fun SignUpScreen(
             // 🔹 Bottom Text
             Text(
                 text = stringResource(R.string.already_have_an_account_click_to_login),
-                color = Color.White,
+                color = Color(R.color.white),
                 fontSize = 12.sp,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,

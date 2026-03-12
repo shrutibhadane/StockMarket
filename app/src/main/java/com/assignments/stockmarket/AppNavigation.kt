@@ -55,5 +55,9 @@ fun AppNavigation() {
             MPINFingerPrintScreen(navController)
         }
 
+        composable("dashboard") {
+            DashboardScreen(navController)
+        }
+
     }
 }

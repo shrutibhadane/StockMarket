@@ -63,7 +63,7 @@ fun MPINScreen (
             // 🔹 MPIN
             Text(
                 text = stringResource(R.string.mpin),
-                color = Color.White,
+                color = Color(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -94,7 +94,7 @@ fun MPINScreen (
                     .size(86.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.button_background_color))
-                    .border(2.dp, Color.White, CircleShape)
+                    .border(2.dp, Color(R.color.white), CircleShape)
                     .clickable {
                         navController.navigate("mpin")
                     },
@@ -103,7 +103,7 @@ fun MPINScreen (
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
                     contentDescription = stringResource(R.string.mpin),
-                    tint = Color.White,
+                    tint = Color(R.color.white),
                     modifier = Modifier.size(32.dp)
                 )
             }
@@ -121,7 +121,7 @@ fun MPINScreen (
                 Icon(
                     painter = painterResource(R.drawable.ic_biometric),
                     contentDescription = "MPIN",
-                    tint = Color.White,
+                    tint = Color(R.color.white),
                     modifier = Modifier.size(60.dp)
                 )
             }
@@ -130,7 +130,7 @@ fun MPINScreen (
 
             Text(
                 text = "Click here to enable biometric",
-                color = Color.White,
+                color = Color(R.color.white),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(bottom = 24.dp)

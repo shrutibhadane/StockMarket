@@ -9,4 +9,7 @@
     <color name="mpin_screen_background">#559BEB</color>
     <color name="light_blue_text_color">#84D8FB</color>
     <color name="extra_light_blue_text_color">#FFDDF3FC</color>
+    <color name="light_green_text_color">#01FF41</color>
+    <color name="red_text_color">#FF0105</color>
+    <color name="light_red_text_color">#FE7779</color>
 </resources>

@@ -149,27 +149,27 @@ fun LoginScreen(
                     .size(86.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.button_background_color))
-                    .border(2.dp, Color.White, CircleShape)
+                    .border(2.dp, Color(R.color.white), CircleShape)
                     .clickable {
                         if (isLoading) return@clickable
 
-                        var valid = true
-                        if (username.isEmpty()) {
-                            usernameError = "Username should not be empty"
-                            valid = false
-                        }
-                        if (password.isEmpty()) {
-                            passwordError = "Password should not be empty"
-                            valid = false
-                        }
+                         var valid = true
+                         if (username.isEmpty()) {
+                             usernameError = "Username should not be empty"
+                             valid = false
+                         }
+                         if (password.isEmpty()) {
+                             passwordError = "Password should not be empty"
+                             valid = false
+                         }
 
                         if (!valid) return@clickable
 
-                        authError = null
-                        isLoading = true
-                        coroutineScope.launch {
-                            val success = authenticateUser(username.trim(), password.trim())
-                            if (success) {
+                         authError = null
+                         isLoading = true
+                         coroutineScope.launch {
+                             val success = authenticateUser(username.trim(), password.trim())
+                             if (success) {
                                 // Generate a 4-digit OTP and send it
                                 val otp = (1000..9999).random().toString()
                                 val otpSent = sendOtpApi(username.trim(), otp)
@@ -185,9 +185,9 @@ fun LoginScreen(
                                 }
                             } else {
                                 isLoading = false
-                                authError = invalidCredentialsMessage
-                            }
-                        }
+                                 authError = invalidCredentialsMessage
+                             }
+                         }*/
                     },
                 contentAlignment = Alignment.Center
             ) {

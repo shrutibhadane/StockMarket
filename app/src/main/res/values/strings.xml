@@ -38,5 +38,7 @@
     <string name="otp_verification_failed">OTP verification failed. Please try again.</string>
     <string name="sec_left">sec left</string>
     <string name="verifying">Verifying…</string>
+    <string name="title_activity_dashboard_screen">DashboardScreen</string>
+    <string name="my_sphere">My Sphere</string>
 
 </resources>

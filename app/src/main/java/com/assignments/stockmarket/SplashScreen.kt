@@ -96,7 +96,7 @@ fun SplashScreen(navController: NavController) {
 
             Text(
                 text = stringResource(R.string.app_name),
-                color = Color.White,
+                color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,

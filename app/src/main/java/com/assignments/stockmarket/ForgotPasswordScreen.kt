@@ -75,7 +75,7 @@ fun ForgotPasswordScreen(
             // 🔹 Login
             Text(
                 text = stringResource(R.string.forgot_password),
-                color = Color.White,
+                color = Color(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -101,7 +101,7 @@ fun ForgotPasswordScreen(
                     .size(86.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.button_background_color))
-                    .border(2.dp, Color.White, CircleShape)
+                    .border(2.dp, Color(R.color.white), CircleShape)
                     .clickable {
                         navController.navigate("mpin")
                     },
@@ -110,7 +110,7 @@ fun ForgotPasswordScreen(
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
                     contentDescription = stringResource(R.string.forget_password),
-                    tint = Color.White,
+                    tint = Color(R.color.white),
                     modifier = Modifier.size(60.dp)
                 )
             }

@@ -68,7 +68,7 @@ fun MPINFingerPrintScreen(
             // 🔹 MPIN
             Text(
                 text = stringResource(R.string.mpin),
-                color = Color.White,
+                color = Color(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -108,7 +108,7 @@ fun MPINFingerPrintScreen(
 
                         Text(
                             text = "Trade Sphere",
-                            color = Color.White,
+                            color = Color(R.color.white),
                             fontSize = 12.sp,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold
@@ -131,7 +131,7 @@ fun MPINFingerPrintScreen(
                     // Subtitle
                     Text(
                         text = "Sign in using fingerprint",
-                        color = Color.White,
+                        color = Color(R.color.white),
                         fontSize = 12.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold
@@ -143,13 +143,13 @@ fun MPINFingerPrintScreen(
                     Icon(
                         painter = painterResource(R.drawable.ic_biometric),
                         contentDescription = "Fingerprint",
-                        tint = Color.White,
+                        tint = Color(R.color.white),
                         modifier = Modifier.size(120.dp)
                     )
 
                     Text(
                         text = "Scan your fingerprint",
-                        color = Color.White,
+                        color = Color(R.color.white),
                         fontSize = 12.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold
