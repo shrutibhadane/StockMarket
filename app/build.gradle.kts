@@ -73,6 +73,9 @@ dependencies {
     // Paper NoSQL DB
     implementation("io.github.pilgr:paperdb:2.7.2")
 
+    // Lottie Compose for animations
+    implementation("com.airbnb.android:lottie-compose:6.4.0")
+
     //Fonts
     implementation(libs.androidx.compose.ui.text.google.fonts)
     implementation(libs.accompanist.systemuicontroller)

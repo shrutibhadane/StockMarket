@@ -19,6 +19,11 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,12 +38,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.reusables.OTPInput
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import io.paperdb.Paper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun MPINScreen (
     navController: NavController,
     onMPINClick: () -> Unit = {}
 ) {
+    var enteredMpin by remember { mutableStateOf("") }
+    var mpinError by remember { mutableStateOf<String?>(null) }
+    val coroutineScope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -80,9 +93,15 @@ fun MPINScreen (
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                OTPInput { otp ->
-                    println("Entered OTP: $otp")
-                }
+                OTPInput(
+                    onOtpComplete = { otp ->
+                        enteredMpin = otp
+                    },
+                    onValueChange = { otp ->
+                        enteredMpin = otp
+                        mpinError = null
+                    }
+                )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -96,7 +115,19 @@ fun MPINScreen (
                     .background(colorResource(R.color.button_background_color))
                     .border(2.dp, colorResource(R.color.white), CircleShape)
                     .clickable {
-                        navController.navigate("mpin")
+                        if (enteredMpin.length < 4) {
+                            mpinError = "Please enter a 4-digit MPIN"
+                            return@clickable
+                        }
+                        mpinError = null
+                        coroutineScope.launch {
+                            withContext(Dispatchers.IO) {
+                                Paper.book().write("user_mpin", enteredMpin)
+                            }
+                            navController.navigate("welcome") {
+                                popUpTo("mpin") { inclusive = true }
+                            }
+                        }
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -105,6 +136,19 @@ fun MPINScreen (
                     contentDescription = stringResource(R.string.mpin),
                     tint = colorResource(R.color.white),
                     modifier = Modifier.size(32.dp)
+                )
+            }
+
+            // 🔹 Error message
+            if (mpinError != null) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = mpinError.orEmpty(),
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontFamily = PoppinsFamily,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 

@@ -35,6 +35,10 @@ fun AppNavigation() {
             MPINScreen(navController)
         }
 
+        composable("welcome") {
+            WelcomeScreen(navController)
+        }
+
         composable(
             route = "otp/{email}/{otp}",
             arguments = listOf(
