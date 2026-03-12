@@ -65,6 +65,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
+    // Paper NoSQL DB
+    implementation("io.github.pilgr:paperdb:2.7.2")
+
     //Fonts
     implementation(libs.androidx.compose.ui.text.google.fonts)
 }

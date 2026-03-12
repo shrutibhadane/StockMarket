@@ -1,5 +1,6 @@
 package com.assignments.stockmarket
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -60,6 +61,7 @@ fun LoginScreen(
     var isLoading by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val invalidCredentialsMessage = stringResource(R.string.invalid_userid_or_password)
+    val otpSentFailedMessage = stringResource(R.string.otp_sent_failed)
 
     Box(
         modifier = Modifier
@@ -167,11 +169,22 @@ fun LoginScreen(
                         isLoading = true
                         coroutineScope.launch {
                             val success = authenticateUser(username.trim(), password.trim())
-                            isLoading = false
                             if (success) {
-                                onLoginClick()
-                                navController.navigate("mpin")
+                                // Generate a 4-digit OTP and send it
+                                val otp = (1000..9999).random().toString()
+                                val otpSent = sendOtpApi(username.trim(), otp)
+                                isLoading = false
+                                if (otpSent) {
+                                    onLoginClick()
+                                    val encodedEmail = Uri.encode(username.trim())
+                                    navController.navigate("otp/$encodedEmail/$otp") {
+                                        popUpTo("login") { inclusive = true }
+                                    }
+                                } else {
+                                    authError = otpSentFailedMessage
+                                }
                             } else {
+                                isLoading = false
                                 authError = invalidCredentialsMessage
                             }
                         }
@@ -219,8 +232,6 @@ fun LoginScreen(
                     .padding(bottom = 20.dp)
                     .clickable {
                         navController.navigate("sign_up")
-                        //navController.navigate("otp")
-                        //navController.navigate("mpin_finger_print")
                     }
             )
         }
@@ -264,4 +275,30 @@ private suspend fun authenticateUser(username: String, password: String): Boolea
     }
 }
 
+/** Send a 4-digit OTP to the server for delivery to the user. */
+private suspend fun sendOtpApi(email: String, otp: String): Boolean = withContext(Dispatchers.IO) {
+    var connection: HttpURLConnection? = null
+    try {
+        connection = (URL(SEND_OTP_API_URL).openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 15_000
+            readTimeout = 15_000
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json")
+            setRequestProperty("Accept", "application/json")
+        }
+        val payload = JSONObject()
+            .put("email", email)
+            .put("otp", otp)
+            .toString()
+        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
+        connection.responseCode in 200..299
+    } catch (_: Exception) {
+        false
+    } finally {
+        connection?.disconnect()
+    }
+}
+
 private const val LOGIN_API_URL = "https://system-project-api.onrender.com/api/login"
+private const val SEND_OTP_API_URL = "https://system-project-api.onrender.com/api/sendotp"

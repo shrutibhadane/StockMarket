@@ -1,5 +1,6 @@
 package com.assignments.stockmarket
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -57,6 +58,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 private const val SIGNUP_API_URL = "https://system-project-api.onrender.com/api/signup"
+private const val SEND_OTP_API_URL_SIGNUP = "https://system-project-api.onrender.com/api/sendotp"
 
 // Valid TLDs for email validation
 private val VALID_TLDS = setOf(
@@ -90,8 +92,13 @@ fun SignUpScreen(
     var isPasswordFocused by remember { mutableStateOf(false) }
     var isConfirmPasswordFocused by remember { mutableStateOf(false) }
 
+    // Store generated OTP and email for navigation after dialog OK
+    var generatedOtp by remember { mutableStateOf("") }
+    var signupEmail by remember { mutableStateOf("") }
+
     val coroutineScope = rememberCoroutineScope()
     val signupFailedMessage = stringResource(R.string.signup_failed)
+    val otpSentFailedMessage = stringResource(R.string.otp_sent_failed)
 
     // Password criteria checks
     val hasMinLength = password.length >= 8
@@ -361,13 +368,22 @@ fun SignUpScreen(
                                 phoneNumber = phoneNumber.trim(),
                                 password = password.trim()
                             )
-                            isLoading = false
-                            when {
-                                result.success -> {
+                            if (result.success) {
+                                // Generate OTP and send via API
+                                val otp = (1000..9999).random().toString()
+                                val otpSent = sendOtpApiSignup(email.trim(), otp)
+                                isLoading = false
+                                if (otpSent) {
+                                    generatedOtp = otp
+                                    signupEmail = email.trim()
                                     onSignUpClick()
                                     showSuccessDialog = true
+                                } else {
+                                    apiError = otpSentFailedMessage
                                 }
-                                else -> apiError = result.message ?: signupFailedMessage
+                            } else {
+                                isLoading = false
+                                apiError = result.message ?: signupFailedMessage
                             }
                         }
                     },
@@ -420,7 +436,7 @@ fun SignUpScreen(
         }
     }
 
-    // 🔹 Success Dialog
+    // 🔹 Success Dialog — navigate to OTP screen on Ok
     if (showSuccessDialog) {
         AlertDialog(
             onDismissRequest = { /* Prevent dismiss by tapping outside */ },
@@ -443,7 +459,8 @@ fun SignUpScreen(
                 TextButton(
                     onClick = {
                         showSuccessDialog = false
-                        navController.navigate("mpin") {
+                        val encodedEmail = Uri.encode(signupEmail)
+                        navController.navigate("otp/$encodedEmail/$generatedOtp") {
                             popUpTo("sign_up") { inclusive = true }
                         }
                     }
@@ -538,6 +555,31 @@ private suspend fun registerUser(
         }
     } catch (e: Exception) {
         SignUpResult(success = false, message = "Error: ${e.javaClass.simpleName}: ${e.message}")
+    } finally {
+        connection?.disconnect()
+    }
+}
+
+/** Send a 4-digit OTP to the server for delivery to the user (signup flow). */
+private suspend fun sendOtpApiSignup(email: String, otp: String): Boolean = withContext(Dispatchers.IO) {
+    var connection: HttpURLConnection? = null
+    try {
+        connection = (URL(SEND_OTP_API_URL_SIGNUP).openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 15_000
+            readTimeout = 15_000
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json")
+            setRequestProperty("Accept", "application/json")
+        }
+        val payload = JSONObject()
+            .put("email", email)
+            .put("otp", otp)
+            .toString()
+        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
+        connection.responseCode in 200..299
+    } catch (_: Exception) {
+        false
     } finally {
         connection?.disconnect()
     }

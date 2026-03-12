@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun OTPInput(
     otpLength: Int = 4,
-    onOtpComplete: (String) -> Unit = {}
+    onOtpComplete: (String) -> Unit = {},
+    onValueChange: (String) -> Unit = {}
 ) {
     val focusRequesters = List(otpLength) { FocusRequester() }
     val otpValues = remember { mutableStateListOf(*Array(otpLength) { "" }) }
@@ -41,12 +42,14 @@ fun OTPInput(
                 onValueChange = { value ->
                     if (value.length <= 1 && value.all { it.isDigit() }) {
                         otpValues[i] = value
+                        val fullOtp = otpValues.joinToString("")
+                        onValueChange(fullOtp)
 
                         if (value.isNotEmpty()) {
                             if (i < otpLength - 1) {
                                 focusRequesters[i + 1].requestFocus()
                             } else {
-                                onOtpComplete(otpValues.joinToString(""))
+                                onOtpComplete(fullOtp)
                             }
                         }
                     }

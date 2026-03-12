@@ -1,9 +1,11 @@
 package com.assignments.stockmarket
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 @Composable
 fun AppNavigation() {
@@ -33,8 +35,20 @@ fun AppNavigation() {
             MPINScreen(navController)
         }
 
-        composable("otp") {
-            OTPScreen(navController)
+        composable(
+            route = "otp/{email}/{otp}",
+            arguments = listOf(
+                navArgument("email") { type = NavType.StringType },
+                navArgument("otp") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val email = backStackEntry.arguments?.getString("email") ?: ""
+            val otp = backStackEntry.arguments?.getString("otp") ?: ""
+            OTPScreen(
+                navController = navController,
+                email = email,
+                expectedOtp = otp
+            )
         }
 
         composable("mpin_finger_print") {

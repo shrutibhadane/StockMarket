@@ -17,9 +17,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,16 +43,53 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.reusables.OTPInput
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import io.paperdb.Paper
+import java.io.BufferedReader
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+
+private const val SEND_OTP_URL = "https://system-project-api.onrender.com/api/sendotp"
+private const val UPDATE_STATUS_URL = "https://system-project-api.onrender.com/api/updatestatus"
 
 @Composable
-fun OTPScreen (
+fun OTPScreen(
     navController: NavController,
-    onMPINClick: () -> Unit = {}
+    email: String,
+    expectedOtp: String
 ) {
+    var currentExpectedOtp by remember { mutableStateOf(expectedOtp) }
+    var enteredOtp by remember { mutableStateOf("") }
+    var otpError by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(false) }
+    var resendKey by remember { mutableIntStateOf(0) } // used to reset OTPInput on resend
+
+    // 60-second countdown timer
+    var timeLeft by remember { mutableIntStateOf(60) }
+    var timerRunning by remember { mutableStateOf(true) }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    // Countdown timer effect — restarts when timerRunning flips to true
+    LaunchedEffect(timerRunning, resendKey) {
+        if (timerRunning) {
+            while (timeLeft > 0) {
+                delay(1000L)
+                timeLeft--
+            }
+            timerRunning = false
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(R.color.screen_background)) // Background color
+            .background(color = colorResource(R.color.screen_background))
             .padding(horizontal = 24.dp)
     ) {
 
@@ -60,7 +106,7 @@ fun OTPScreen (
                 modifier = Modifier.padding(top = 100.dp)
             )
 
-            // 🔹 OTP
+            // 🔹 OTP Title
             Text(
                 text = stringResource(R.string.otp),
                 color = Color.White,
@@ -73,49 +119,82 @@ fun OTPScreen (
 
             Spacer(modifier = Modifier.height(60.dp))
 
+            // 🔹 OTP Input — key resets the composable on resend
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                OTPInput { otp ->
-                    println("Entered OTP: $otp")
+                key(resendKey) {
+                    OTPInput(
+                        onOtpComplete = { otp ->
+                            enteredOtp = otp
+                        },
+                        onValueChange = { otp ->
+                            enteredOtp = otp
+                            otpError = null
+                        }
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(10.dp))
 
+            // 🔹 Timer & Resend Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),   // left & right margin
+                    .padding(horizontal = 20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
+                // Timer display
+                val seconds = timeLeft
+                val formatted = String.format("%02d:%02d", seconds / 60, seconds % 60)
                 Text(
-                    text = stringResource(R.string.time_left),
+                    text = "$formatted ${stringResource(R.string.sec_left)}",
                     color = colorResource(R.color.text_color),
                     fontSize = 15.sp,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold
                 )
 
+                // Resend button — active only when timer reaches 0
                 Text(
                     text = stringResource(R.string.resend_now),
-                    color = colorResource(R.color.text_color),
+                    color = if (!timerRunning)
+                        colorResource(R.color.text_color)
+                    else
+                        colorResource(R.color.text_color).copy(alpha = 0.4f),
                     fontSize = 15.sp,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable {
-                        navController.navigate("forgot_password")
+                    modifier = Modifier.clickable(enabled = !timerRunning && !isLoading) {
+                        // Generate new OTP, call API, reset timer
+                        isLoading = true
+                        otpError = null
+                        coroutineScope.launch {
+                            val newOtp = (1000..9999).random().toString()
+                            val sent = resendOtpApi(email, newOtp)
+                            isLoading = false
+                            if (sent) {
+                                currentExpectedOtp = newOtp
+                                enteredOtp = ""
+                                resendKey++
+                                timeLeft = 60
+                                timerRunning = true
+                            } else {
+                                otpError = "Failed to resend OTP. Try again."
+                            }
+                        }
                     }
                 )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // 🔹 Circular Arrow Button
+            // 🔹 Circular Arrow Button — verify OTP
             Box(
                 modifier = Modifier
                     .size(86.dp)
@@ -123,18 +202,116 @@ fun OTPScreen (
                     .background(colorResource(R.color.button_background_color))
                     .border(2.dp, Color.White, CircleShape)
                     .clickable {
-                        navController.navigate("mpin")
+                        if (isLoading) return@clickable
+
+                        if (enteredOtp.length < 4) {
+                            otpError = "Please enter the complete 4-digit OTP"
+                            return@clickable
+                        }
+
+                        if (enteredOtp != currentExpectedOtp) {
+                            otpError = "Invalid OTP. Please try again."
+                            return@clickable
+                        }
+
+                        // OTP matched — call updatestatus API, store email, navigate to MPIN
+                        otpError = null
+                        isLoading = true
+                        coroutineScope.launch {
+                            val updated = updateStatusApi(email)
+                            isLoading = false
+                            if (updated) {
+                                // Store email in Paper NoSQL DB
+                                withContext(Dispatchers.IO) {
+                                    Paper.book().write("user_email", email)
+                                }
+                                navController.navigate("mpin") {
+                                    popUpTo("otp/{email}/{otp}") { inclusive = true }
+                                }
+                            } else {
+                                otpError = "OTP verification failed. Please try again."
+                            }
+                        }
                     },
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowForward,
-                    contentDescription = stringResource(R.string.otp),
-                    tint = Color.White,
-                    modifier = Modifier.size(60.dp)
-                )
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(32.dp),
+                        color = Color.White,
+                        strokeWidth = 3.dp
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.ArrowForward,
+                        contentDescription = stringResource(R.string.otp),
+                        tint = Color.White,
+                        modifier = Modifier.size(60.dp)
+                    )
+                }
             }
 
+            // 🔹 Error message
+            if (otpError != null) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = otpError.orEmpty(),
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontFamily = PoppinsFamily,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
+    }
+}
+
+/** Resend OTP via the sendotp API. */
+private suspend fun resendOtpApi(email: String, otp: String): Boolean = withContext(Dispatchers.IO) {
+    var connection: HttpURLConnection? = null
+    try {
+        connection = (URL(SEND_OTP_URL).openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 15_000
+            readTimeout = 15_000
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json")
+            setRequestProperty("Accept", "application/json")
+        }
+        val payload = JSONObject()
+            .put("email", email)
+            .put("otp", otp)
+            .toString()
+        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
+        connection.responseCode in 200..299
+    } catch (_: Exception) {
+        false
+    } finally {
+        connection?.disconnect()
+    }
+}
+
+/** Call updatestatus API to mark email_verified and phone_verified. */
+private suspend fun updateStatusApi(email: String): Boolean = withContext(Dispatchers.IO) {
+    var connection: HttpURLConnection? = null
+    try {
+        connection = (URL(UPDATE_STATUS_URL).openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 15_000
+            readTimeout = 15_000
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json")
+            setRequestProperty("Accept", "application/json")
+        }
+        val payload = JSONObject()
+            .put("email", email)
+            .toString()
+        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
+        connection.responseCode in 200..299
+    } catch (_: Exception) {
+        false
+    } finally {
+        connection?.disconnect()
     }
 }

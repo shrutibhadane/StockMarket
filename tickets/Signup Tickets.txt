@@ -996,6 +996,726 @@ Acceptance Criteria:
 
 
 ================================================================================
+              OTP SCREEN, PAPER DB & SPLASH ROUTING — JIRA TICKETS
+================================================================================
+
+
+--------------------------------------------------------------------------------
+S.No: 46
+--------------------------------------------------------------------------------
+Task Name:
+    Add Paper NoSQL DB dependency
+
+Details of the task:
+    Add the Paper NoSQL database library to app/build.gradle.kts for
+    local key-value persistence of user session data such as email and MPIN.
+
+Technical Requirements:
+    - implementation("io.github.pilgr:paperdb:2.7.2") in dependencies
+    - Gradle sync must succeed after adding
+
+Acceptance Criteria:
+    - Paper dependency resolves without FAILED status
+    - Gradle build succeeds
+    - io.paperdb.Paper import is available in Kotlin files
+
+
+--------------------------------------------------------------------------------
+S.No: 47
+--------------------------------------------------------------------------------
+Task Name:
+    Initialize Paper DB in MainActivity
+
+Details of the task:
+    Call Paper.init(this) inside MainActivity.onCreate() before any
+    composable content is set, so Paper is ready for read/write operations
+    throughout the app lifecycle.
+
+Technical Requirements:
+    - import io.paperdb.Paper
+    - Paper.init(this) before setContent {}
+    - Must be called exactly once on app start
+
+Acceptance Criteria:
+    - Paper.init is invoked in onCreate
+    - No crash on cold start
+    - Subsequent Paper.book() calls work correctly
+
+
+--------------------------------------------------------------------------------
+S.No: 48
+--------------------------------------------------------------------------------
+Task Name:
+    Add onValueChange callback to OTPInput reusable composable
+
+Details of the task:
+    Extend the OTPInput composable to accept an onValueChange callback
+    that fires on every digit change with the full concatenated OTP string,
+    allowing the parent composable to track partial input at all times.
+
+Technical Requirements:
+    - New parameter: onValueChange: (String) -> Unit = {}
+    - Called after every otpValues[i] update with joinToString("")
+    - Existing onOtpComplete callback preserved for backward compatibility
+
+Acceptance Criteria:
+    - onValueChange fires on each keystroke
+    - Returns correct concatenated string (e.g., "12" after two digits)
+    - Existing callers using only onOtpComplete still work
+
+
+--------------------------------------------------------------------------------
+S.No: 49
+--------------------------------------------------------------------------------
+Task Name:
+    Create OTPScreen composable skeleton
+
+Details of the task:
+    Create a new OTPScreen composable that accepts navController, email,
+    and expectedOtp parameters. Set up the basic layout with background
+    color, logo, OTP title, and column structure matching other screens.
+
+Technical Requirements:
+    - Parameters: navController: NavController, email: String, expectedOtp: String
+    - Box with fillMaxSize, screen_background, horizontal padding
+    - Logo with padding(top = 100.dp), OTP title text
+    - PoppinsFamily font, 24sp, Bold, white color
+
+Acceptance Criteria:
+    - Screen renders with consistent styling
+    - All three parameters are accessible
+    - Logo and title display correctly
+
+
+--------------------------------------------------------------------------------
+S.No: 50
+--------------------------------------------------------------------------------
+Task Name:
+    Implement 60-second countdown timer on OTP screen
+
+Details of the task:
+    Add a 60-second countdown timer using LaunchedEffect that counts down
+    every second. Display the remaining time in MM:SS format. When the timer
+    reaches zero, set timerRunning to false to enable the resend button.
+
+Technical Requirements:
+    - mutableIntStateOf(60) for timeLeft
+    - mutableStateOf(true) for timerRunning
+    - LaunchedEffect(timerRunning, resendKey) with delay(1000L) loop
+    - String.format("%02d:%02d", seconds / 60, seconds % 60)
+
+Acceptance Criteria:
+    - Timer starts at 00:60 and counts to 00:00
+    - Display updates every second
+    - timerRunning becomes false when timer hits 0
+    - Timer formatted as MM:SS
+
+
+--------------------------------------------------------------------------------
+S.No: 51
+--------------------------------------------------------------------------------
+Task Name:
+    Integrate OTPInput composable into OTP screen
+
+Details of the task:
+    Add the OTPInput reusable component inside a keyed composable so it
+    can be reset on resend. Wire up both onOtpComplete and onValueChange
+    callbacks to track the entered OTP in local state.
+
+Technical Requirements:
+    - key(resendKey) { OTPInput(...) } for reset capability
+    - onOtpComplete updates enteredOtp state
+    - onValueChange updates enteredOtp and clears otpError
+    - resendKey is mutableIntStateOf(0)
+
+Acceptance Criteria:
+    - OTP boxes render centered on screen
+    - Digits auto-jump to next box on entry
+    - enteredOtp state always reflects current input
+    - Incrementing resendKey resets all boxes to empty
+
+
+--------------------------------------------------------------------------------
+S.No: 52
+--------------------------------------------------------------------------------
+Task Name:
+    Implement Resend OTP button with timer gating
+
+Details of the task:
+    Add a "Resend now" text button that is only clickable when the timer
+    has reached zero. When clicked, generate a new 4-digit random OTP,
+    call the sendotp API, reset the timer to 60 seconds, and update the
+    expected OTP.
+
+Technical Requirements:
+    - Text with clickable(enabled = !timerRunning && !isLoading)
+    - Alpha 0.4f when disabled, full alpha when enabled
+    - New OTP via (1000..9999).random().toString()
+    - Reset: resendKey++, timeLeft = 60, timerRunning = true
+
+Acceptance Criteria:
+    - Resend button is visually dimmed while timer is running
+    - Clicking before timer ends does nothing
+    - After timer expires, click sends new OTP and resets timer
+    - OTP input boxes are cleared on resend
+
+
+--------------------------------------------------------------------------------
+S.No: 53
+--------------------------------------------------------------------------------
+Task Name:
+    Create resendOtpApi suspend function
+
+Details of the task:
+    Implement a private suspend function that sends a POST request to
+    https://system-project-api.onrender.com/api/sendotp with email and
+    otp in a JSON body. Return true if the server responds with 2xx.
+
+Technical Requirements:
+    - HttpURLConnection with POST method
+    - Content-Type: application/json
+    - JSON payload: {"email": ..., "otp": ...}
+    - 15-second connect and read timeouts
+    - Returns Boolean based on response code
+
+Acceptance Criteria:
+    - Successful call returns true
+    - Network error returns false without crash
+    - Connection is always disconnected in finally block
+
+
+--------------------------------------------------------------------------------
+S.No: 54
+--------------------------------------------------------------------------------
+Task Name:
+    Implement OTP verification logic on button click
+
+Details of the task:
+    When the user clicks the verify button, validate that 4 digits are
+    entered and compare against the expected OTP. If incomplete, show
+    "Please enter the complete 4-digit OTP". If wrong, show "Invalid OTP.
+    Please try again." If correct, proceed to call updatestatus API.
+
+Technical Requirements:
+    - Guard: if (isLoading) return
+    - Check enteredOtp.length < 4
+    - Check enteredOtp != currentExpectedOtp
+    - Set otpError string on failure
+    - Set isLoading = true on success path
+
+Acceptance Criteria:
+    - Incomplete OTP shows appropriate error
+    - Wrong OTP shows "Invalid OTP" error
+    - Correct OTP triggers API call
+    - Button shows loader during API call
+
+
+--------------------------------------------------------------------------------
+S.No: 55
+--------------------------------------------------------------------------------
+Task Name:
+    Create updateStatusApi suspend function
+
+Details of the task:
+    Implement a private suspend function that sends a POST request to
+    https://system-project-api.onrender.com/api/updatestatus with the
+    user's email in a JSON body. This marks email_verified and
+    phone_verified as true on the server.
+
+Technical Requirements:
+    - HttpURLConnection with POST method
+    - JSON payload: {"email": ...}
+    - Content-Type: application/json
+    - 15-second timeouts
+    - Returns Boolean based on response code
+
+Acceptance Criteria:
+    - Successful call returns true
+    - Network error returns false
+    - Connection cleaned up in finally block
+
+
+--------------------------------------------------------------------------------
+S.No: 56
+--------------------------------------------------------------------------------
+Task Name:
+    Store email in Paper DB after OTP verification
+
+Details of the task:
+    After the updatestatus API returns success, write the user's email
+    to Paper NoSQL DB under the key "user_email" on a background thread.
+    Then navigate to the MPIN screen.
+
+Technical Requirements:
+    - withContext(Dispatchers.IO) { Paper.book().write("user_email", email) }
+    - Navigate to "mpin" with popUpTo("otp/{email}/{otp}") inclusive
+    - Must happen only after API success
+
+Acceptance Criteria:
+    - Email is persisted in Paper after verification
+    - Paper.book().read<String>("user_email") returns the stored email
+    - Navigation to MPIN occurs after write completes
+    - On API failure, email is NOT stored
+
+
+--------------------------------------------------------------------------------
+S.No: 57
+--------------------------------------------------------------------------------
+Task Name:
+    Display error messages on OTP screen
+
+Details of the task:
+    Show OTP-related error messages below the verify button in red text.
+    Clear errors when the user types new digits. Support messages for
+    invalid OTP, incomplete OTP, failed resend, and failed verification.
+
+Technical Requirements:
+    - otpError state variable (String?)
+    - Text with Color.Red, 14.sp, PoppinsFamily, center alignment
+    - Cleared in onValueChange callback
+    - Set in verify and resend failure paths
+
+Acceptance Criteria:
+    - Error appears below button when set
+    - Error disappears when user types a new digit
+    - Multiple error scenarios display correct messages
+
+
+--------------------------------------------------------------------------------
+S.No: 58
+--------------------------------------------------------------------------------
+Task Name:
+    Add loading indicator to OTP verify button
+
+Details of the task:
+    Show a CircularProgressIndicator inside the circular verify button
+    when isLoading is true (during API calls). Hide the arrow icon while
+    loading. Prevent multiple clicks during loading state.
+
+Technical Requirements:
+    - if (isLoading) CircularProgressIndicator else Icon
+    - CircularProgressIndicator: size 32.dp, white, strokeWidth 3.dp
+    - Guard: if (isLoading) return@clickable at top of click handler
+
+Acceptance Criteria:
+    - Loader appears during API call
+    - Arrow icon reappears after call completes
+    - Multiple taps during loading are ignored
+
+
+--------------------------------------------------------------------------------
+S.No: 59
+--------------------------------------------------------------------------------
+Task Name:
+    Update AppNavigation to pass email and OTP to OTP screen
+
+Details of the task:
+    Change the OTP route in AppNavigation from simple "otp" to
+    "otp/{email}/{otp}" with two NavType.StringType arguments. Extract
+    the arguments from the back stack entry and pass them to OTPScreen.
+
+Technical Requirements:
+    - Route: "otp/{email}/{otp}"
+    - navArgument("email") { type = NavType.StringType }
+    - navArgument("otp") { type = NavType.StringType }
+    - backStackEntry.arguments?.getString("email") / getString("otp")
+
+Acceptance Criteria:
+    - OTPScreen receives email and otp parameters correctly
+    - URL-encoded emails (with @, .) are decoded properly
+    - Navigation from login/signup to OTP works with parameters
+
+
+--------------------------------------------------------------------------------
+S.No: 60
+--------------------------------------------------------------------------------
+Task Name:
+    Add sendOtpApi function to LoginScreen
+
+Details of the task:
+    Create a private suspend function in LoginScreen.kt that posts a
+    JSON payload with email and otp to the sendotp API endpoint.
+    This will be called after successful authentication.
+
+Technical Requirements:
+    - POST to https://system-project-api.onrender.com/api/sendotp
+    - JSON: {"email": ..., "otp": ...}
+    - Returns Boolean
+    - Runs on Dispatchers.IO
+
+Acceptance Criteria:
+    - Function compiles and is callable from coroutine scope
+    - Returns true on 2xx response
+    - Returns false on error without crashing
+
+
+--------------------------------------------------------------------------------
+S.No: 61
+--------------------------------------------------------------------------------
+Task Name:
+    Send OTP after successful login and navigate to OTP screen
+
+Details of the task:
+    After authenticateUser returns true, generate a random 4-digit OTP,
+    call sendOtpApi, and navigate to the OTP screen with the email and
+    OTP as route parameters. Show error if OTP sending fails.
+
+Technical Requirements:
+    - val otp = (1000..9999).random().toString()
+    - val otpSent = sendOtpApi(username.trim(), otp)
+    - Navigate: "otp/${Uri.encode(username.trim())}/$otp"
+    - popUpTo("login") { inclusive = true }
+    - Error: otpSentFailedMessage on failure
+
+Acceptance Criteria:
+    - Successful login + OTP send navigates to OTP screen
+    - Failed OTP send shows error, stays on login screen
+    - Loader stays visible during both auth and OTP send
+    - Email is URL-encoded in navigation route
+
+
+--------------------------------------------------------------------------------
+S.No: 62
+--------------------------------------------------------------------------------
+Task Name:
+    Add sendOtpApiSignup function to SignUpScreen
+
+Details of the task:
+    Create a private suspend function in SignUpScreen.kt that posts a
+    JSON payload with email and otp to the sendotp API endpoint.
+    Similar to the LoginScreen version but scoped to signup flow.
+
+Technical Requirements:
+    - POST to https://system-project-api.onrender.com/api/sendotp
+    - JSON: {"email": ..., "otp": ...}
+    - Returns Boolean
+    - Runs on Dispatchers.IO
+
+Acceptance Criteria:
+    - Function compiles and works from signup coroutine
+    - Returns true/false correctly
+    - Error handling does not crash the app
+
+
+--------------------------------------------------------------------------------
+S.No: 63
+--------------------------------------------------------------------------------
+Task Name:
+    Send OTP after successful signup before showing dialog
+
+Details of the task:
+    After registerUser returns success, generate a 4-digit OTP and call
+    sendOtpApiSignup. If OTP is sent successfully, store the generated
+    OTP and email in state variables, then show the congratulations dialog.
+    If OTP sending fails, show an error instead of the dialog.
+
+Technical Requirements:
+    - generatedOtp and signupEmail state variables
+    - val otp = (1000..9999).random().toString()
+    - Call sendOtpApiSignup(email.trim(), otp)
+    - On success: store otp/email, show dialog
+    - On failure: apiError = otpSentFailedMessage
+
+Acceptance Criteria:
+    - OTP is generated and sent after successful signup
+    - Dialog shows only if OTP sending succeeds
+    - Error displayed if OTP sending fails
+    - generatedOtp and signupEmail are set for dialog OK handler
+
+
+--------------------------------------------------------------------------------
+S.No: 64
+--------------------------------------------------------------------------------
+Task Name:
+    Navigate to OTP screen from signup congratulations dialog
+
+Details of the task:
+    When the user clicks "Ok" on the congratulations dialog, navigate
+    to the OTP screen with the stored email and OTP. Use Uri.encode
+    for the email and popUpTo to clear the back stack.
+
+Technical Requirements:
+    - val encodedEmail = Uri.encode(signupEmail)
+    - navController.navigate("otp/$encodedEmail/$generatedOtp")
+    - popUpTo("sign_up") { inclusive = true }
+    - showSuccessDialog = false before navigating
+
+Acceptance Criteria:
+    - Dialog closes on Ok
+    - Navigation goes to OTP screen with correct parameters
+    - Back press from OTP does not return to signup
+    - Email with special chars (@ .) navigates correctly
+
+
+--------------------------------------------------------------------------------
+S.No: 65
+--------------------------------------------------------------------------------
+Task Name:
+    Add new string resources for OTP features
+
+Details of the task:
+    Add the following string resources to strings.xml:
+    otp_sent_failed, otp_mismatch, otp_verification_failed,
+    sec_left, verifying.
+
+Technical Requirements:
+    - <string name="otp_sent_failed">Failed to send OTP. Please try again.</string>
+    - <string name="otp_mismatch">Invalid OTP. Please try again.</string>
+    - <string name="otp_verification_failed">OTP verification failed...</string>
+    - <string name="sec_left">sec left</string>
+    - <string name="verifying">Verifying…</string>
+
+Acceptance Criteria:
+    - All strings defined in strings.xml
+    - No duplicate resource names
+    - Values match specification
+
+
+--------------------------------------------------------------------------------
+S.No: 66
+--------------------------------------------------------------------------------
+Task Name:
+    Create checkTheStatusApi function for SplashScreen
+
+Details of the task:
+    Implement a private suspend function that posts the stored email to
+    https://system-project-api.onrender.com/api/checkthestatus and parses
+    the JSON response for email_verified and phone_verified booleans.
+
+Technical Requirements:
+    - POST with JSON {"email": ...}
+    - Parse: json.optBoolean("email_verified", false)
+    - Parse: json.optBoolean("phone_verified", false)
+    - Return StatusResult data class
+    - Default to false on any error
+
+Acceptance Criteria:
+    - Returns correct booleans from server response
+    - Returns StatusResult(false, false) on network error
+    - Does not crash on malformed JSON
+    - Connection cleaned up in finally block
+
+
+--------------------------------------------------------------------------------
+S.No: 67
+--------------------------------------------------------------------------------
+Task Name:
+    Implement SplashScreen Paper DB check for stored email
+
+Details of the task:
+    In the SplashScreen LaunchedEffect, after the 2-second delay, read
+    "user_email" from Paper DB on a background thread. If null or empty,
+    navigate to the login screen.
+
+Technical Requirements:
+    - withContext(Dispatchers.IO) { Paper.book().read<String>("user_email") }
+    - if (storedEmail.isNullOrEmpty()) navigate to "login"
+    - popUpTo("splash") { inclusive = true }
+    - Must run after delay(2000)
+
+Acceptance Criteria:
+    - Fresh install (no Paper data) goes to login
+    - Email check runs on IO dispatcher
+    - Navigation happens after splash delay
+    - Splash screen is removed from back stack
+
+
+--------------------------------------------------------------------------------
+S.No: 68
+--------------------------------------------------------------------------------
+Task Name:
+    Implement SplashScreen routing based on checkthestatus API response
+
+Details of the task:
+    If a stored email exists, call checkTheStatusApi. Based on the
+    response: if email_verified is true and MPIN exists in Paper, navigate
+    to dashboard (mpin_finger_print). If email_verified is true but no
+    MPIN, navigate to MPIN screen. Otherwise, navigate to login.
+
+Technical Requirements:
+    - Call checkTheStatusApi(storedEmail)
+    - Check status.emailVerified
+    - Read Paper.book().read<String>("user_mpin") for MPIN presence
+    - Three navigation paths: mpin_finger_print, mpin, or login
+    - All with popUpTo("splash") { inclusive = true }
+
+Acceptance Criteria:
+    - Verified user with MPIN goes directly to dashboard
+    - Verified user without MPIN goes to MPIN setup
+    - Unverified user goes to login
+    - API failure defaults to login screen
+    - No splash screen in back stack
+
+
+--------------------------------------------------------------------------------
+S.No: 69
+--------------------------------------------------------------------------------
+Task Name:
+    Define StatusResult data class for SplashScreen
+
+Details of the task:
+    Create a private data class StatusResult with emailVerified and
+    phoneVerified boolean fields, both defaulting to false. Used to
+    represent the checkthestatus API response.
+
+Technical Requirements:
+    - private data class StatusResult(
+          val emailVerified: Boolean = false,
+          val phoneVerified: Boolean = false
+      )
+    - Defined at file level in SplashScreen.kt
+
+Acceptance Criteria:
+    - Data class compiles and is usable by checkTheStatusApi
+    - Default values are false
+    - Destructuring works: val (emailVerified, phoneVerified) = status
+
+
+--------------------------------------------------------------------------------
+S.No: 70
+--------------------------------------------------------------------------------
+Task Name:
+    Add JitPack repository to settings.gradle.kts
+
+Details of the task:
+    Add the JitPack Maven repository URL to the dependencyResolutionManagement
+    repositories block in settings.gradle.kts. This is needed to resolve
+    certain third-party libraries not on Maven Central.
+
+Technical Requirements:
+    - maven { url = uri("https://jitpack.io") }
+    - Added after mavenCentral() in repositories block
+    - Under dependencyResolutionManagement
+
+Acceptance Criteria:
+    - Gradle sync succeeds with the new repository
+    - Libraries available on JitPack can be resolved
+    - Existing dependencies still resolve normally
+
+
+--------------------------------------------------------------------------------
+S.No: 71
+--------------------------------------------------------------------------------
+Task Name:
+    End-to-end test: Login → OTP → MPIN flow
+
+Details of the task:
+    Manually verify the complete login flow: enter valid credentials on
+    login screen, confirm loader appears during auth + OTP send, verify
+    navigation to OTP screen with timer running, enter correct OTP, verify
+    updatestatus is called, and confirm navigation to MPIN screen.
+
+Technical Requirements:
+    - Valid test credentials for the login API
+    - Network connectivity to the API server
+    - Paper DB cleared before test (fresh install)
+
+Acceptance Criteria:
+    - Login authenticates successfully
+    - OTP is sent and screen navigates to OTP
+    - Timer counts down from 60
+    - Correct OTP navigates to MPIN
+    - Wrong OTP shows error
+    - Email stored in Paper after verification
+
+
+--------------------------------------------------------------------------------
+S.No: 72
+--------------------------------------------------------------------------------
+Task Name:
+    End-to-end test: Signup → Dialog → OTP → MPIN flow
+
+Details of the task:
+    Manually verify the complete signup flow: fill all fields with valid
+    data, submit, confirm congratulations dialog appears, click Ok, verify
+    navigation to OTP screen, enter correct OTP, and confirm MPIN screen.
+
+Technical Requirements:
+    - Valid test data for all signup fields
+    - Network connectivity
+    - Paper DB cleared before test
+
+Acceptance Criteria:
+    - Signup succeeds and dialog shows
+    - Dialog Ok navigates to OTP screen
+    - OTP verification works and navigates to MPIN
+    - Email stored in Paper after verification
+
+
+--------------------------------------------------------------------------------
+S.No: 73
+--------------------------------------------------------------------------------
+Task Name:
+    End-to-end test: SplashScreen routing for returning user
+
+Details of the task:
+    Verify SplashScreen routing logic: test with no Paper data (goes to
+    login), with email stored but no MPIN (goes to MPIN), and with
+    email + MPIN stored (goes to dashboard). Also test with email stored
+    but email_verified = false (goes to login).
+
+Technical Requirements:
+    - Manipulate Paper DB state for each scenario
+    - Mock or use real API for checkthestatus
+    - Test all three routing paths
+
+Acceptance Criteria:
+    - Fresh install → login screen
+    - Verified email, no MPIN → MPIN screen
+    - Verified email + MPIN → dashboard
+    - Unverified email → login screen
+    - API error → login screen (safe fallback)
+
+
+--------------------------------------------------------------------------------
+S.No: 74
+--------------------------------------------------------------------------------
+Task Name:
+    Test OTP resend functionality
+
+Details of the task:
+    Verify that the resend button is disabled during the 60-second timer,
+    becomes active when timer reaches 0, and when clicked: generates a
+    new OTP, calls the sendotp API, resets the timer, and clears OTP boxes.
+
+Technical Requirements:
+    - Wait for timer to expire (or mock)
+    - Click resend and verify API call
+    - Verify new OTP is different from original
+    - Verify timer resets to 60
+
+Acceptance Criteria:
+    - Resend button dimmed during countdown
+    - Active after countdown expires
+    - New OTP sent on click
+    - Timer resets to 60 seconds
+    - OTP input boxes cleared
+
+
+--------------------------------------------------------------------------------
+S.No: 75
+--------------------------------------------------------------------------------
+Task Name:
+    Test OTP error scenarios
+
+Details of the task:
+    Verify all OTP error paths: entering fewer than 4 digits and clicking
+    verify shows "Please enter the complete 4-digit OTP". Entering wrong
+    4-digit OTP shows "Invalid OTP. Please try again." Failed updatestatus
+    API shows "OTP verification failed. Please try again."
+
+Technical Requirements:
+    - Test with 1, 2, 3 digits entered
+    - Test with wrong 4-digit code
+    - Simulate API failure for updatestatus
+
+Acceptance Criteria:
+    - Each error scenario shows correct message
+    - Errors clear when user types new digit
+    - User can retry after error
+
+
+================================================================================
                               END OF TICKETS
 ================================================================================
 

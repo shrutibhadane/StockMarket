@@ -33,5 +33,10 @@
     <string name="phone_number">Phone Number</string>
     <string name="signup_success">Account created successfully</string>
     <string name="signup_failed">Sign up failed. Please try again.</string>
+    <string name="otp_sent_failed">Failed to send OTP. Please try again.</string>
+    <string name="otp_mismatch">Invalid OTP. Please try again.</string>
+    <string name="otp_verification_failed">OTP verification failed. Please try again.</string>
+    <string name="sec_left">sec left</string>
+    <string name="verifying">Verifying…</string>
 
 </resources>
