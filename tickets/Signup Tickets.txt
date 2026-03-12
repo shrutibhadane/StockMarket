@@ -1719,3 +1719,4 @@ Acceptance Criteria:
                               END OF TICKETS
 ================================================================================
 
+Make sure to apply all the changes

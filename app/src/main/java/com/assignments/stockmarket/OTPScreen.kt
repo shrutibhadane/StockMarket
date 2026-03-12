@@ -44,18 +44,11 @@ import androidx.navigation.NavController
 import com.assignments.stockmarket.reusables.OTPInput
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import io.paperdb.Paper
-import java.io.BufferedReader
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 
-private const val SEND_OTP_URL = "https://system-project-api.onrender.com/api/sendotp"
-private const val UPDATE_STATUS_URL = "https://system-project-api.onrender.com/api/updatestatus"
 
 @Composable
 fun OTPScreen(
@@ -74,6 +67,7 @@ fun OTPScreen(
     var timerRunning by remember { mutableStateOf(true) }
 
     val coroutineScope = rememberCoroutineScope()
+
 
     // Countdown timer effect — restarts when timerRunning flips to true
     LaunchedEffect(timerRunning, resendKey) {
@@ -174,7 +168,7 @@ fun OTPScreen(
                         otpError = null
                         coroutineScope.launch {
                             val newOtp = (1000..9999).random().toString()
-                            val sent = resendOtpApi(email, newOtp)
+                            val sent = sendOtpApi(email, newOtp)
                             isLoading = false
                             if (sent) {
                                 currentExpectedOtp = newOtp
@@ -216,7 +210,7 @@ fun OTPScreen(
                         otpError = null
                         isLoading = true
                         coroutineScope.launch {
-                            val updated = updateStatusApi(email)
+                            val (updated, _) = updateStatusApi(email)
                             isLoading = false
                             if (updated) {
                                 // Store email in Paper NoSQL DB
@@ -265,51 +259,3 @@ fun OTPScreen(
     }
 }
 
-/** Resend OTP via the sendotp API. */
-private suspend fun resendOtpApi(email: String, otp: String): Boolean = withContext(Dispatchers.IO) {
-    var connection: HttpURLConnection? = null
-    try {
-        connection = (URL(SEND_OTP_URL).openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 15_000
-            readTimeout = 15_000
-            doOutput = true
-            setRequestProperty("Content-Type", "application/json")
-            setRequestProperty("Accept", "application/json")
-        }
-        val payload = JSONObject()
-            .put("email", email)
-            .put("otp", otp)
-            .toString()
-        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
-        connection.responseCode in 200..299
-    } catch (_: Exception) {
-        false
-    } finally {
-        connection?.disconnect()
-    }
-}
-
-/** Call updatestatus API to mark email_verified and phone_verified. */
-private suspend fun updateStatusApi(email: String): Boolean = withContext(Dispatchers.IO) {
-    var connection: HttpURLConnection? = null
-    try {
-        connection = (URL(UPDATE_STATUS_URL).openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 15_000
-            readTimeout = 15_000
-            doOutput = true
-            setRequestProperty("Content-Type", "application/json")
-            setRequestProperty("Accept", "application/json")
-        }
-        val payload = JSONObject()
-            .put("email", email)
-            .toString()
-        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
-        connection.responseCode in 200..299
-    } catch (_: Exception) {
-        false
-    } finally {
-        connection?.disconnect()
-    }
-}

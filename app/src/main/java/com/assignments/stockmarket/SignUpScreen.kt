@@ -48,17 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
-import java.io.BufferedReader
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.json.JSONObject
-
-private const val SIGNUP_API_URL = "https://system-project-api.onrender.com/api/signup"
-private const val SEND_OTP_API_URL_SIGNUP = "https://system-project-api.onrender.com/api/sendotp"
 
 // Valid TLDs for email validation
 private val VALID_TLDS = setOf(
@@ -371,7 +361,7 @@ fun SignUpScreen(
                             if (result.success) {
                                 // Generate OTP and send via API
                                 val otp = (1000..9999).random().toString()
-                                val otpSent = sendOtpApiSignup(email.trim(), otp)
+                                val otpSent = sendOtpApi(email.trim(), otp)
                                 isLoading = false
                                 if (otpSent) {
                                     generatedOtp = otp
@@ -511,76 +501,3 @@ private fun validateEmail(email: String): String? {
     return null
 }
 
-private data class SignUpResult(val success: Boolean, val message: String? = null)
-
-private suspend fun registerUser(
-    firstName: String,
-    lastName: String,
-    username: String,
-    email: String,
-    phoneNumber: String,
-    password: String
-): SignUpResult = withContext(Dispatchers.IO) {
-    var connection: HttpURLConnection? = null
-    try {
-        connection = (URL(SIGNUP_API_URL).openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 15_000
-            readTimeout = 15_000
-            doOutput = true
-            setRequestProperty("Content-Type", "application/json")
-            setRequestProperty("Accept", "application/json")
-        }
-
-        val payload = JSONObject()
-            .put("first_name", firstName)
-            .put("last_name", lastName)
-            .put("username", username)
-            .put("email", email)
-            .put("phone_number", phoneNumber)
-            .put("password", password)
-            .toString()
-
-        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
-
-        val responseCode = connection.responseCode
-        val stream = if (responseCode in 200..299) connection.inputStream else connection.errorStream
-        val body = BufferedReader(stream.reader()).use { it.readText() }
-        val json = JSONObject(body)
-
-        if (json.optString("status").equals("OK", ignoreCase = true)) {
-            SignUpResult(success = true)
-        } else {
-            SignUpResult(success = false, message = json.optString("message").ifEmpty { null })
-        }
-    } catch (e: Exception) {
-        SignUpResult(success = false, message = "Error: ${e.javaClass.simpleName}: ${e.message}")
-    } finally {
-        connection?.disconnect()
-    }
-}
-
-/** Send a 4-digit OTP to the server for delivery to the user (signup flow). */
-private suspend fun sendOtpApiSignup(email: String, otp: String): Boolean = withContext(Dispatchers.IO) {
-    var connection: HttpURLConnection? = null
-    try {
-        connection = (URL(SEND_OTP_API_URL_SIGNUP).openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 15_000
-            readTimeout = 15_000
-            doOutput = true
-            setRequestProperty("Content-Type", "application/json")
-            setRequestProperty("Accept", "application/json")
-        }
-        val payload = JSONObject()
-            .put("email", email)
-            .put("otp", otp)
-            .toString()
-        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
-        connection.responseCode in 200..299
-    } catch (_: Exception) {
-        false
-    } finally {
-        connection?.disconnect()
-    }
-}
