@@ -1,6 +1,5 @@
 package com.assignments.stockmarket
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -69,12 +67,7 @@ fun OTPScreen(
     var timerRunning by remember { mutableStateOf(true) }
 
     val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
 
-    // Debug: show expected OTP via Toast on first composition
-    LaunchedEffect(Unit) {
-        Toast.makeText(context, "Expected OTP: $expectedOtp", Toast.LENGTH_LONG).show()
-    }
 
     // Countdown timer effect — restarts when timerRunning flips to true
     LaunchedEffect(timerRunning, resendKey) {
@@ -218,9 +211,8 @@ fun OTPScreen(
                         // OTP matched — call updatestatus API, store email, navigate to MPIN
                         otpError = null
                         isLoading = true
-                        Toast.makeText(context, "OTP matched! Entered: $enteredOtp | Expected: $currentExpectedOtp", Toast.LENGTH_LONG).show()
                         coroutineScope.launch {
-                            val (updated, apiMsg) = updateStatusApi(email)
+                            val (updated, _) = updateStatusApi(email)
                             isLoading = false
                             if (updated) {
                                 // Store email in Paper NoSQL DB
@@ -231,8 +223,7 @@ fun OTPScreen(
                                     popUpTo("otp/{email}/{otp}") { inclusive = true }
                                 }
                             } else {
-                                Toast.makeText(context, "API Error: $apiMsg", Toast.LENGTH_LONG).show()
-                                otpError = "OTP verification failed. Please try again.\n($apiMsg)"
+                                otpError = "OTP verification failed. Please try again."
                             }
                         }
                     },
