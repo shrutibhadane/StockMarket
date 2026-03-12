@@ -34,39 +34,31 @@ fun SplashScreen(navController: NavController) {
         delay(2000) // 2 seconds splash display
 
         // Check if email is stored in Paper NoSQL DB
+        // Email is only saved after successful OTP verification,
+        // so its presence means the user is already authenticated.
         val storedEmail: String? = withContext(Dispatchers.IO) {
             Paper.book().read<String>("user_email")
         }
 
         if (storedEmail.isNullOrEmpty()) {
-            // No stored email → go to login
+            // No stored email → user has not verified yet → go to login
             navController.navigate("login") {
                 popUpTo("splash") { inclusive = true }
             }
         } else {
-            // Email exists → call checkthestatus API
-            val status = checkTheStatusApi(storedEmail)
+            // Email exists → user already verified via OTP, skip login/signup
+            val storedMpin: String? = withContext(Dispatchers.IO) {
+                Paper.book().read<String>("user_mpin")
+            }
 
-            if (status.emailVerified) {
-                // Check if MPIN is stored locally
-                val storedMpin: String? = withContext(Dispatchers.IO) {
-                    Paper.book().read<String>("user_mpin")
-                }
-
-                if (!storedMpin.isNullOrEmpty()) {
-                    // email_verified = true & MPIN available → go to dashboard
-                    navController.navigate("mpin_finger_print") {
-                        popUpTo("splash") { inclusive = true }
-                    }
-                } else {
-                    // email_verified = true but no MPIN → go to MPIN screen
-                    navController.navigate("mpin") {
-                        popUpTo("splash") { inclusive = true }
-                    }
+            if (!storedMpin.isNullOrEmpty()) {
+                // MPIN available → go directly to dashboard
+                navController.navigate("dashboard") {
+                    popUpTo("splash") { inclusive = true }
                 }
             } else {
-                // email_verified = false → go to login
-                navController.navigate("login") {
+                // No MPIN set yet → go to MPIN setup screen
+                navController.navigate("mpin") {
                     popUpTo("splash") { inclusive = true }
                 }
             }

@@ -103,7 +103,7 @@ fun OTPScreen(
             // 🔹 OTP
             Text(
                 text = stringResource(R.string.otp),
-                color = Color(R.color.white),
+                color = Color.White,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -192,7 +192,7 @@ fun OTPScreen(
                     .size(86.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.button_background_color))
-                    .border(2.dp, Color(R.color.white), CircleShape)
+                    .border(2.dp, Color.White, CircleShape)
                     .clickable {
                         if (isLoading) return@clickable
 
@@ -237,7 +237,7 @@ fun OTPScreen(
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
                         contentDescription = stringResource(R.string.otp),
-                        tint = Color(R.color.white),
+                        tint = Color.White,
                         modifier = Modifier.size(60.dp)
                     )
                 }
