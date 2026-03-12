@@ -39,14 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
-import java.io.BufferedReader
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.json.JSONObject
 
 @Composable
 fun LoginScreen(
@@ -238,67 +231,3 @@ fun LoginScreen(
     }
 }
 
-private suspend fun authenticateUser(username: String, password: String): Boolean = withContext(Dispatchers.IO) {
-    var connection: HttpURLConnection? = null
-
-    try {
-        connection = (URL(LOGIN_API_URL).openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 15_000
-            readTimeout = 15_000
-            doOutput = true
-            setRequestProperty("Content-Type", "application/json")
-            setRequestProperty("Accept", "application/json")
-        }
-
-        val payload = JSONObject()
-            .put("user_id", username)
-            .put("password", password)
-            .toString()
-
-        OutputStreamWriter(connection.outputStream).use { writer ->
-            writer.write(payload)
-            writer.flush()
-        }
-
-        if (connection.responseCode != HttpURLConnection.HTTP_OK) {
-            return@withContext false
-        }
-
-        val body = BufferedReader(connection.inputStream.reader()).use { it.readText() }
-        val json = JSONObject(body)
-        json.optString("status").equals("OK", ignoreCase = true)
-    } catch (_: Exception) {
-        false
-    } finally {
-        connection?.disconnect()
-    }
-}
-
-/** Send a 4-digit OTP to the server for delivery to the user. */
-private suspend fun sendOtpApi(email: String, otp: String): Boolean = withContext(Dispatchers.IO) {
-    var connection: HttpURLConnection? = null
-    try {
-        connection = (URL(SEND_OTP_API_URL).openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 15_000
-            readTimeout = 15_000
-            doOutput = true
-            setRequestProperty("Content-Type", "application/json")
-            setRequestProperty("Accept", "application/json")
-        }
-        val payload = JSONObject()
-            .put("email", email)
-            .put("otp", otp)
-            .toString()
-        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
-        connection.responseCode in 200..299
-    } catch (_: Exception) {
-        false
-    } finally {
-        connection?.disconnect()
-    }
-}
-
-private const val LOGIN_API_URL = "https://system-project-api.onrender.com/api/login"
-private const val SEND_OTP_API_URL = "https://system-project-api.onrender.com/api/sendotp"

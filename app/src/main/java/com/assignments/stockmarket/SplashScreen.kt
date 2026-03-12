@@ -22,16 +22,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import io.paperdb.Paper
-import java.io.BufferedReader
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 
-private const val CHECK_STATUS_URL = "https://system-project-api.onrender.com/api/checkthestatus"
 
 @Composable
 fun SplashScreen(navController: NavController) {
@@ -106,41 +100,3 @@ fun SplashScreen(navController: NavController) {
     }
 }
 
-private data class StatusResult(
-    val emailVerified: Boolean = false,
-    val phoneVerified: Boolean = false
-)
-
-/** Call checkthestatus API to get email_verified and phone_verified status. */
-private suspend fun checkTheStatusApi(email: String): StatusResult = withContext(Dispatchers.IO) {
-    var connection: HttpURLConnection? = null
-    try {
-        connection = (URL(CHECK_STATUS_URL).openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 15_000
-            readTimeout = 15_000
-            doOutput = true
-            setRequestProperty("Content-Type", "application/json")
-            setRequestProperty("Accept", "application/json")
-        }
-        val payload = JSONObject()
-            .put("email", email)
-            .toString()
-        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
-
-        if (connection.responseCode !in 200..299) {
-            return@withContext StatusResult()
-        }
-
-        val body = BufferedReader(connection.inputStream.reader()).use { it.readText() }
-        val json = JSONObject(body)
-        StatusResult(
-            emailVerified = json.optBoolean("email_verified", false),
-            phoneVerified = json.optBoolean("phone_verified", false)
-        )
-    } catch (_: Exception) {
-        StatusResult()
-    } finally {
-        connection?.disconnect()
-    }
-}
