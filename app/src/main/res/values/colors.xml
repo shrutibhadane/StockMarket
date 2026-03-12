@@ -11,6 +11,8 @@
     <color name="extra_light_blue_text_color">#FFDDF3FC</color>
     <color name="light_green_text_color">#01FF41</color>
     <color name="red_text_color">#FF0105</color>
+    <color name="green_text_color">#00FF00</color>
     <color name="light_red_text_color">#FE7779</color>
     <color name="light_grey_text_color">#CFCDCD</color>
+    <color name="light_grey_image_color">#C7C7C7</color>
 </resources>

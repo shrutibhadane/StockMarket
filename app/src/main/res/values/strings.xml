@@ -6,6 +6,7 @@
     <string name="title_activity_forgot_password_screen">ForgotPasswordScreen</string>
     <string name="title_activity_mpinscreen">MPINScreen</string>
     <string name="title_activity_otpinput">OTPInput</string>
+    <string name="title_activity_dashboard_screen">DashboardScreen</string>
 
     <string name="login">Login</string>
     <string name="username">Username</string>
@@ -27,7 +28,6 @@
     <string name="enter_your_email_phone">Enter your email/phone</string>
     <string name="invalid_userid_or_password">Invalid userid or password</string>
     <string name="authenticating">Authenticating</string>
-    <string name="title_activity_dashboard_screen">DashboardScreen</string>
     <string name="my_sphere">My Sphere</string>
     <string name="email">Email</string>
     <string name="first_name">First Name</string>

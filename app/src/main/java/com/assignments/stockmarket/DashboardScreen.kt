@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ShowChart
-import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Payment
@@ -41,11 +39,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.bottom_navigation.BottomNavBar
 import com.assignments.stockmarket.bottom_navigation.BottomNavItem
+import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
+import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
+import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
+import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
 import com.assignments.stockmarket.reusables.MyAppBar
 import com.assignments.stockmarket.tabs.explore.ExploreScreen
-import com.assignments.stockmarket.tabs.HoldingsScreen
-import com.assignments.stockmarket.tabs.OrdersScreen
-import com.assignments.stockmarket.tabs.PositionsScreen
+import com.assignments.stockmarket.tabs.holdings.HoldingsScreen
+import com.assignments.stockmarket.tabs.orders.OrdersScreen
+import com.assignments.stockmarket.tabs.positions.PositionsScreen
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
@@ -85,10 +87,10 @@ fun DashboardScreen(
             // Screen content changes depending on bottom nav selection
             when (selectedBottomTab) {
                 // 0 -> DashboardScreen(navController)
-                1 -> SignUpScreen(navController)
-                2 -> HoldingsScreen()
-                3 -> HoldingsScreen()
-                4 -> OrdersScreen()
+                1 -> FAndQScreen()
+                2 -> LoansScreen()
+                3 -> MutualFundsScreen()
+                4 -> UPIScreen()
             }
 
             // NIFTY 50 and SENSEX cards
