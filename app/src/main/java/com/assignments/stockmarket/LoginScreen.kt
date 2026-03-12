@@ -87,7 +87,7 @@ fun LoginScreen(
             // 🔹 Login Title
             Text(
                 text = stringResource(R.string.login),
-                color = Color.White,
+                color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -137,7 +137,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .align(Alignment.End)
                     .clickable {
-                        navController.navigate("forgot_password")
+                        navController.navigate("dashboard")
                     }
             )
 
@@ -149,19 +149,19 @@ fun LoginScreen(
                     .size(86.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.button_background_color))
-                    .border(2.dp, Color(R.color.white), CircleShape)
+                    .border(2.dp, colorResource(R.color.white), CircleShape)
                     .clickable {
                         if (isLoading) return@clickable
 
-                         var valid = true
-                         if (username.isEmpty()) {
-                             usernameError = "Username should not be empty"
-                             valid = false
-                         }
-                         if (password.isEmpty()) {
-                             passwordError = "Password should not be empty"
-                             valid = false
-                         }
+                        var valid = true
+                        if (username.isEmpty()) {
+                            usernameError = "Username should not be empty"
+                            valid = false
+                        }
+                        if (password.isEmpty()) {
+                            passwordError = "Password should not be empty"
+                            valid = false
+                        }
 
                         if (!valid) return@clickable
 
@@ -187,21 +187,21 @@ fun LoginScreen(
                                 isLoading = false
                                  authError = invalidCredentialsMessage
                              }
-                         }*/
+                         }
                     },
                 contentAlignment = Alignment.Center
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(32.dp),
-                        color = Color.White,
+                        color = colorResource(R.color.white),
                         strokeWidth = 3.dp
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
                         contentDescription = stringResource(R.string.login),
-                        tint = Color.White,
+                        tint = colorResource(R.color.white),
                         modifier = Modifier.size(32.dp)
                     )
                 }
@@ -224,7 +224,7 @@ fun LoginScreen(
             // 🔹 Bottom Text
             Text(
                 text = stringResource(R.string.don_t_have_any_account_click_to_create),
-                color = Color.White,
+                color = colorResource(R.color.white),
                 fontSize = 12.sp,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,

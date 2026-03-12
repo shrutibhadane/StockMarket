@@ -198,7 +198,7 @@ fun OTPScreen(
                     .size(86.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.button_background_color))
-                    .border(2.dp, Color.White, CircleShape)
+                    .border(2.dp, Color(R.color.white), CircleShape)
                     .clickable {
                         if (isLoading) return@clickable
 
@@ -243,7 +243,7 @@ fun OTPScreen(
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
                         contentDescription = stringResource(R.string.otp),
-                        tint = Color.White,
+                        tint = Color(R.color.white),
                         modifier = Modifier.size(60.dp)
                     )
                 }

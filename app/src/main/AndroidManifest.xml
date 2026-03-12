@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/ic_stock_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.StockMarket">
+        <activity
+            android:name=".tabs.ExploreScreen"
+            android:exported="false" />
         <!-- Compose screens are routed inside MainActivity via NavController. -->
         <activity
             android:name=".DashboardScreen"

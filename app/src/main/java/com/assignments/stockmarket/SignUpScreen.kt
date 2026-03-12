@@ -132,7 +132,7 @@ fun SignUpScreen(
             // 🔹 Sign up Title
             Text(
                 text = stringResource(R.string.sign_up),
-                color = Color(R.color.white),
+                color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -301,7 +301,7 @@ fun SignUpScreen(
                         else
                             colorResource(R.color.button_background_color).copy(alpha = 0.4f)
                     )
-                    .border(2.dp, Color.White, CircleShape)
+                    .border(2.dp, colorResource(R.color.white), CircleShape)
                     .clickable {
                         if (isLoading) return@clickable
                         if (!allCriteriaMet) return@clickable
@@ -392,14 +392,14 @@ fun SignUpScreen(
                 if (isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(32.dp),
-                        color = Color.White,
+                        color = colorResource(R.color.white),
                         strokeWidth = 3.dp
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
                         contentDescription = stringResource(R.string.sign_up),
-                        tint = if (allCriteriaMet) Color.White else Color.White.copy(alpha = 0.4f),
+                        tint = if (allCriteriaMet) colorResource(R.color.white) else colorResource(R.color.white).copy(alpha = 0.4f),
                         modifier = Modifier.size(32.dp)
                     )
                 }
@@ -425,7 +425,7 @@ fun SignUpScreen(
             // 🔹 Bottom Text
             Text(
                 text = stringResource(R.string.already_have_an_account_click_to_login),
-                color = Color(R.color.white),
+                color = colorResource(R.color.white),
                 fontSize = 12.sp,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,

@@ -75,7 +75,7 @@ fun ForgotPasswordScreen(
             // 🔹 Login
             Text(
                 text = stringResource(R.string.forgot_password),
-                color = Color(R.color.white),
+                color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -110,7 +110,7 @@ fun ForgotPasswordScreen(
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
                     contentDescription = stringResource(R.string.forget_password),
-                    tint = Color(R.color.white),
+                    tint = colorResource(R.color.white),
                     modifier = Modifier.size(60.dp)
                 )
             }

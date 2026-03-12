@@ -1,66 +1,77 @@
 package com.assignments.stockmarket
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.automirrored.filled.ShowChart
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.AccountBalance
+import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.Payment
+import androidx.compose.material.icons.filled.ShowChart
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.assignments.stockmarket.bottom_navigation.BottomNavBar
+import com.assignments.stockmarket.bottom_navigation.BottomNavItem
 import com.assignments.stockmarket.reusables.MyAppBar
+import com.assignments.stockmarket.tabs.explore.ExploreScreen
+import com.assignments.stockmarket.tabs.HoldingsScreen
+import com.assignments.stockmarket.tabs.OrdersScreen
+import com.assignments.stockmarket.tabs.PositionsScreen
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
-import org.w3c.dom.Text
 
 @Composable
 fun DashboardScreen(
     navController: NavController,
 ) {
-    val bottomNavItems = listOf("Stocks", "F&O", "Mutual Funds", "UPI", "Loans")
-    val selectedTabIndex = remember { mutableStateOf(0) }
-    val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
+
+    val bottomNavItems = listOf(
+        BottomNavItem("Stocks", Icons.Default.ShowChart),
+        BottomNavItem("F&O", Icons.Default.TrendingUp),
+        BottomNavItem("Mutual Funds", Icons.Default.AccountBalance),
+        BottomNavItem("UPI", Icons.Default.Payment),
+        BottomNavItem("Loans", Icons.Default.AttachMoney)
+    )
+
+    var selectedBottomTab by remember { mutableStateOf(0) }
 
     Scaffold(
-        topBar = { MyAppBar() }
+        topBar = { MyAppBar() },
+        bottomBar = {
+            BottomNavBar(
+                items = bottomNavItems,
+                selectedIndex = selectedBottomTab,
+                onItemSelected = { selectedBottomTab = it }
+            )
+        }
     ) { innerPadding ->
 
         Column(
@@ -70,6 +81,16 @@ fun DashboardScreen(
                 .padding(innerPadding)  // Important to apply scaffold's padding
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
+
+            // Screen content changes depending on bottom nav selection
+            when (selectedBottomTab) {
+                // 0 -> DashboardScreen(navController)
+                1 -> SignUpScreen(navController)
+                2 -> HoldingsScreen()
+                3 -> HoldingsScreen()
+                4 -> OrdersScreen()
+            }
+
             // NIFTY 50 and SENSEX cards
             Row(
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -93,10 +114,13 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            MarketTabs()
+
         }
     }
 
 }
+
 @Composable
 fun MarketCard(
     title: String,
@@ -112,16 +136,20 @@ fun MarketCard(
         modifier = modifier.height(50.dp),
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, colorResource(R.color.white)),
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(R.color.screen_background)
+        )
     ) {
         Column(
-            modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.Center
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 title,
                 fontWeight = FontWeight.Bold,
                 fontFamily = PoppinsFamily,
                 fontSize = 10.sp,
-                color = colorResource(R.color.black)
+                color = colorResource(R.color.white)
             )
             Spacer(modifier = Modifier.height(6.dp))
 
@@ -134,7 +162,7 @@ fun MarketCard(
                     fontWeight = FontWeight.Medium,
                     fontSize = 8.sp,
                     fontFamily = PoppinsFamily,
-                    color = colorResource(id = R.color.black)
+                    color = colorResource(id = R.color.white)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
@@ -145,7 +173,53 @@ fun MarketCard(
                     color = changeColor
                 )
             }
+        }
+    }
+}
 
+@Composable
+fun MarketTabs() {
+
+    val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
+    var selectedTabIndex by remember { mutableStateOf(0) }
+
+    Column {
+
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = colorResource(id = R.color.screen_background),
+            contentColor = colorResource(R.color.white),
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+                    color = colorResource(R.color.white),
+                )
+            }
+        ) {
+
+            tabItems.forEachIndexed { index, title ->
+
+                Tab(
+                    selected = selectedTabIndex == index,
+                    onClick = { selectedTabIndex = index },
+                    selectedContentColor = colorResource(R.color.white),
+                    unselectedContentColor = colorResource(R.color.white).copy(alpha = 0.6f),
+                    text = {
+                        Text(
+                            text = title,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                )
+            }
+        }
+
+        when (selectedTabIndex) {
+            0 -> ExploreScreen()
+            1 -> HoldingsScreen()
+            2 -> PositionsScreen()
+            3 -> OrdersScreen()
         }
     }
 }
