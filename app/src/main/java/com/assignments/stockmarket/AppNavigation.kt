@@ -6,6 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.assignments.stockmarket.bottom_navigation.screens.BuyStockScreen
+import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
+import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
+import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
+import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
 import com.assignments.stockmarket.search.SearchScreen
 
 @Composable
@@ -68,5 +73,24 @@ fun AppNavigation() {
             SearchScreen(navController)
         }
 
+        composable("f_and_o") {
+            FAndQScreen(navController)
+        }
+
+        composable("mutual_funds") {
+            MutualFundsScreen(navController)
+        }
+
+        composable("upi") {
+            UPIScreen(navController)
+        }
+
+        composable("loans") {
+            LoansScreen(navController)
+        }
+
+        composable("buy_stock") {
+            BuyStockScreen(navController)
+        }
     }
 }

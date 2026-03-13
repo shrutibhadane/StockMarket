@@ -18,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,15 +33,17 @@ import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
-fun MutualFundsScreen(navController: NavController) {
+fun BuyStockScreen(navController: NavController) {
 
     Scaffold(
         bottomBar = {
             BottomBarButtons(
-                "One-Time",
-                "Start SIP",
+                "SELL",
+                "BUY",
                 { navController.navigate("login") },
                 { navController.navigate("search") },
+                R.drawable.red_dot,
+                R.drawable.green_dot,
             )
         }
 
@@ -57,15 +61,6 @@ fun MutualFundsScreen(navController: NavController) {
 
             // Top section: Fund name & risk
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = "Franklin India Opportunities Direct Fund Growth",
-                    color = colorResource(R.color.white),
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -111,6 +106,17 @@ fun MutualFundsScreen(navController: NavController) {
                         fontFamily = PoppinsFamily,
                     )
                 }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Tejas Networks",
+                    color = colorResource(R.color.white),
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = PoppinsFamily
+                )
+
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -171,8 +177,8 @@ fun MutualFundsScreen(navController: NavController) {
                         val top = size.height - candleHeight
                         drawRect(
                             color = if (i % 2 == 0) Color(0xFF00FF00) else Color.Red,
-                            topLeft = androidx.compose.ui.geometry.Offset(x, top),
-                            size = androidx.compose.ui.geometry.Size(candleWidth, candleHeight)
+                            topLeft = Offset(x, top),
+                            size = Size(candleWidth, candleHeight)
                         )
                     }
                 }

@@ -39,11 +39,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.bottom_navigation.BottomNavBar
 import com.assignments.stockmarket.bottom_navigation.BottomNavItem
+import com.assignments.stockmarket.bottom_navigation.screens.BuyStockScreen
 import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
 import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
 import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
 import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
-import com.assignments.stockmarket.reusables.MyAppBar
+import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
+import com.assignments.stockmarket.reusables.app_bar.MyAppBar
 import com.assignments.stockmarket.tabs.explore.ExploreScreen
 import com.assignments.stockmarket.tabs.holdings.HoldingsScreen
 import com.assignments.stockmarket.tabs.orders.OrdersScreen
@@ -66,7 +68,11 @@ fun DashboardScreen(
     var selectedBottomTab by remember { mutableStateOf(0) }
 
     Scaffold(
-        topBar = { MyAppBar(navController) },
+        topBar = {   if (selectedBottomTab == 0) {
+            MyAppBar(navController)
+        } else {
+            AppBarBackArrow(navController)
+        } },
         bottomBar = {
             BottomNavBar(
                 items = bottomNavItems,
@@ -87,10 +93,10 @@ fun DashboardScreen(
             // Screen content changes depending on bottom nav selection
             when (selectedBottomTab) {
                 // 0 -> DashboardScreen(navController)
-                1 -> FAndQScreen()
-                2 -> LoansScreen()
-                3 -> MutualFundsScreen()
-                4 -> UPIScreen()
+                1 -> FAndQScreen(navController)
+                2 -> MutualFundsScreen(navController)
+                3 -> BuyStockScreen(navController)
+                4 -> LoansScreen(navController)
             }
 
             // NIFTY 50 and SENSEX cards
