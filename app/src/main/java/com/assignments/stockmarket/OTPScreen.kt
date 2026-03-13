@@ -63,7 +63,7 @@ fun OTPScreen(
     var resendKey by remember { mutableIntStateOf(0) } // used to reset OTPInput on resend
 
     // 60-second countdown timer
-    var timeLeft by remember { mutableIntStateOf(60) }
+    var timeLeft by remember { mutableIntStateOf(120) }
     var timerRunning by remember { mutableStateOf(true) }
 
     val coroutineScope = rememberCoroutineScope()
@@ -174,7 +174,7 @@ fun OTPScreen(
                                 currentExpectedOtp = newOtp
                                 enteredOtp = ""
                                 resendKey++
-                                timeLeft = 60
+                                timeLeft = 120
                                 timerRunning = true
                             } else {
                                 otpError = "Failed to resend OTP. Try again."
@@ -183,6 +183,18 @@ fun OTPScreen(
                     }
                 )
             }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                text = stringResource(R.string.otp_expires_in_2_minutes_please_request_a_new_one_if_it_expires),
+                fontSize = 15.sp,
+                fontFamily = PoppinsFamily,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(R.color.text_color),
+                modifier = Modifier.padding(horizontal = 20.dp),
+                textAlign = TextAlign.Center
+            )
 
             Spacer(modifier = Modifier.height(40.dp))
 
@@ -206,7 +218,7 @@ fun OTPScreen(
                             return@clickable
                         }
 
-                        // OTP matched — call updatestatus API, store email, navigate to MPIN
+                        // OTP matched — call update status API, store email, navigate to MPIN
                         otpError = null
                         isLoading = true
                         coroutineScope.launch {
@@ -238,7 +250,7 @@ fun OTPScreen(
                         imageVector = Icons.Default.ArrowForward,
                         contentDescription = stringResource(R.string.otp),
                         tint = Color.White,
-                        modifier = Modifier.size(60.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 }
             }

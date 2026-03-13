@@ -40,6 +40,7 @@
     <string name="otp_verification_failed">OTP verification failed. Please try again.</string>
     <string name="sec_left">sec left</string>
     <string name="verifying">Verifying…</string>
+    <string name="otp_expires_in_2_minutes_please_request_a_new_one_if_it_expires">OTP expires in 2 minutes. Please request a new one if it expires.</string>
 
 
 </resources>
