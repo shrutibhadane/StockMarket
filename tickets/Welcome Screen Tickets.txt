@@ -1,0 +1,223 @@
+================================================================================
+                       WELCOME SCREEN — JIRA TICKETS
+================================================================================
+
+
+--------------------------------------------------------------------------------
+S.No: 1
+--------------------------------------------------------------------------------
+Task Name:
+    Add Lottie Compose dependency
+
+Details of the task:
+    Add the Lottie Compose library to app/build.gradle.kts for rendering
+    Lottie JSON animations in Jetpack Compose. Sync Gradle to ensure the
+    dependency resolves.
+
+Technical Requirements:
+    - implementation("com.airbnb.android:lottie-compose:6.4.0")
+    - Added in the dependencies block of app/build.gradle.kts
+    - Gradle sync must succeed
+
+Acceptance Criteria:
+    - Lottie Compose dependency resolves without errors
+    - com.airbnb.lottie.compose imports available in Kotlin files
+    - No version conflicts with existing dependencies
+
+
+--------------------------------------------------------------------------------
+S.No: 2
+--------------------------------------------------------------------------------
+Task Name:
+    Create confetti Lottie animation JSON in res/raw
+
+Details of the task:
+    Create a res/raw/ directory and add a confetti.json Lottie animation
+    file. The animation should contain colorful confetti particles (gold,
+    red, blue, green, orange, purple, yellow, teal) that burst outward
+    with rotation and fade-out effects.
+
+Technical Requirements:
+    - Create app/src/main/res/raw/ directory
+    - Add confetti.json with Lottie-compatible JSON structure
+    - Multiple particle groups with varied colors
+    - Particles animate position, rotation, opacity, and scale
+    - Animation duration suitable for looping (90 frames at 30fps)
+
+Acceptance Criteria:
+    - confetti.json is a valid Lottie animation file
+    - R.raw.confetti resolves in Kotlin code
+    - Animation renders colorful particles when played
+    - File size is reasonable (under 50KB)
+
+
+--------------------------------------------------------------------------------
+S.No: 3
+--------------------------------------------------------------------------------
+Task Name:
+    Create welcome chime audio file in res/raw
+
+Details of the task:
+    Generate or source a 2-second welcome chime audio file (MP3 format)
+    and place it in res/raw/. The chime should be a pleasant ascending
+    arpeggio (e.g., C5-E5-G5-C6) suitable for a celebration moment.
+
+Technical Requirements:
+    - File: app/src/main/res/raw/welcome_chime.mp3
+    - Duration: ~2 seconds
+    - Format: MP3, 44100 Hz, mono, ~128kbps
+    - Pleasant ascending chime tones with fade-out
+    - File size under 50KB
+
+Acceptance Criteria:
+    - R.raw.welcome_chime resolves in Kotlin code
+    - Audio plays as a pleasant celebration chime
+    - Duration is approximately 2 seconds
+    - No clipping or distortion in the audio
+
+
+--------------------------------------------------------------------------------
+S.No: 4
+--------------------------------------------------------------------------------
+Task Name:
+    Create WelcomeScreen composable skeleton
+
+Details of the task:
+    Create a new Kotlin file WelcomeScreen.kt inside the stockmarket
+    package. Define a @Composable function WelcomeScreen that accepts a
+    NavController. Set up a full-screen Box with screen_background color
+    and centered content alignment.
+
+Technical Requirements:
+    - @Composable fun WelcomeScreen(navController: NavController)
+    - Box with fillMaxSize, colorResource(R.color.screen_background),
+      contentAlignment = Center
+    - val context = LocalContext.current for MediaPlayer
+    - State flags: showConfetti, showWelcome, showInto, showTradeSphere
+      (all mutableStateOf(false))
+
+Acceptance Criteria:
+    - Screen renders with correct background
+    - All visibility state flags default to false
+    - Context available for audio playback
+
+
+--------------------------------------------------------------------------------
+S.No: 5
+--------------------------------------------------------------------------------
+Task Name:
+    Integrate Lottie confetti animation at top-left corner
+
+Details of the task:
+    Load the confetti.json Lottie animation and display it at the top-left
+    of the screen inside an AnimatedVisibility block tied to showConfetti.
+    Play with 3 iterations at 1.2x speed.
+
+Technical Requirements:
+    - val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.confetti))
+    - val progress by animateLottieCompositionAsState(composition,
+        iterations = 3, speed = 1.2f)
+    - AnimatedVisibility(visible = showConfetti, enter = fadeIn(300ms))
+    - Modifier.align(Alignment.TopStart).size(250.dp)
+    - LottieAnimation(composition, progress = { progress })
+
+Acceptance Criteria:
+    - Confetti animation appears at top-left when showConfetti = true
+    - Animation plays 3 loops at faster speed
+    - Fade-in entrance animation is smooth
+    - Animation size is 250dp
+
+
+--------------------------------------------------------------------------------
+S.No: 6
+--------------------------------------------------------------------------------
+Task Name:
+    Implement staggered text animations with delays
+
+Details of the task:
+    Using LaunchedEffect(Unit), trigger the appearance of each element
+    with delays: showConfetti at 0ms, "Welcome" at 600ms, "into" at
+    1300ms, "Trade Sphere" at 2000ms. Each text uses AnimatedVisibility
+    with fadeIn + slideInVertically animations. After all text appears,
+    wait 2000ms then navigate to dashboard.
+
+Technical Requirements:
+    - LaunchedEffect(Unit) with sequential delay() calls
+    - showConfetti = true at 0ms
+    - showWelcome = true after delay(600)
+    - showInto = true after delay(700)
+    - showTradeSphere = true after delay(700)
+    - delay(2000) then navigate("dashboard")
+    - "Welcome": Color.White, PoppinsFamily, Bold, 40.sp, Center
+    - "into": colorResource(R.color.text_color), Normal, 20.sp, Center
+    - "Trade Sphere": Color.White, Bold, 36.sp, Center
+    - Each AnimatedVisibility: fadeIn(tween(500-600ms)) +
+      slideInVertically(tween(500-600ms), initialOffsetY = it/2)
+    - 8dp spacers between texts
+
+Acceptance Criteria:
+    - Each element appears one by one with visible delay
+    - Total sequence takes ~4 seconds before navigation
+    - Texts slide up and fade in smoothly
+    - "Welcome" is largest and boldest
+    - "into" is smallest and lighter color
+    - "Trade Sphere" is large and bold
+    - Auto-navigates to dashboard after sequence
+
+
+--------------------------------------------------------------------------------
+S.No: 7
+--------------------------------------------------------------------------------
+Task Name:
+    Implement MediaPlayer for 2-second welcome chime playback
+
+Details of the task:
+    Add a DisposableEffect(Unit) block that creates a MediaPlayer from
+    R.raw.welcome_chime, starts playback, and auto-stops after 2 seconds
+    via a Handler.postDelayed. Properly release the MediaPlayer on dispose
+    to avoid memory leaks.
+
+Technical Requirements:
+    - DisposableEffect(Unit) { ... onDispose { ... } }
+    - val mediaPlayer = MediaPlayer.create(context, R.raw.welcome_chime)
+    - mediaPlayer?.start()
+    - Handler(Looper.getMainLooper()).postDelayed({ stop + release }, 2000)
+    - onDispose: remove callbacks, stop if playing, release
+    - Wrap stop/release in try-catch to prevent crash on edge cases
+
+Acceptance Criteria:
+    - Chime plays immediately when screen appears
+    - Chime stops after exactly 2 seconds
+    - No audio continues after navigating away
+    - No memory leak from MediaPlayer
+    - No crash if screen is disposed quickly
+
+
+--------------------------------------------------------------------------------
+S.No: 8
+--------------------------------------------------------------------------------
+Task Name:
+    Add welcome route to AppNavigation
+
+Details of the task:
+    Add the "welcome" composable route in AppNavigation.kt pointing to
+    WelcomeScreen. This route is only reachable from the MPIN setup flow
+    — splash screen bypasses it, ensuring it shows only once.
+
+Technical Requirements:
+    - composable("welcome") { WelcomeScreen(navController) }
+    - Navigate from MPIN: popUpTo("mpin") { inclusive = true }
+    - Navigate to dashboard: popUpTo("welcome") { inclusive = true }
+
+Acceptance Criteria:
+    - "welcome" route renders WelcomeScreen
+    - Screen only displays once (after first MPIN setup)
+    - Returning users go directly to dashboard via splash
+    - Welcome screen is removed from back stack after navigation
+
+
+================================================================================
+                              END OF TICKETS
+================================================================================
+

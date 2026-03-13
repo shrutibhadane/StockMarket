@@ -1,0 +1,246 @@
+================================================================================
+                       DEDICATED API — JIRA TICKETS
+================================================================================
+
+
+--------------------------------------------------------------------------------
+S.No: 1
+--------------------------------------------------------------------------------
+Task Name:
+    Create DedicatedAPI.kt with base URL and endpoint constants
+
+Details of the task:
+    Create a new Kotlin file DedicatedAPI.kt inside the stockmarket
+    package. Define a private BASE_URL constant and five public endpoint
+    constants derived from it. This file centralizes all API URLs so they
+    are defined in a single place.
+
+Technical Requirements:
+    - private const val BASE_URL =
+      "https://system-project-api.onrender.com/api"
+    - const val LOGIN_API_URL = "$BASE_URL/login"
+    - const val SIGNUP_API_URL = "$BASE_URL/signup"
+    - const val SEND_OTP_API_URL = "$BASE_URL/sendotp"
+    - const val UPDATE_STATUS_API_URL = "$BASE_URL/updatestatus"
+    - const val CHECK_STATUS_API_URL = "$BASE_URL/checkthestatus"
+
+Acceptance Criteria:
+    - All constants resolve to correct full URLs
+    - BASE_URL is private (not exposed outside the file)
+    - Endpoint constants are public and importable from other files
+    - Changing BASE_URL updates all endpoints automatically
+
+
+--------------------------------------------------------------------------------
+S.No: 2
+--------------------------------------------------------------------------------
+Task Name:
+    Create SignUpResult and StatusResult data classes
+
+Details of the task:
+    Define two public data classes in DedicatedAPI.kt:
+    (1) SignUpResult with success (Boolean) and message (String?, default
+        null) for signup API responses.
+    (2) StatusResult with emailVerified (Boolean, default false) and
+        phoneVerified (Boolean, default false) for status check responses.
+
+Technical Requirements:
+    - data class SignUpResult(val success: Boolean,
+      val message: String? = null)
+    - data class StatusResult(val emailVerified: Boolean = false,
+      val phoneVerified: Boolean = false)
+    - Both at file level (not private)
+
+Acceptance Criteria:
+    - SignUpResult(success = true) creates a success result
+    - SignUpResult(false, "error") creates a failure with message
+    - StatusResult() defaults to false/false
+    - Both classes importable from any screen file
+
+
+--------------------------------------------------------------------------------
+S.No: 3
+--------------------------------------------------------------------------------
+Task Name:
+    Implement authenticateUser suspend function
+
+Details of the task:
+    Create a public suspend function authenticateUser(username, password)
+    that sends a POST request to LOGIN_API_URL with user_id and password
+    in a JSON body. Returns true if the server responds with status "OK".
+
+Technical Requirements:
+    - suspend fun authenticateUser(username: String, password: String):
+      Boolean = withContext(Dispatchers.IO)
+    - HttpURLConnection with POST, 15s timeouts, JSON headers
+    - JSON payload: {"user_id": username, "password": password}
+    - OutputStreamWriter to write payload
+    - Check responseCode == HTTP_OK, parse JSON body
+    - json.optString("status").equals("OK", ignoreCase = true)
+    - Return false on any exception
+    - connection?.disconnect() in finally
+
+Acceptance Criteria:
+    - Valid credentials return true
+    - Invalid credentials return false
+    - Network error returns false without crash
+    - Connection always cleaned up
+
+
+--------------------------------------------------------------------------------
+S.No: 4
+--------------------------------------------------------------------------------
+Task Name:
+    Implement registerUser suspend function
+
+Details of the task:
+    Create a public suspend function registerUser that sends a POST
+    request to SIGNUP_API_URL with first_name, last_name, username,
+    email, phone_number, password. Returns SignUpResult with success
+    flag and optional error message from API response.
+
+Technical Requirements:
+    - suspend fun registerUser(firstName, lastName, username, email,
+      phoneNumber, password): SignUpResult = withContext(Dispatchers.IO)
+    - HttpURLConnection with POST, 15s timeouts, JSON headers
+    - JSON payload with 6 fields
+    - Read response: inputStream for 2xx, errorStream for others
+    - Parse JSON: check status "OK" → success, else failure with message
+    - catch (e: Exception): return error with class name + message
+    - connection?.disconnect() in finally
+
+Acceptance Criteria:
+    - Successful signup returns SignUpResult(success = true)
+    - Duplicate email returns SignUpResult(false, "Email already
+      registered")
+    - Network error returns SignUpResult(false, "Error: ...")
+    - All 6 fields sent to API
+
+
+--------------------------------------------------------------------------------
+S.No: 5
+--------------------------------------------------------------------------------
+Task Name:
+    Implement sendOtpApi suspend function
+
+Details of the task:
+    Create a single public suspend function sendOtpApi(email, otp) that
+    sends a POST request to SEND_OTP_API_URL with email and otp in JSON.
+    Returns true if server responds with 2xx. This replaces the three
+    previously duplicated functions (sendOtpApi in LoginScreen,
+    sendOtpApiSignup in SignUpScreen, resendOtpApi in OTPScreen).
+
+Technical Requirements:
+    - suspend fun sendOtpApi(email: String, otp: String): Boolean =
+      withContext(Dispatchers.IO)
+    - HttpURLConnection with POST, 15s timeouts, JSON headers
+    - JSON payload: {"email": email, "otp": otp}
+    - Return connection.responseCode in 200..299
+    - Return false on any exception
+    - connection?.disconnect() in finally
+
+Acceptance Criteria:
+    - Successful OTP send returns true
+    - Server error returns false
+    - Network error returns false without crash
+    - Used by LoginScreen, SignUpScreen, and OTPScreen
+
+
+--------------------------------------------------------------------------------
+S.No: 6
+--------------------------------------------------------------------------------
+Task Name:
+    Implement updateStatusApi suspend function
+
+Details of the task:
+    Create a public suspend function updateStatusApi(email) that sends
+    a POST request to UPDATE_STATUS_API_URL to mark email_verified and
+    phone_verified. Returns Pair<Boolean, String> with success flag and
+    response body for debugging.
+
+Technical Requirements:
+    - suspend fun updateStatusApi(email: String): Pair<Boolean, String>
+      = withContext(Dispatchers.IO)
+    - HttpURLConnection with POST, 15s timeouts, JSON headers
+    - JSON payload: {"email": email}
+    - Read response body: inputStream for 2xx, errorStream for others
+    - Return Pair(code in 200..299, "HTTP $code: $body")
+    - catch: return Pair(false, "Exception: ${e.message}")
+    - connection?.disconnect() in finally
+
+Acceptance Criteria:
+    - Successful update returns Pair(true, "HTTP 200: ...")
+    - Server error returns Pair(false, "HTTP 4xx: ...")
+    - Network error returns Pair(false, "Exception: ...")
+    - Response body available for debugging
+
+
+--------------------------------------------------------------------------------
+S.No: 7
+--------------------------------------------------------------------------------
+Task Name:
+    Implement checkTheStatusApi suspend function
+
+Details of the task:
+    Create a public suspend function checkTheStatusApi(email) that sends
+    a POST request to CHECK_STATUS_API_URL and parses the JSON response
+    for email_verified and phone_verified booleans. Returns StatusResult.
+
+Technical Requirements:
+    - suspend fun checkTheStatusApi(email: String): StatusResult =
+      withContext(Dispatchers.IO)
+    - HttpURLConnection with POST, 15s timeouts, JSON headers
+    - JSON payload: {"email": email}
+    - If non-2xx: return StatusResult() (defaults to false/false)
+    - Parse: json.optBoolean("email_verified", false)
+    - Parse: json.optBoolean("phone_verified", false)
+    - Return StatusResult(emailVerified, phoneVerified)
+    - catch: return StatusResult()
+    - connection?.disconnect() in finally
+
+Acceptance Criteria:
+    - Returns correct booleans from server response
+    - Returns StatusResult(false, false) on error
+    - Does not crash on malformed JSON
+    - Connection cleaned up in finally
+
+
+--------------------------------------------------------------------------------
+S.No: 8
+--------------------------------------------------------------------------------
+Task Name:
+    Refactor all screen files to use DedicatedAPI
+
+Details of the task:
+    Remove all local API functions, URL constants, and data classes from
+    LoginScreen.kt, SignUpScreen.kt, OTPScreen.kt, and SplashScreen.kt.
+    Update all call sites to use the public functions and types from
+    DedicatedAPI.kt. Remove unused imports (HttpURLConnection, URL,
+    OutputStreamWriter, BufferedReader, JSONObject, Dispatchers,
+    withContext) from screens that no longer need them.
+
+Technical Requirements:
+    - LoginScreen: remove authenticateUser(), sendOtpApi(), LOGIN_API_URL,
+      SEND_OTP_API_URL, and network imports
+    - SignUpScreen: remove registerUser(), sendOtpApiSignup(),
+      SignUpResult, SIGNUP_API_URL, SEND_OTP_API_URL_SIGNUP, and
+      network imports. Rename sendOtpApiSignup calls to sendOtpApi.
+    - OTPScreen: remove resendOtpApi(), updateStatusApi(), SEND_OTP_URL,
+      UPDATE_STATUS_URL, and network imports. Rename resendOtpApi calls
+      to sendOtpApi.
+    - SplashScreen: remove checkTheStatusApi(), StatusResult,
+      CHECK_STATUS_URL, and network imports
+    - Verify all screens compile after refactor
+
+Acceptance Criteria:
+    - No local API functions remain in any screen file
+    - No duplicate URL constants across files
+    - All API calls go through DedicatedAPI.kt
+    - Project compiles with zero errors
+    - All screen functionality works as before
+
+
+================================================================================
+                              END OF TICKETS
+================================================================================
+

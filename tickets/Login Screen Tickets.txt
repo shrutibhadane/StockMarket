@@ -1,0 +1,296 @@
+================================================================================
+                        LOGIN SCREEN — JIRA TICKETS
+================================================================================
+
+
+--------------------------------------------------------------------------------
+S.No: 1
+--------------------------------------------------------------------------------
+Task Name:
+    Create LoginScreen composable skeleton
+
+Details of the task:
+    Create a new Kotlin file LoginScreen.kt inside the stockmarket package.
+    Define a @Composable function LoginScreen that accepts a NavController
+    and an optional onLoginClick callback. Set up the basic Box and Column
+    layout with full-screen background color (screen_background) and
+    horizontal padding of 24dp.
+
+Technical Requirements:
+    - Jetpack Compose (Box, Column, Modifier)
+    - NavController and onLoginClick: () -> Unit = {} parameters
+    - colorResource(R.color.screen_background) background
+    - Modifier.fillMaxSize().padding(horizontal = 24.dp)
+    - Column with horizontalAlignment = CenterHorizontally
+
+Acceptance Criteria:
+    - LoginScreen composable renders without crash
+    - Background fills entire screen with correct dark blue color
+    - NavController is passed and accessible
+
+
+--------------------------------------------------------------------------------
+S.No: 2
+--------------------------------------------------------------------------------
+Task Name:
+    Add logo and Login title
+
+Details of the task:
+    Add the app logo image at the top of the screen using painterResource
+    and a "Login" title text below it. Use PoppinsFamily font, bold weight,
+    24sp size, white color, and center alignment.
+
+Technical Requirements:
+    - Image with painterResource(R.drawable.ic_stock_logo)
+    - padding(top = 100.dp) on logo
+    - Text with stringResource(R.string.login)
+    - PoppinsFamily, FontWeight.Bold, 24.sp, Color.White
+    - TextAlign.Center, fillMaxWidth()
+
+Acceptance Criteria:
+    - Logo displays correctly at the top
+    - "Login" title renders below logo
+    - Font styling matches other screens
+
+
+--------------------------------------------------------------------------------
+S.No: 3
+--------------------------------------------------------------------------------
+Task Name:
+    Add Username and Password text fields with state and error slots
+
+Details of the task:
+    Add two CustomTextField composables: one for Username (email or phone
+    number) and one for Password (with isPassword = true for visibility
+    toggle). Create mutableStateOf("") for each field value and nullable
+    String error states (usernameError, passwordError). Wire onValueChange
+    to update state, clear field error when non-empty, and clear authError
+    on any change. Use 20dp spacing between fields.
+
+Technical Requirements:
+    - CustomTextField for username with stringResource(R.string.username)
+    - CustomTextField for password with stringResource(R.string.password),
+      isPassword = true
+    - remember { mutableStateOf("") } for username, password
+    - remember { mutableStateOf<String?>(null) } for usernameError,
+      passwordError, authError
+    - Clear errors in onValueChange
+    - Spacer(Modifier.height(20.dp)) between fields
+    - Spacer(Modifier.height(60.dp)) between title and first field
+
+Acceptance Criteria:
+    - Both fields render with correct placeholders
+    - Typing updates respective state
+    - Password field shows visibility toggle icon
+    - Errors clear when user types
+
+
+--------------------------------------------------------------------------------
+S.No: 4
+--------------------------------------------------------------------------------
+Task Name:
+    Add Forget Password clickable text
+
+Details of the task:
+    Below the password field (with 10dp spacing), add a right-aligned
+    clickable "Forget Password?" text that navigates to the
+    "forgot_password" route.
+
+Technical Requirements:
+    - Text with stringResource(R.string.forget_password)
+    - colorResource(R.color.text_color), 15.sp, PoppinsFamily, Bold
+    - Modifier.align(Alignment.End)
+    - .clickable { navController.navigate("forgot_password") }
+
+Acceptance Criteria:
+    - Text is right-aligned below password field
+    - Tapping navigates to forgot password screen
+    - Font styling matches specification
+
+
+--------------------------------------------------------------------------------
+S.No: 5
+--------------------------------------------------------------------------------
+Task Name:
+    Build circular submit button with loading indicator
+
+Details of the task:
+    Create an 86dp circular button with CircleShape, white border,
+    button_background_color, and ArrowForward icon (white, 32dp). Replace
+    icon with CircularProgressIndicator (white, 32dp, 3dp stroke) when
+    isLoading is true. 40dp spacing above the button from Forget Password.
+
+Technical Requirements:
+    - Box .size(86.dp).clip(CircleShape)
+    - .background(colorResource(R.color.button_background_color))
+    - .border(2.dp, Color.White, CircleShape)
+    - if (isLoading) CircularProgressIndicator else Icon
+    - isLoading state variable (mutableStateOf(false))
+
+Acceptance Criteria:
+    - Button renders as a circle with white border
+    - Arrow icon visible by default
+    - Spinner replaces icon during loading
+    - isLoading guards clickable handler
+
+
+--------------------------------------------------------------------------------
+S.No: 6
+--------------------------------------------------------------------------------
+Task Name:
+    Implement field empty validation on submit
+
+Details of the task:
+    In the button's clickable handler, first check if isLoading and return
+    early. Then validate both fields are non-empty. Set "Username should
+    not be empty" or "Password should not be empty" if respective field
+    is blank. Track a valid boolean and return early if false.
+
+Technical Requirements:
+    - if (isLoading) return@clickable
+    - var valid = true
+    - if (username.isEmpty()) { usernameError = "..."; valid = false }
+    - if (password.isEmpty()) { passwordError = "..."; valid = false }
+    - if (!valid) return@clickable
+
+Acceptance Criteria:
+    - Both empty → both error messages display simultaneously
+    - One empty → only that field shows error
+    - Non-empty fields pass validation
+
+
+--------------------------------------------------------------------------------
+S.No: 7
+--------------------------------------------------------------------------------
+Task Name:
+    Wire authenticateUser API call via coroutine
+
+Details of the task:
+    After validation passes, set authError = null and isLoading = true.
+    Launch a coroutine calling authenticateUser(username.trim(),
+    password.trim()) from DedicatedAPI.kt. On failure, set isLoading =
+    false and show the invalid credentials message from string resource.
+
+Technical Requirements:
+    - rememberCoroutineScope()
+    - coroutineScope.launch { authenticateUser(...) }
+    - authenticateUser from DedicatedAPI.kt
+    - val invalidCredentialsMessage = stringResource(
+      R.string.invalid_userid_or_password)
+    - authError = invalidCredentialsMessage on failure
+
+Acceptance Criteria:
+    - Loading indicator shows during API call
+    - Invalid credentials show error message
+    - isLoading resets on failure
+    - Field values are trimmed before sending
+
+
+--------------------------------------------------------------------------------
+S.No: 8
+--------------------------------------------------------------------------------
+Task Name:
+    Generate OTP after successful login and navigate to OTP screen
+
+Details of the task:
+    When authenticateUser returns true, generate a random 4-digit OTP,
+    call sendOtpApi(username.trim(), otp) from DedicatedAPI.kt. On
+    success, invoke onLoginClick callback, URL-encode the email, and
+    navigate to "otp/$encodedEmail/$otp" with popUpTo("login"). On OTP
+    send failure, show the otp_sent_failed message.
+
+Technical Requirements:
+    - val otp = (1000..9999).random().toString()
+    - sendOtpApi(username.trim(), otp) from DedicatedAPI.kt
+    - val encodedEmail = Uri.encode(username.trim())
+    - navController.navigate("otp/$encodedEmail/$otp")
+    - popUpTo("login") { inclusive = true }
+    - authError = otpSentFailedMessage on failure
+    - isLoading = false after completion
+
+Acceptance Criteria:
+    - Successful login + OTP send navigates to OTP screen
+    - Failed OTP send shows error, stays on login screen
+    - Loader visible during both auth and OTP send
+    - Email is URL-encoded in navigation route
+
+
+--------------------------------------------------------------------------------
+S.No: 9
+--------------------------------------------------------------------------------
+Task Name:
+    Display authentication error messages
+
+Details of the task:
+    Below the submit button, conditionally display authError text in red.
+    Use 12dp spacer above, Color.Red, 14.sp, PoppinsFamily, centered.
+    Only visible when authError is not null.
+
+Technical Requirements:
+    - if (authError != null) { Spacer + Text }
+    - Text: authError.orEmpty(), Color.Red, 14.sp, PoppinsFamily
+    - TextAlign.Center, fillMaxWidth()
+
+Acceptance Criteria:
+    - Error appears for invalid credentials
+    - Error appears for failed OTP send
+    - Error hidden when authError is null
+    - Error clears when user types in any field
+
+
+--------------------------------------------------------------------------------
+S.No: 10
+--------------------------------------------------------------------------------
+Task Name:
+    Add "Don't have an account?" bottom navigation text
+
+Details of the task:
+    At the bottom of the screen, add a clickable text that says "Don't
+    have any account? Click to create". On click, navigate to "sign_up".
+    Use a weight spacer to push it to the bottom.
+
+Technical Requirements:
+    - Spacer(Modifier.weight(1f)) to push text to bottom
+    - Text: stringResource(R.string.don_t_have_any_account_click_to_create)
+    - Color.White, 12.sp, PoppinsFamily, Bold
+    - .padding(bottom = 20.dp)
+    - .clickable { navController.navigate("sign_up") }
+
+Acceptance Criteria:
+    - Text visible at bottom of screen
+    - Tapping navigates to sign up screen
+    - Styling matches specification
+
+
+--------------------------------------------------------------------------------
+S.No: 11
+--------------------------------------------------------------------------------
+Task Name:
+    Add string resources for Login screen
+
+Details of the task:
+    Add all required string resources: login, username, password,
+    forget_password, invalid_userid_or_password, otp_sent_failed,
+    don_t_have_any_account_click_to_create.
+
+Technical Requirements:
+    - <string name="login">Login</string>
+    - <string name="username">Username</string>
+    - <string name="password">Password</string>
+    - <string name="forget_password">Forget Password?</string>
+    - <string name="invalid_userid_or_password">Invalid userid or
+      password</string>
+    - <string name="otp_sent_failed">Failed to send OTP...</string>
+    - <string name="don_t_have_any_account_click_to_create">Don't have
+      any account? Click to create</string>
+
+Acceptance Criteria:
+    - All strings defined in strings.xml
+    - No duplicate resource names
+    - stringResource calls resolve correctly
+
+
+================================================================================
+                              END OF TICKETS
+================================================================================
+

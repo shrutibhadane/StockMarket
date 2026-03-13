@@ -1,0 +1,157 @@
+================================================================================
+                        SPLASH SCREEN — JIRA TICKETS
+================================================================================
+
+
+--------------------------------------------------------------------------------
+S.No: 1
+--------------------------------------------------------------------------------
+Task Name:
+    Create SplashScreen composable skeleton
+
+Details of the task:
+    Create a new Kotlin file SplashScreen.kt inside the stockmarket
+    package. Define a @Composable function SplashScreen that accepts a
+    NavController. Set up a centered Box layout with screen_background
+    color containing the app logo (300dp) and app name text.
+
+Technical Requirements:
+    - Box with fillMaxSize, colorResource(R.color.screen_background),
+      contentAlignment = Center
+    - Column with horizontalAlignment = CenterHorizontally
+    - Image: painterResource(R.drawable.ic_stock_logo), .size(300.dp)
+    - Text: stringResource(R.string.app_name), PoppinsFamily, Bold,
+      24.sp, white, TextAlign.Center
+
+Acceptance Criteria:
+    - Splash screen renders with centered logo and app name
+    - Background matches other screens
+    - Logo is 300dp size
+    - App name displays below logo
+
+
+--------------------------------------------------------------------------------
+S.No: 2
+--------------------------------------------------------------------------------
+Task Name:
+    Implement 2-second splash delay with LaunchedEffect
+
+Details of the task:
+    Add a LaunchedEffect(Unit) block that delays for 2 seconds before
+    proceeding to the routing logic. This gives the user time to see the
+    splash branding.
+
+Technical Requirements:
+    - LaunchedEffect(Unit) { delay(2000) }
+    - import kotlinx.coroutines.delay
+    - All routing logic goes after the delay inside this block
+
+Acceptance Criteria:
+    - Splash screen is visible for exactly 2 seconds
+    - No user interaction is possible during splash
+    - Routing executes after the delay
+
+
+--------------------------------------------------------------------------------
+S.No: 3
+--------------------------------------------------------------------------------
+Task Name:
+    Read stored email from Paper DB on IO dispatcher
+
+Details of the task:
+    After the splash delay, read the "user_email" key from Paper NoSQL DB
+    on the IO dispatcher. This email is only stored after successful OTP
+    verification, so its presence means the user is already authenticated.
+
+Technical Requirements:
+    - val storedEmail: String? = withContext(Dispatchers.IO) {
+        Paper.book().read<String>("user_email") }
+    - import io.paperdb.Paper
+    - import kotlinx.coroutines.Dispatchers
+    - import kotlinx.coroutines.withContext
+
+Acceptance Criteria:
+    - Reads user_email from Paper on background thread
+    - Returns null on fresh install (no data)
+    - Returns stored email after OTP verification
+
+
+--------------------------------------------------------------------------------
+S.No: 4
+--------------------------------------------------------------------------------
+Task Name:
+    Implement routing logic based on stored credentials
+
+Details of the task:
+    Based on the stored email and MPIN from Paper DB, route the user to
+    the correct screen:
+    (1) No email → navigate to "login" (fresh install or logged out)
+    (2) Email exists, MPIN exists → navigate to "dashboard" (returning
+        user, fully set up)
+    (3) Email exists, no MPIN → navigate to "mpin" (verified but MPIN
+        not yet created)
+    Remove splash from back stack on all paths.
+
+Technical Requirements:
+    - if (storedEmail.isNullOrEmpty()) → navigate("login")
+    - else: read "user_mpin" from Paper on IO
+    - if (!storedMpin.isNullOrEmpty()) → navigate("dashboard")
+    - else → navigate("mpin")
+    - All navigation: popUpTo("splash") { inclusive = true }
+
+Acceptance Criteria:
+    - Fresh install (no Paper data) → login screen
+    - Verified user with MPIN → dashboard directly
+    - Verified user without MPIN → MPIN setup screen
+    - Splash screen never in back stack after navigation
+    - No API call needed (purely local checks)
+
+
+--------------------------------------------------------------------------------
+S.No: 5
+--------------------------------------------------------------------------------
+Task Name:
+    Add splash route to AppNavigation as start destination
+
+Details of the task:
+    In AppNavigation.kt, set "splash" as the NavHost startDestination
+    and add the composable("splash") route pointing to SplashScreen.
+
+Technical Requirements:
+    - NavHost(startDestination = "splash")
+    - composable("splash") { SplashScreen(navController) }
+
+Acceptance Criteria:
+    - App opens on splash screen
+    - Splash routes to correct destination after 2 seconds
+    - All subsequent screens are reachable
+
+
+--------------------------------------------------------------------------------
+S.No: 6
+--------------------------------------------------------------------------------
+Task Name:
+    Add Paper NoSQL DB dependency and initialize in MainActivity
+
+Details of the task:
+    Add the Paper NoSQL DB library to app/build.gradle.kts. Call
+    Paper.init(this) in MainActivity.onCreate() before setContent so
+    Paper is ready for read/write operations throughout the app.
+
+Technical Requirements:
+    - implementation("io.github.pilgr:paperdb:2.7.2") in dependencies
+    - import io.paperdb.Paper in MainActivity
+    - Paper.init(this) before setContent {}
+    - Gradle sync must succeed
+
+Acceptance Criteria:
+    - Paper dependency resolves without errors
+    - Paper.init called exactly once at app start
+    - Subsequent Paper.book() calls work correctly
+    - No crash on cold start
+
+
+================================================================================
+                              END OF TICKETS
+================================================================================
+

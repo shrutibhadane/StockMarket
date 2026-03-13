@@ -7,19 +7,21 @@
 S.No: 1
 --------------------------------------------------------------------------------
 Task Name:
-    Create SignUpScreen Composable skeleton
+    Create SignUpScreen composable skeleton
 
 Details of the task:
     Create a new Kotlin file SignUpScreen.kt inside the stockmarket package.
     Define a @Composable function SignUpScreen that accepts a NavController
     and an optional onSignUpClick callback. Set up the basic Box and Column
-    layout with full-screen background color and horizontal padding.
+    layout with full-screen background color, horizontal padding, and
+    vertical scroll support.
 
 Technical Requirements:
     - Jetpack Compose (Box, Column, Modifier)
     - NavController parameter
     - colorResource for screen_background
     - padding(horizontal = 24.dp)
+    - rememberScrollState() with Modifier.verticalScroll
 
 Acceptance Criteria:
     - SignUpScreen composable renders without crash
@@ -36,1687 +38,376 @@ Task Name:
 
 Details of the task:
     Add the app logo image at the top of the screen using painterResource
-    and a "Sign up" title text below it. Use PoppinsFamily font, bold weight,
-    24sp size, white color, and center alignment.
+    and a "Sign up" title text below it. Use PoppinsFamily font, bold
+    weight, 24sp size, white color, and center alignment.
 
 Technical Requirements:
     - Image composable with R.drawable.ic_stock_logo
     - Text composable with stringResource(R.string.sign_up)
     - PoppinsFamily font, FontWeight.Bold, 24.sp
     - Top padding of 80dp on the logo
+    - 40dp spacer between title and first field
 
 Acceptance Criteria:
     - Logo displays correctly at the top
     - "Sign up" title renders below logo
     - Font family, size, weight, and color match specification
-    - 40dp spacer exists between title and first field
 
 
 --------------------------------------------------------------------------------
 S.No: 3
 --------------------------------------------------------------------------------
 Task Name:
-    Add First Name text field
+    Add all input text fields with state variables and error slots
 
 Details of the task:
-    Add a CustomTextField for "First Name" input. Wire it to a firstName
-    state variable. Display placeholder text from string resource.
+    Add CustomTextField composables for all seven fields: First Name,
+    Last Name, Username, Email, Phone Number, Password (isPassword=true),
+    and Confirm Password (isPassword=true). Create mutableStateOf("") for
+    each field value and a nullable String error state for each. Wire
+    onValueChange to update the respective state and clear errors on
+    typing. Add focus tracking (onFocusChanged) on Password and Confirm
+    Password fields. Use 16dp vertical spacing between fields.
 
 Technical Requirements:
-    - CustomTextField reusable composable
-    - remember { mutableStateOf("") } for firstName
-    - stringResource(R.string.first_name) for placeholder
-    - firstNameError state for error message
+    - 7 CustomTextField composables
+    - 7 value state variables: firstName, lastName, username, email,
+      phoneNumber, password, confirmPassword
+    - 7 error state variables: firstNameError, lastNameError, etc.
+    - isPassword = true for Password and Confirm Password
+    - Box with Modifier.onFocusChanged for password fields
+    - isPasswordFocused, isConfirmPasswordFocused state booleans
+    - Spacer(Modifier.height(16.dp)) between fields
+    - stringResource for each placeholder
 
 Acceptance Criteria:
-    - First Name field renders with correct placeholder
-    - Typing updates the firstName state
-    - Error message slot is wired (null by default)
+    - All 7 fields render with correct placeholders
+    - Typing updates the respective state variable
+    - Error message slots are wired (null by default)
+    - Password fields show visibility toggle icon
+    - Focus tracking works on password and confirm password
 
 
 --------------------------------------------------------------------------------
 S.No: 4
 --------------------------------------------------------------------------------
 Task Name:
-    Validate First Name — alphabets only
+    Validate First Name and Last Name — alphabets only
 
 Details of the task:
-    Implement inline validation on the First Name field. When the user types,
-    check that all characters are alphabetic letters. If any non-letter
-    character is found, show the error "First Name should contain only
-    alphabets". Clear error when input becomes valid.
+    Implement inline validation on both First Name and Last Name fields.
+    When the user types, check that all characters are alphabetic using
+    Char.isLetter(). Show the respective error message if any non-letter
+    character is found. Clear error when input becomes valid. Clear
+    apiError on any change.
 
 Technical Requirements:
-    - Kotlin Char.isLetter() check on each character
-    - firstNameError state updated in onValueChange
-    - Clear apiError on change
+    - Kotlin Char.isLetter() check via it.any { c -> !c.isLetter() }
+    - firstNameError / lastNameError updated in onValueChange
+    - Clear apiError on every change
 
 Acceptance Criteria:
-    - Typing "John" shows no error
-    - Typing "John1" shows "First Name should contain only alphabets"
-    - Deleting the "1" clears the error immediately
+    - "John" in First Name shows no error
+    - "John1" shows "First Name should contain only alphabets"
+    - Same mirrored behavior for Last Name
+    - Correcting input clears the error immediately
 
 
 --------------------------------------------------------------------------------
 S.No: 5
 --------------------------------------------------------------------------------
 Task Name:
-    Add Last Name text field
+    Validate Username — allowed characters and minimum length
 
 Details of the task:
-    Add a CustomTextField for "Last Name" input below the First Name field
-    with a 16dp spacer. Wire it to a lastName state variable.
+    Username must only contain letters, numbers, and symbols #, *, &.
+    Use Regex ^[a-zA-Z0-9#*&]*$ for character validation. Also enforce
+    minimum length of more than 5 characters. Use when block to
+    prioritize character validation over length check.
 
 Technical Requirements:
-    - CustomTextField with stringResource(R.string.last_name)
-    - remember { mutableStateOf("") } for lastName
-    - lastNameError state for error message
+    - Regex("^[a-zA-Z0-9#*&]*$") pattern matching
+    - Length check: it.length <= 5
+    - usernameError updated via when block in onValueChange
+    - Clear apiError on change
 
 Acceptance Criteria:
-    - Last Name field renders below First Name with 16dp gap
-    - Typing updates the lastName state
-    - Placeholder text is correct
+    - "user#1" (6 chars, valid chars) shows no error
+    - "user@1" shows character error
+    - "abc" shows length error
+    - "ab@" shows character error (priority over length)
 
 
 --------------------------------------------------------------------------------
 S.No: 6
 --------------------------------------------------------------------------------
 Task Name:
-    Validate Last Name — alphabets only
+    Implement email validation function and wire to field
 
 Details of the task:
-    Implement the same alphabets-only validation for Last Name as done for
-    First Name. Show "Last Name should contain only alphabets" on invalid
-    input.
+    Create a private validateEmail() function that checks: (1) email
+    contains "@", (2) splits into exactly 2 non-empty parts, domain has
+    ".", (3) TLD is in the approved VALID_TLDS set. Define VALID_TLDS
+    at file level. Call validateEmail() in the email field's onValueChange.
 
 Technical Requirements:
-    - Kotlin Char.isLetter() check
-    - lastNameError state updated in onValueChange
-    - Clear apiError on change
+    - Private function validateEmail(email: String): String?
+    - Check "@" presence, split validation, domain "." check
+    - TLD extraction via substringAfterLast(".")
+    - VALID_TLDS = setOf("com", "in", "org", "net", "edu", "gov",
+      "co", "io", "info", "biz", "us", "uk", "ca", "au")
+    - emailError = if (it.isNotEmpty()) validateEmail(it) else null
 
 Acceptance Criteria:
-    - Typing "Doe" shows no error
-    - Typing "Doe2" shows error
-    - Correcting input clears error
+    - "user@example.com" → valid
+    - "user@example" → "Email must have a valid domain"
+    - "user@example.xyz" → "Invalid TLD..."
+    - Real-time validation as user types
 
 
 --------------------------------------------------------------------------------
 S.No: 7
 --------------------------------------------------------------------------------
 Task Name:
-    Add Username text field
+    Validate Phone Number — digits only filter and length check
 
 Details of the task:
-    Add a CustomTextField for "Username" input below the Last Name field
-    with 16dp spacing. Wire it to a username state variable.
+    In onValueChange of Phone Number, filter input to allow only digits
+    (non-digits silently stripped). Then validate filtered length is
+    between 10 and 15 digits.
 
 Technical Requirements:
-    - CustomTextField with stringResource(R.string.username)
-    - remember { mutableStateOf("") } for username
-    - usernameError state for error message
+    - input.filter { it.isDigit() }
+    - Check filtered.length in 10..15
+    - phoneNumberError updated accordingly
+    - Clear apiError on change
 
 Acceptance Criteria:
-    - Username field renders with correct placeholder
-    - State updates on typing
-    - 16dp gap from Last Name field
+    - "123abc456" results in "123456" in the field
+    - 5 digits shows error
+    - 10 digits shows no error
+    - 16 digits shows error
 
 
 --------------------------------------------------------------------------------
 S.No: 8
 --------------------------------------------------------------------------------
 Task Name:
-    Validate Username — allowed characters
+    Implement all password criteria booleans and allCriteriaMet
 
 Details of the task:
-    Username must only contain letters, numbers, and the symbols #, *, &.
-    Use a Regex pattern ^[a-zA-Z0-9#*&]*$ to validate. Show error
-    "Username can only contain letters, numbers and #*&" if invalid
-    characters are typed.
+    Create five computed booleans: hasMinLength (>= 8 chars), hasUpperCase,
+    hasLowerCase, hasDigit, hasSymbol. Combine into allCriteriaMet that
+    controls button state.
 
 Technical Requirements:
-    - Regex("^[a-zA-Z0-9#*&]*$") pattern matching
-    - usernameError updated in onValueChange
-    - Clear apiError on change
+    - val hasMinLength = password.length >= 8
+    - val hasUpperCase = password.any { it.isUpperCase() }
+    - val hasLowerCase = password.any { it.isLowerCase() }
+    - val hasDigit = password.any { it.isDigit() }
+    - val hasSymbol = password.any { !it.isLetterOrDigit() }
+    - val allCriteriaMet = all five combined with &&
 
 Acceptance Criteria:
-    - "user#1" shows no character error
-    - "user@1" shows the invalid character error
-    - Error clears when invalid character is removed
+    - "Abc12345!" → allCriteriaMet = true
+    - "abc" → only hasLowerCase true
+    - Each boolean recomputes on every keystroke
 
 
 --------------------------------------------------------------------------------
 S.No: 9
 --------------------------------------------------------------------------------
 Task Name:
-    Validate Username — minimum length
+    Build PasswordCriteriaRow composable and criteria list visibility
 
 Details of the task:
-    Username must be more than 5 characters long. If the user types a
-    username that is 5 or fewer characters, show "Username must be more
-    than 5 characters". This check runs alongside the character validation.
+    Create a private PasswordCriteriaRow composable (label + met boolean).
+    Show Check icon (green) when met, Close icon (red) when not met.
+    Display 5 criteria rows only when password field is focused, user
+    has typed, and confirm password is NOT focused.
 
 Technical Requirements:
-    - Length check (it.length <= 5) in onValueChange
-    - usernameError uses when block for priority ordering
+    - Row: Icons.Default.Check / Close (16dp), Text (12.sp, PoppinsFamily)
+    - Color.Green when met, Color.Red when not
+    - showPasswordCriteria = isPasswordFocused && !isConfirmPasswordFocused
+      && password.isNotEmpty()
+    - Column with 5 PasswordCriteriaRow calls
 
 Acceptance Criteria:
-    - "abc" shows length error
-    - "abcdef" shows no error (6 characters)
-    - "ab#" shows length error, not character error
+    - Criteria list appears when password field focused and non-empty
+    - Each row updates color in real-time
+    - List hides when confirm password is focused
 
 
 --------------------------------------------------------------------------------
 S.No: 10
 --------------------------------------------------------------------------------
 Task Name:
-    Add Email text field
+    Validate Confirm Password — match check
 
 Details of the task:
-    Add a CustomTextField for "Email" input below the Username field with
-    16dp spacing. Wire it to an email state variable.
+    In onValueChange of Confirm Password, check if value matches password.
+    Show "Passwords do not match" if different. Also update error from
+    password field's onValueChange when confirmPassword is non-empty.
 
 Technical Requirements:
-    - CustomTextField with stringResource(R.string.email)
-    - remember { mutableStateOf("") } for email
-    - emailError state for error message
+    - confirmPasswordError with when block
+    - Cross-check password != confirmPassword
+    - Bidirectional validation
+    - Clear apiError on change
 
 Acceptance Criteria:
-    - Email field renders with correct placeholder
-    - State updates on typing
-    - Error slot is wired
+    - Same password in both fields → no error
+    - Mismatched → "Passwords do not match"
+    - Changing password updates confirm password error
 
 
 --------------------------------------------------------------------------------
 S.No: 11
 --------------------------------------------------------------------------------
 Task Name:
-    Implement email validation — @ symbol check
+    Build circular submit button with enabled/disabled and loading states
 
 Details of the task:
-    Create a validateEmail() helper function. First check: the email must
-    contain an "@" symbol. Return "Email must contain @" if missing.
+    Create 86dp circular button with CircleShape, white border, and
+    ArrowForward icon. Fade button (0.4 alpha) when allCriteriaMet is
+    false. Replace icon with CircularProgressIndicator when isLoading.
+    Guard clicks with isLoading and !allCriteriaMet checks.
 
 Technical Requirements:
-    - Private top-level function validateEmail(email: String): String?
-    - Check "@" !in email
-    - Return null when valid
+    - Box .size(86.dp).clip(CircleShape)
+    - Conditional alpha based on allCriteriaMet
+    - if (isLoading) CircularProgressIndicator(32.dp, white, 3.dp)
+    - if (isLoading || !allCriteriaMet) return@clickable
 
 Acceptance Criteria:
-    - "test" returns "Email must contain @"
-    - "test@" passes this check (fails on later checks)
+    - Button faded when criteria not met
+    - Spinner appears during API call
+    - Multiple taps during loading ignored
 
 
 --------------------------------------------------------------------------------
 S.No: 12
 --------------------------------------------------------------------------------
 Task Name:
-    Implement email validation — domain and TLD check
+    Implement full form validation on submit
 
 Details of the task:
-    Extend validateEmail() to check that email splits into exactly 2 parts
-    at @, the domain part contains a dot, and the TLD (part after last dot)
-    is in the approved set: com, in, org, net, edu, gov, co, io, info, biz,
-    us, uk, ca, au.
+    On button tap (past guards), validate all fields: empty checks,
+    format checks (name alphabets, username regex/length, email
+    validateEmail, phone length, password match). Set respective errors.
+    Return early if any fails. All errors display simultaneously.
 
 Technical Requirements:
-    - Split by "@" and validate parts.size == 2
-    - Check "." in domain
-    - Extract TLD via substringAfterLast(".")
-    - VALID_TLDS set defined at file level
+    - var valid = true pattern
+    - Each field: empty check + format check
+    - if (!valid) return@clickable
+    - Reuse validateEmail() and username Regex
 
 Acceptance Criteria:
-    - "user@example.com" returns null (valid)
-    - "user@example" returns "Email must have a valid domain"
-    - "user@example.xyz" returns "Invalid TLD. Use .com, .in, .org, etc."
-    - "user@.com" returns "Invalid email format"
+    - All empty fields show "should not be empty" errors
+    - Invalid data shows specific messages
+    - Form does not submit with any invalid field
 
 
 --------------------------------------------------------------------------------
 S.No: 13
 --------------------------------------------------------------------------------
 Task Name:
-    Wire email validation to the Email text field
+    Wire signup API call and OTP generation via coroutine
 
 Details of the task:
-    Call validateEmail() inside the email field's onValueChange. Set
-    emailError to the returned message. Only validate when input is
-    non-empty.
+    After validation passes, set isLoading = true and launch coroutine
+    calling registerUser() from DedicatedAPI.kt. On success, generate a
+    random 4-digit OTP and send via sendOtpApi() from DedicatedAPI.kt.
 
 Technical Requirements:
-    - emailError = if (it.isNotEmpty()) validateEmail(it) else null
-    - Clear apiError on change
+    - rememberCoroutineScope() + coroutineScope.launch {}
+    - registerUser(firstName, lastName, username, email, phoneNumber,
+      password) from DedicatedAPI.kt
+    - val otp = (1000..9999).random().toString()
+    - sendOtpApi(email.trim(), otp) from DedicatedAPI.kt
+    - isLoading = false after completion
 
 Acceptance Criteria:
-    - Real-time validation shows/hides email errors as user types
-    - Empty field shows no error
-    - Valid email shows no error
+    - Loading indicator during API call
+    - Successful signup generates and sends OTP
+    - OTP send failure shows error
 
 
 --------------------------------------------------------------------------------
 S.No: 14
 --------------------------------------------------------------------------------
 Task Name:
-    Add Phone Number text field
+    Show success dialog and navigate to OTP screen
 
 Details of the task:
-    Add a CustomTextField for "Phone Number" below the Email field with
-    16dp spacing. Wire it to a phoneNumber state variable.
+    On signup + OTP send success, show AlertDialog with "Congratulations!
+    🎉" title and "Your account has been created successfully!" message.
+    On Ok click, navigate to OTP screen with Uri-encoded email and OTP
+    as route parameters. Pop sign_up from back stack.
 
 Technical Requirements:
-    - CustomTextField with stringResource(R.string.phone_number)
-    - remember { mutableStateOf("") } for phoneNumber
-    - phoneNumberError state for error message
+    - AlertDialog, onDismissRequest = {} (no outside dismiss)
+    - navController.navigate("otp/${Uri.encode(email)}/$otp")
+    - popUpTo("sign_up") { inclusive = true }
 
 Acceptance Criteria:
-    - Phone Number field renders with correct placeholder
-    - State updates on typing
-    - 16dp gap from Email field
+    - Dialog appears after success
+    - Ok navigates to OTP screen
+    - Back press from OTP does not return to signup
 
 
 --------------------------------------------------------------------------------
 S.No: 15
 --------------------------------------------------------------------------------
 Task Name:
-    Validate Phone Number — digits only, auto-filter
+    Display API error messages and add bottom navigation text
 
 Details of the task:
-    In the onValueChange of Phone Number, filter the input to allow only
-    digit characters. Non-digit characters should be silently stripped.
+    Show API failure messages in red text below submit button (14.sp,
+    PoppinsFamily, centered). Clear error when user modifies any field.
+    Add "Already have an account? Click to login" clickable text at
+    bottom with proper spacing, navigating to "login".
 
 Technical Requirements:
-    - input.filter { it.isDigit() }
-    - Set phoneNumber to the filtered value
+    - apiError state (String?), cleared in every onValueChange
+    - Text: Color.Red, 14.sp, center aligned
+    - Bottom text: PoppinsFamily, Bold, 12.sp, white
+    - Spacer weight + height spacers for positioning
+    - .clickable { navController.navigate("login") }
 
 Acceptance Criteria:
-    - Typing "123abc456" results in "123456" in the field
-    - Only numeric characters are ever stored in state
+    - API errors display in red and clear on typing
+    - Bottom text navigates to login screen
+    - Proper spacing between button area and bottom text
 
 
 --------------------------------------------------------------------------------
 S.No: 16
 --------------------------------------------------------------------------------
 Task Name:
-    Validate Phone Number — length check (10-15 digits)
-
-Details of the task:
-    After filtering, validate that the phone number is between 10 and 15
-    digits. Show "Phone number must be 10-15 digits" if out of range.
-
-Technical Requirements:
-    - Check filtered.length < 10 || filtered.length > 15
-    - phoneNumberError updated accordingly
-    - Clear apiError on change
-
-Acceptance Criteria:
-    - "12345" shows error (too short)
-    - "1234567890" shows no error (10 digits)
-    - 16-digit input shows error (too long)
-
-
---------------------------------------------------------------------------------
-S.No: 17
---------------------------------------------------------------------------------
-Task Name:
-    Add Password text field with focus tracking
-
-Details of the task:
-    Add a CustomTextField for "Password" wrapped in a Box with
-    onFocusChanged modifier. Track isPasswordFocused state. Pass
-    isPassword = true to show/hide toggle.
-
-Technical Requirements:
-    - Box with Modifier.onFocusChanged
-    - isPasswordFocused state variable
-    - CustomTextField with isPassword = true
-    - passwordError state for error message
-
-Acceptance Criteria:
-    - Password field renders with visibility toggle icon
-    - isPasswordFocused updates when field gains/loses focus
-    - Placeholder shows "Password"
-
-
---------------------------------------------------------------------------------
-S.No: 18
---------------------------------------------------------------------------------
-Task Name:
-    Implement password criteria — minimum 8 characters
-
-Details of the task:
-    Create a computed boolean hasMinLength that checks password.length >= 8.
-    This will be used to display criteria status.
-
-Technical Requirements:
-    - val hasMinLength = password.length >= 8
-    - Recomputed on every password state change
-
-Acceptance Criteria:
-    - "Abc1234" → hasMinLength is false (7 chars)
-    - "Abc12345" → hasMinLength is true (8 chars)
-
-
---------------------------------------------------------------------------------
-S.No: 19
---------------------------------------------------------------------------------
-Task Name:
-    Implement password criteria — uppercase letter
-
-Details of the task:
-    Create a computed boolean hasUpperCase that checks if password contains
-    at least one uppercase letter.
-
-Technical Requirements:
-    - val hasUpperCase = password.any { it.isUpperCase() }
-
-Acceptance Criteria:
-    - "abcdefgh" → false
-    - "Abcdefgh" → true
-
-
---------------------------------------------------------------------------------
-S.No: 20
---------------------------------------------------------------------------------
-Task Name:
-    Implement password criteria — lowercase letter
-
-Details of the task:
-    Create a computed boolean hasLowerCase that checks if password contains
-    at least one lowercase letter.
-
-Technical Requirements:
-    - val hasLowerCase = password.any { it.isLowerCase() }
-
-Acceptance Criteria:
-    - "ABCDEFGH" → false
-    - "ABCDEFGh" → true
-
-
---------------------------------------------------------------------------------
-S.No: 21
---------------------------------------------------------------------------------
-Task Name:
-    Implement password criteria — digit
-
-Details of the task:
-    Create a computed boolean hasDigit that checks if password contains
-    at least one numeric digit.
-
-Technical Requirements:
-    - val hasDigit = password.any { it.isDigit() }
-
-Acceptance Criteria:
-    - "Abcdefgh" → false
-    - "Abcdefg1" → true
-
-
---------------------------------------------------------------------------------
-S.No: 22
---------------------------------------------------------------------------------
-Task Name:
-    Implement password criteria — symbol
-
-Details of the task:
-    Create a computed boolean hasSymbol that checks if password contains
-    at least one character that is not a letter or digit.
-
-Technical Requirements:
-    - val hasSymbol = password.any { !it.isLetterOrDigit() }
-
-Acceptance Criteria:
-    - "Abcdefg1" → false
-    - "Abcdefg1!" → true
-
-
---------------------------------------------------------------------------------
-S.No: 23
---------------------------------------------------------------------------------
-Task Name:
-    Create allCriteriaMet composite boolean
-
-Details of the task:
-    Combine all five password criteria booleans into a single allCriteriaMet
-    boolean. This will control button enabled/disabled state.
-
-Technical Requirements:
-    - val allCriteriaMet = hasMinLength && hasUpperCase && hasLowerCase
-      && hasDigit && hasSymbol
-
-Acceptance Criteria:
-    - All five true → allCriteriaMet is true
-    - Any one false → allCriteriaMet is false
-
-
---------------------------------------------------------------------------------
-S.No: 24
---------------------------------------------------------------------------------
-Task Name:
-    Build PasswordCriteriaRow composable
-
-Details of the task:
-    Create a private @Composable function PasswordCriteriaRow that takes
-    a label string and a met boolean. Display a Check icon (green) when met,
-    Close icon (red) when not met, followed by the label text in the
-    matching color.
-
-Technical Requirements:
-    - Row with verticalAlignment CenterVertically
-    - Icons.Default.Check / Icons.Default.Close (16dp)
-    - Text with PoppinsFamily, 12.sp
-    - Color.Green when met, Color.Red when not met
-
-Acceptance Criteria:
-    - Row shows green check + green text when met = true
-    - Row shows red X + red text when met = false
-    - Icon and text are vertically centered with 6dp gap
-
-
---------------------------------------------------------------------------------
-S.No: 25
---------------------------------------------------------------------------------
-Task Name:
-    Show/hide password criteria list based on focus
-
-Details of the task:
-    Display the password criteria list (5 rows) only when the Password field
-    is focused and user has typed something. Hide the list when focus moves
-    to Confirm Password or any other field.
-
-Technical Requirements:
-    - showPasswordCriteria = isPasswordFocused && !isConfirmPasswordFocused
-      && password.isNotEmpty()
-    - Column with 5 PasswordCriteriaRow calls
-    - 8dp spacer above the criteria list
-
-Acceptance Criteria:
-    - Criteria list appears when password field is focused and non-empty
-    - Criteria list disappears when confirm password is focused
-    - Criteria list disappears when password field is empty
-    - Each row updates color in real-time as user types
-
-
---------------------------------------------------------------------------------
-S.No: 26
---------------------------------------------------------------------------------
-Task Name:
-    Add Confirm Password text field with focus tracking
-
-Details of the task:
-    Add a CustomTextField for "Confirm Password" wrapped in a Box with
-    onFocusChanged modifier. Track isConfirmPasswordFocused state. Pass
-    isPassword = true.
-
-Technical Requirements:
-    - Box with Modifier.onFocusChanged
-    - isConfirmPasswordFocused state variable
-    - CustomTextField with isPassword = true
-    - confirmPasswordError state for error message
-
-Acceptance Criteria:
-    - Confirm Password field renders with visibility toggle
-    - isConfirmPasswordFocused updates on focus change
-    - Password criteria list hides when this field is focused
-
-
---------------------------------------------------------------------------------
-S.No: 27
---------------------------------------------------------------------------------
-Task Name:
-    Validate Confirm Password — match check
-
-Details of the task:
-    In the onValueChange of Confirm Password, check if the value matches
-    the password. Show "Passwords do not match" if different, clear error
-    if matching. Also show error if empty.
-
-Technical Requirements:
-    - confirmPasswordError with when block
-    - Cross-check password != it
-    - Also update confirmPasswordError from password field's onValueChange
-
-Acceptance Criteria:
-    - Typing same password in both fields shows no error
-    - Mismatched passwords show "Passwords do not match"
-    - Empty confirm password shows "Confirm Password should not be empty"
-    - Changing password field updates confirm password error accordingly
-
-
---------------------------------------------------------------------------------
-S.No: 28
---------------------------------------------------------------------------------
-Task Name:
-    Build the circular submit button
-
-Details of the task:
-    Create a circular button (86dp) with CircleShape, white border, and
-    an ArrowForward icon. The button background should be faded (0.4 alpha)
-    when allCriteriaMet is false, and fully opaque when true.
-
-Technical Requirements:
-    - Box with .size(86.dp).clip(CircleShape)
-    - .background with conditional alpha based on allCriteriaMet
-    - .border(2.dp, Color.White, CircleShape)
-    - Icon tint also conditional on allCriteriaMet
-
-Acceptance Criteria:
-    - Button appears faded when password criteria not met
-    - Button appears fully colored when all criteria met
-    - Arrow icon matches button opacity
-    - Button is 86dp circle with white border
-
-
---------------------------------------------------------------------------------
-S.No: 29
---------------------------------------------------------------------------------
-Task Name:
-    Disable button when criteria not met or loading
-
-Details of the task:
-    In the clickable handler, return early if isLoading is true or if
-    allCriteriaMet is false. This prevents form submission when password
-    criteria are incomplete or a request is in flight.
-
-Technical Requirements:
-    - if (isLoading) return@clickable
-    - if (!allCriteriaMet) return@clickable
-    - Both checks before any validation logic
-
-Acceptance Criteria:
-    - Tapping faded button does nothing
-    - Tapping button during loading does nothing
-    - Button works normally when criteria met and not loading
-
-
---------------------------------------------------------------------------------
-S.No: 30
---------------------------------------------------------------------------------
-Task Name:
-    Implement full form validation on submit
-
-Details of the task:
-    When the button is tapped (and criteria/loading guards pass), run
-    complete validation on all fields: First Name, Last Name, Username,
-    Email, Phone Number, Password, Confirm Password. Set respective error
-    states and track a valid boolean. Return early if any validation fails.
-
-Technical Requirements:
-    - var valid = true pattern
-    - Each field check sets error and valid = false
-    - if (!valid) return@clickable at the end
-    - Reuse validateEmail() for email
-    - Reuse Regex for username
-
-Acceptance Criteria:
-    - All empty fields show respective "should not be empty" errors
-    - Invalid data shows specific error messages
-    - Form does not submit if any field is invalid
-    - All errors display simultaneously
-
-
---------------------------------------------------------------------------------
-S.No: 31
---------------------------------------------------------------------------------
-Task Name:
-    Show loading indicator in submit button
-
-Details of the task:
-    Replace the ArrowForward icon with a CircularProgressIndicator when
-    isLoading is true. Use white color, 32dp size, 3dp stroke width.
-
-Technical Requirements:
-    - if (isLoading) CircularProgressIndicator else Icon
-    - CircularProgressIndicator(color = White, strokeWidth = 3.dp)
-    - Modifier.size(32.dp)
-
-Acceptance Criteria:
-    - Spinner appears inside the button during API call
-    - Arrow icon returns after API call completes
-    - Spinner is white, centered in the circle button
-
-
---------------------------------------------------------------------------------
-S.No: 32
---------------------------------------------------------------------------------
-Task Name:
-    Define SIGNUP_API_URL constant
-
-Details of the task:
-    Define a private top-level constant for the signup API endpoint URL
-    to be used in the network call.
-
-Technical Requirements:
-    - private const val SIGNUP_API_URL =
-      "https://system-project-api.onrender.com/api/signup"
-    - Defined at file level, outside any function
-
-Acceptance Criteria:
-    - Constant is accessible from registerUser function
-    - URL is correct and points to the signup endpoint
-
-
---------------------------------------------------------------------------------
-S.No: 33
---------------------------------------------------------------------------------
-Task Name:
-    Create SignUpResult data class
-
-Details of the task:
-    Create a private data class SignUpResult with two fields: success
-    (Boolean) and message (String?, default null). This models the API
-    response for the signup call.
-
-Technical Requirements:
-    - private data class SignUpResult(val success: Boolean,
-      val message: String? = null)
-
-Acceptance Criteria:
-    - Can create success result: SignUpResult(success = true)
-    - Can create failure result: SignUpResult(false, "error message")
-    - Default message is null
-
-
---------------------------------------------------------------------------------
-S.No: 34
---------------------------------------------------------------------------------
-Task Name:
-    Implement registerUser suspend function — HTTP connection setup
-
-Details of the task:
-    Create a private suspend function registerUser that opens an
-    HttpURLConnection to SIGNUP_API_URL. Set POST method, 15-second
-    timeouts, Content-Type and Accept headers to application/json.
-
-Technical Requirements:
-    - withContext(Dispatchers.IO)
-    - URL(SIGNUP_API_URL).openConnection() as HttpURLConnection
-    - requestMethod = "POST", doOutput = true
-    - connectTimeout = 15_000, readTimeout = 15_000
-    - Content-Type: application/json, Accept: application/json
-
-Acceptance Criteria:
-    - Connection is created on IO dispatcher
-    - All headers and timeouts are set correctly
-    - Connection is stored for later disconnect in finally block
-
-
---------------------------------------------------------------------------------
-S.No: 35
---------------------------------------------------------------------------------
-Task Name:
-    Implement registerUser — build and send JSON payload
-
-Details of the task:
-    Build a JSONObject with keys: first_name, last_name, username, email,
-    phone_number, password. Write it to the connection's output stream.
-
-Technical Requirements:
-    - JSONObject with 6 .put() calls
-    - OutputStreamWriter to write payload
-    - Flush and close via .use {}
-
-Acceptance Criteria:
-    - JSON payload contains all 6 fields with correct keys
-    - Payload is written and flushed to the output stream
-    - Keys match API contract: first_name, last_name, username, email,
-      phone_number, password
-
-
---------------------------------------------------------------------------------
-S.No: 36
---------------------------------------------------------------------------------
-Task Name:
-    Implement registerUser — parse API response
-
-Details of the task:
-    Read the response from the API. Use inputStream for 2xx codes and
-    errorStream for others. Parse the JSON body and check if status
-    equals "OK". Return appropriate SignUpResult.
-
-Technical Requirements:
-    - Check responseCode in 200..299
-    - BufferedReader to read response body
-    - JSONObject to parse response
-    - Return SignUpResult(success = true) or SignUpResult(false, message)
-
-Acceptance Criteria:
-    - 201 response with status "OK" returns success
-    - 400 response with error message returns failure with that message
-    - 409 (duplicate email) returns failure with API message
-
-
---------------------------------------------------------------------------------
-S.No: 37
---------------------------------------------------------------------------------
-Task Name:
-    Implement registerUser — exception handling
-
-Details of the task:
-    Wrap the entire HTTP call in try-catch-finally. On any exception,
-    return a SignUpResult with the actual exception class name and message.
-    Always disconnect the connection in finally.
-
-Technical Requirements:
-    - catch (e: Exception)
-    - message = "Error: ${e.javaClass.simpleName}: ${e.message}"
-    - connection?.disconnect() in finally
-
-Acceptance Criteria:
-    - SocketTimeoutException shows "Error: SocketTimeoutException: ..."
-    - ConnectException shows "Error: ConnectException: ..."
-    - Connection is always disconnected regardless of outcome
-
-
---------------------------------------------------------------------------------
-S.No: 38
---------------------------------------------------------------------------------
-Task Name:
-    Wire API call to submit button via coroutine
-
-Details of the task:
-    In the button's clickable handler, after validation passes, set
-    isLoading = true and launch a coroutine to call registerUser(). On
-    completion, set isLoading = false and handle success/failure.
-
-Technical Requirements:
-    - rememberCoroutineScope()
-    - coroutineScope.launch { }
-    - Pass all trimmed field values to registerUser()
-    - Set isLoading before and after the call
-
-Acceptance Criteria:
-    - Loading indicator shows during API call
-    - isLoading resets to false after call completes
-    - All field values are trimmed before sending
-    - Success and failure paths are handled
-
-
---------------------------------------------------------------------------------
-S.No: 39
---------------------------------------------------------------------------------
-Task Name:
-    Show success dialog on signup completion
-
-Details of the task:
-    When the API returns success, set showSuccessDialog = true. Display an
-    AlertDialog with title "Congratulations! 🎉", message "Your account has
-    been created successfully!", and a single "Ok" confirm button. Prevent
-    dismiss by tapping outside.
-
-Technical Requirements:
-    - AlertDialog composable
-    - onDismissRequest = { } (empty — prevent outside dismiss)
-    - Title: PoppinsFamily, Bold, 20.sp
-    - Text: PoppinsFamily, 15.sp
-    - TextButton with "Ok", Bold, 16.sp
-
-Acceptance Criteria:
-    - Dialog appears after successful signup
-    - Cannot be dismissed by tapping outside
-    - Title, message, and button text are correct
-    - Font styling matches specification
-
-
---------------------------------------------------------------------------------
-S.No: 40
---------------------------------------------------------------------------------
-Task Name:
-    Navigate to MPIN screen on dialog "Ok" click
-
-Details of the task:
-    When the user taps "Ok" on the success dialog, dismiss the dialog and
-    navigate to the "mpin" route. Clear the sign_up screen from the back
-    stack so the user cannot go back to it.
-
-Technical Requirements:
-    - showSuccessDialog = false
-    - navController.navigate("mpin") {
-          popUpTo("sign_up") { inclusive = true }
-      }
-
-Acceptance Criteria:
-    - Tapping "Ok" closes the dialog
-    - App navigates to MPIN screen
-    - Pressing back from MPIN does NOT return to SignUp
-    - sign_up is removed from back stack
-
-
---------------------------------------------------------------------------------
-S.No: 41
---------------------------------------------------------------------------------
-Task Name:
-    Display API error message on screen
-
-Details of the task:
-    When the API returns a failure, show the error message in red text
-    below the submit button. Clear the error when the user modifies any
-    field.
-
-Technical Requirements:
-    - apiError state variable (String?)
-    - Text with Color.Red, 14.sp, PoppinsFamily, center aligned
-    - 12dp spacer above the error text
-    - apiError = null in every field's onValueChange
-
-Acceptance Criteria:
-    - API error like "Email already registered" displays in red
-    - Error disappears when user types in any field
-    - Error is centered and readable
-
-
---------------------------------------------------------------------------------
-S.No: 42
---------------------------------------------------------------------------------
-Task Name:
-    Add "Already have an account?" bottom navigation text
-
-Details of the task:
-    Add a clickable text at the bottom of the screen that says "Already
-    have an account? Click to login". On click, navigate to the "login"
-    route. Add proper spacing above it (30dp gap from button area,
-    weight spacer, 20dp bottom padding).
-
-Technical Requirements:
-    - Spacer(modifier = Modifier.weight(2f)) for push-to-bottom
-    - Spacer(modifier = Modifier.height(30.dp)) for gap
-    - Text with PoppinsFamily, Bold, 12.sp, white color
-    - .clickable { navController.navigate("login") }
-    - padding(bottom = 20.dp)
-
-Acceptance Criteria:
-    - Text is visible at the bottom of the screen
-    - Adequate gap exists between button area and this text
-    - Tapping navigates to login screen
-    - Text styling matches specification
-
-
---------------------------------------------------------------------------------
-S.No: 43
---------------------------------------------------------------------------------
-Task Name:
     Add string resources for SignUp screen
 
 Details of the task:
-    Add all required string resources in strings.xml for the SignUp screen:
-    first_name, last_name, phone_number, email, signup_success,
-    signup_failed.
+    Add all required string resources in strings.xml: first_name,
+    last_name, phone_number, email, sign_up, and other signup-related
+    strings.
 
 Technical Requirements:
     - <string name="first_name">First Name</string>
     - <string name="last_name">Last Name</string>
     - <string name="phone_number">Phone Number</string>
     - <string name="email">Email</string>
-    - <string name="signup_success">Account created successfully</string>
-    - <string name="signup_failed">Sign up failed. Please try again.</string>
+    - <string name="sign_up">Sign up</string>
 
 Acceptance Criteria:
-    - All 6 strings exist in strings.xml
+    - All strings exist in strings.xml
     - No duplicate resource names
-    - Values match specification exactly
-
-
---------------------------------------------------------------------------------
-S.No: 44
---------------------------------------------------------------------------------
-Task Name:
-    Make the Sign Up screen scrollable
-
-Details of the task:
-    Since the SignUp screen has many fields, wrap the Column in a vertical
-    scroll modifier so all fields are accessible on smaller screens.
-
-Technical Requirements:
-    - rememberScrollState()
-    - Modifier.verticalScroll(scrollState)
-    - Applied to the main Column
-
-Acceptance Criteria:
-    - Screen scrolls when content exceeds screen height
-    - All fields are reachable by scrolling
-    - Scroll is smooth and responsive
-
-
---------------------------------------------------------------------------------
-S.No: 45
---------------------------------------------------------------------------------
-Task Name:
-    Define VALID_TLDS set for email validation
-
-Details of the task:
-    Define a private top-level Set of accepted TLD strings for email
-    domain validation. Include commonly used TLDs.
-
-Technical Requirements:
-    - private val VALID_TLDS = setOf("com", "in", "org", "net", "edu",
-      "gov", "co", "io", "info", "biz", "us", "uk", "ca", "au")
-    - Defined at file level
-
-Acceptance Criteria:
-    - Set contains all 14 specified TLDs
-    - Used by validateEmail() function
-    - Easily extensible for future TLDs
-
-
-================================================================================
-              OTP SCREEN, PAPER DB & SPLASH ROUTING — JIRA TICKETS
-================================================================================
-
-
---------------------------------------------------------------------------------
-S.No: 46
---------------------------------------------------------------------------------
-Task Name:
-    Add Paper NoSQL DB dependency
-
-Details of the task:
-    Add the Paper NoSQL database library to app/build.gradle.kts for
-    local key-value persistence of user session data such as email and MPIN.
-
-Technical Requirements:
-    - implementation("io.github.pilgr:paperdb:2.7.2") in dependencies
-    - Gradle sync must succeed after adding
-
-Acceptance Criteria:
-    - Paper dependency resolves without FAILED status
-    - Gradle build succeeds
-    - io.paperdb.Paper import is available in Kotlin files
-
-
---------------------------------------------------------------------------------
-S.No: 47
---------------------------------------------------------------------------------
-Task Name:
-    Initialize Paper DB in MainActivity
-
-Details of the task:
-    Call Paper.init(this) inside MainActivity.onCreate() before any
-    composable content is set, so Paper is ready for read/write operations
-    throughout the app lifecycle.
-
-Technical Requirements:
-    - import io.paperdb.Paper
-    - Paper.init(this) before setContent {}
-    - Must be called exactly once on app start
-
-Acceptance Criteria:
-    - Paper.init is invoked in onCreate
-    - No crash on cold start
-    - Subsequent Paper.book() calls work correctly
-
-
---------------------------------------------------------------------------------
-S.No: 48
---------------------------------------------------------------------------------
-Task Name:
-    Add onValueChange callback to OTPInput reusable composable
-
-Details of the task:
-    Extend the OTPInput composable to accept an onValueChange callback
-    that fires on every digit change with the full concatenated OTP string,
-    allowing the parent composable to track partial input at all times.
-
-Technical Requirements:
-    - New parameter: onValueChange: (String) -> Unit = {}
-    - Called after every otpValues[i] update with joinToString("")
-    - Existing onOtpComplete callback preserved for backward compatibility
-
-Acceptance Criteria:
-    - onValueChange fires on each keystroke
-    - Returns correct concatenated string (e.g., "12" after two digits)
-    - Existing callers using only onOtpComplete still work
-
-
---------------------------------------------------------------------------------
-S.No: 49
---------------------------------------------------------------------------------
-Task Name:
-    Create OTPScreen composable skeleton
-
-Details of the task:
-    Create a new OTPScreen composable that accepts navController, email,
-    and expectedOtp parameters. Set up the basic layout with background
-    color, logo, OTP title, and column structure matching other screens.
-
-Technical Requirements:
-    - Parameters: navController: NavController, email: String, expectedOtp: String
-    - Box with fillMaxSize, screen_background, horizontal padding
-    - Logo with padding(top = 100.dp), OTP title text
-    - PoppinsFamily font, 24sp, Bold, white color
-
-Acceptance Criteria:
-    - Screen renders with consistent styling
-    - All three parameters are accessible
-    - Logo and title display correctly
-
-
---------------------------------------------------------------------------------
-S.No: 50
---------------------------------------------------------------------------------
-Task Name:
-    Implement 60-second countdown timer on OTP screen
-
-Details of the task:
-    Add a 60-second countdown timer using LaunchedEffect that counts down
-    every second. Display the remaining time in MM:SS format. When the timer
-    reaches zero, set timerRunning to false to enable the resend button.
-
-Technical Requirements:
-    - mutableIntStateOf(60) for timeLeft
-    - mutableStateOf(true) for timerRunning
-    - LaunchedEffect(timerRunning, resendKey) with delay(1000L) loop
-    - String.format("%02d:%02d", seconds / 60, seconds % 60)
-
-Acceptance Criteria:
-    - Timer starts at 00:60 and counts to 00:00
-    - Display updates every second
-    - timerRunning becomes false when timer hits 0
-    - Timer formatted as MM:SS
-
-
---------------------------------------------------------------------------------
-S.No: 51
---------------------------------------------------------------------------------
-Task Name:
-    Integrate OTPInput composable into OTP screen
-
-Details of the task:
-    Add the OTPInput reusable component inside a keyed composable so it
-    can be reset on resend. Wire up both onOtpComplete and onValueChange
-    callbacks to track the entered OTP in local state.
-
-Technical Requirements:
-    - key(resendKey) { OTPInput(...) } for reset capability
-    - onOtpComplete updates enteredOtp state
-    - onValueChange updates enteredOtp and clears otpError
-    - resendKey is mutableIntStateOf(0)
-
-Acceptance Criteria:
-    - OTP boxes render centered on screen
-    - Digits auto-jump to next box on entry
-    - enteredOtp state always reflects current input
-    - Incrementing resendKey resets all boxes to empty
-
-
---------------------------------------------------------------------------------
-S.No: 52
---------------------------------------------------------------------------------
-Task Name:
-    Implement Resend OTP button with timer gating
-
-Details of the task:
-    Add a "Resend now" text button that is only clickable when the timer
-    has reached zero. When clicked, generate a new 4-digit random OTP,
-    call the sendotp API, reset the timer to 60 seconds, and update the
-    expected OTP.
-
-Technical Requirements:
-    - Text with clickable(enabled = !timerRunning && !isLoading)
-    - Alpha 0.4f when disabled, full alpha when enabled
-    - New OTP via (1000..9999).random().toString()
-    - Reset: resendKey++, timeLeft = 60, timerRunning = true
-
-Acceptance Criteria:
-    - Resend button is visually dimmed while timer is running
-    - Clicking before timer ends does nothing
-    - After timer expires, click sends new OTP and resets timer
-    - OTP input boxes are cleared on resend
-
-
---------------------------------------------------------------------------------
-S.No: 53
---------------------------------------------------------------------------------
-Task Name:
-    Create resendOtpApi suspend function
-
-Details of the task:
-    Implement a private suspend function that sends a POST request to
-    https://system-project-api.onrender.com/api/sendotp with email and
-    otp in a JSON body. Return true if the server responds with 2xx.
-
-Technical Requirements:
-    - HttpURLConnection with POST method
-    - Content-Type: application/json
-    - JSON payload: {"email": ..., "otp": ...}
-    - 15-second connect and read timeouts
-    - Returns Boolean based on response code
-
-Acceptance Criteria:
-    - Successful call returns true
-    - Network error returns false without crash
-    - Connection is always disconnected in finally block
-
-
---------------------------------------------------------------------------------
-S.No: 54
---------------------------------------------------------------------------------
-Task Name:
-    Implement OTP verification logic on button click
-
-Details of the task:
-    When the user clicks the verify button, validate that 4 digits are
-    entered and compare against the expected OTP. If incomplete, show
-    "Please enter the complete 4-digit OTP". If wrong, show "Invalid OTP.
-    Please try again." If correct, proceed to call updatestatus API.
-
-Technical Requirements:
-    - Guard: if (isLoading) return
-    - Check enteredOtp.length < 4
-    - Check enteredOtp != currentExpectedOtp
-    - Set otpError string on failure
-    - Set isLoading = true on success path
-
-Acceptance Criteria:
-    - Incomplete OTP shows appropriate error
-    - Wrong OTP shows "Invalid OTP" error
-    - Correct OTP triggers API call
-    - Button shows loader during API call
-
-
---------------------------------------------------------------------------------
-S.No: 55
---------------------------------------------------------------------------------
-Task Name:
-    Create updateStatusApi suspend function
-
-Details of the task:
-    Implement a private suspend function that sends a POST request to
-    https://system-project-api.onrender.com/api/updatestatus with the
-    user's email in a JSON body. This marks email_verified and
-    phone_verified as true on the server.
-
-Technical Requirements:
-    - HttpURLConnection with POST method
-    - JSON payload: {"email": ...}
-    - Content-Type: application/json
-    - 15-second timeouts
-    - Returns Boolean based on response code
-
-Acceptance Criteria:
-    - Successful call returns true
-    - Network error returns false
-    - Connection cleaned up in finally block
-
-
---------------------------------------------------------------------------------
-S.No: 56
---------------------------------------------------------------------------------
-Task Name:
-    Store email in Paper DB after OTP verification
-
-Details of the task:
-    After the updatestatus API returns success, write the user's email
-    to Paper NoSQL DB under the key "user_email" on a background thread.
-    Then navigate to the MPIN screen.
-
-Technical Requirements:
-    - withContext(Dispatchers.IO) { Paper.book().write("user_email", email) }
-    - Navigate to "mpin" with popUpTo("otp/{email}/{otp}") inclusive
-    - Must happen only after API success
-
-Acceptance Criteria:
-    - Email is persisted in Paper after verification
-    - Paper.book().read<String>("user_email") returns the stored email
-    - Navigation to MPIN occurs after write completes
-    - On API failure, email is NOT stored
-
-
---------------------------------------------------------------------------------
-S.No: 57
---------------------------------------------------------------------------------
-Task Name:
-    Display error messages on OTP screen
-
-Details of the task:
-    Show OTP-related error messages below the verify button in red text.
-    Clear errors when the user types new digits. Support messages for
-    invalid OTP, incomplete OTP, failed resend, and failed verification.
-
-Technical Requirements:
-    - otpError state variable (String?)
-    - Text with Color.Red, 14.sp, PoppinsFamily, center alignment
-    - Cleared in onValueChange callback
-    - Set in verify and resend failure paths
-
-Acceptance Criteria:
-    - Error appears below button when set
-    - Error disappears when user types a new digit
-    - Multiple error scenarios display correct messages
-
-
---------------------------------------------------------------------------------
-S.No: 58
---------------------------------------------------------------------------------
-Task Name:
-    Add loading indicator to OTP verify button
-
-Details of the task:
-    Show a CircularProgressIndicator inside the circular verify button
-    when isLoading is true (during API calls). Hide the arrow icon while
-    loading. Prevent multiple clicks during loading state.
-
-Technical Requirements:
-    - if (isLoading) CircularProgressIndicator else Icon
-    - CircularProgressIndicator: size 32.dp, white, strokeWidth 3.dp
-    - Guard: if (isLoading) return@clickable at top of click handler
-
-Acceptance Criteria:
-    - Loader appears during API call
-    - Arrow icon reappears after call completes
-    - Multiple taps during loading are ignored
-
-
---------------------------------------------------------------------------------
-S.No: 59
---------------------------------------------------------------------------------
-Task Name:
-    Update AppNavigation to pass email and OTP to OTP screen
-
-Details of the task:
-    Change the OTP route in AppNavigation from simple "otp" to
-    "otp/{email}/{otp}" with two NavType.StringType arguments. Extract
-    the arguments from the back stack entry and pass them to OTPScreen.
-
-Technical Requirements:
-    - Route: "otp/{email}/{otp}"
-    - navArgument("email") { type = NavType.StringType }
-    - navArgument("otp") { type = NavType.StringType }
-    - backStackEntry.arguments?.getString("email") / getString("otp")
-
-Acceptance Criteria:
-    - OTPScreen receives email and otp parameters correctly
-    - URL-encoded emails (with @, .) are decoded properly
-    - Navigation from login/signup to OTP works with parameters
-
-
---------------------------------------------------------------------------------
-S.No: 60
---------------------------------------------------------------------------------
-Task Name:
-    Add sendOtpApi function to LoginScreen
-
-Details of the task:
-    Create a private suspend function in LoginScreen.kt that posts a
-    JSON payload with email and otp to the sendotp API endpoint.
-    This will be called after successful authentication.
-
-Technical Requirements:
-    - POST to https://system-project-api.onrender.com/api/sendotp
-    - JSON: {"email": ..., "otp": ...}
-    - Returns Boolean
-    - Runs on Dispatchers.IO
-
-Acceptance Criteria:
-    - Function compiles and is callable from coroutine scope
-    - Returns true on 2xx response
-    - Returns false on error without crashing
-
-
---------------------------------------------------------------------------------
-S.No: 61
---------------------------------------------------------------------------------
-Task Name:
-    Send OTP after successful login and navigate to OTP screen
-
-Details of the task:
-    After authenticateUser returns true, generate a random 4-digit OTP,
-    call sendOtpApi, and navigate to the OTP screen with the email and
-    OTP as route parameters. Show error if OTP sending fails.
-
-Technical Requirements:
-    - val otp = (1000..9999).random().toString()
-    - val otpSent = sendOtpApi(username.trim(), otp)
-    - Navigate: "otp/${Uri.encode(username.trim())}/$otp"
-    - popUpTo("login") { inclusive = true }
-    - Error: otpSentFailedMessage on failure
-
-Acceptance Criteria:
-    - Successful login + OTP send navigates to OTP screen
-    - Failed OTP send shows error, stays on login screen
-    - Loader stays visible during both auth and OTP send
-    - Email is URL-encoded in navigation route
-
-
---------------------------------------------------------------------------------
-S.No: 62
---------------------------------------------------------------------------------
-Task Name:
-    Add sendOtpApiSignup function to SignUpScreen
-
-Details of the task:
-    Create a private suspend function in SignUpScreen.kt that posts a
-    JSON payload with email and otp to the sendotp API endpoint.
-    Similar to the LoginScreen version but scoped to signup flow.
-
-Technical Requirements:
-    - POST to https://system-project-api.onrender.com/api/sendotp
-    - JSON: {"email": ..., "otp": ...}
-    - Returns Boolean
-    - Runs on Dispatchers.IO
-
-Acceptance Criteria:
-    - Function compiles and works from signup coroutine
-    - Returns true/false correctly
-    - Error handling does not crash the app
-
-
---------------------------------------------------------------------------------
-S.No: 63
---------------------------------------------------------------------------------
-Task Name:
-    Send OTP after successful signup before showing dialog
-
-Details of the task:
-    After registerUser returns success, generate a 4-digit OTP and call
-    sendOtpApiSignup. If OTP is sent successfully, store the generated
-    OTP and email in state variables, then show the congratulations dialog.
-    If OTP sending fails, show an error instead of the dialog.
-
-Technical Requirements:
-    - generatedOtp and signupEmail state variables
-    - val otp = (1000..9999).random().toString()
-    - Call sendOtpApiSignup(email.trim(), otp)
-    - On success: store otp/email, show dialog
-    - On failure: apiError = otpSentFailedMessage
-
-Acceptance Criteria:
-    - OTP is generated and sent after successful signup
-    - Dialog shows only if OTP sending succeeds
-    - Error displayed if OTP sending fails
-    - generatedOtp and signupEmail are set for dialog OK handler
-
-
---------------------------------------------------------------------------------
-S.No: 64
---------------------------------------------------------------------------------
-Task Name:
-    Navigate to OTP screen from signup congratulations dialog
-
-Details of the task:
-    When the user clicks "Ok" on the congratulations dialog, navigate
-    to the OTP screen with the stored email and OTP. Use Uri.encode
-    for the email and popUpTo to clear the back stack.
-
-Technical Requirements:
-    - val encodedEmail = Uri.encode(signupEmail)
-    - navController.navigate("otp/$encodedEmail/$generatedOtp")
-    - popUpTo("sign_up") { inclusive = true }
-    - showSuccessDialog = false before navigating
-
-Acceptance Criteria:
-    - Dialog closes on Ok
-    - Navigation goes to OTP screen with correct parameters
-    - Back press from OTP does not return to signup
-    - Email with special chars (@ .) navigates correctly
-
-
---------------------------------------------------------------------------------
-S.No: 65
---------------------------------------------------------------------------------
-Task Name:
-    Add new string resources for OTP features
-
-Details of the task:
-    Add the following string resources to strings.xml:
-    otp_sent_failed, otp_mismatch, otp_verification_failed,
-    sec_left, verifying.
-
-Technical Requirements:
-    - <string name="otp_sent_failed">Failed to send OTP. Please try again.</string>
-    - <string name="otp_mismatch">Invalid OTP. Please try again.</string>
-    - <string name="otp_verification_failed">OTP verification failed...</string>
-    - <string name="sec_left">sec left</string>
-    - <string name="verifying">Verifying…</string>
-
-Acceptance Criteria:
-    - All strings defined in strings.xml
-    - No duplicate resource names
-    - Values match specification
-
-
---------------------------------------------------------------------------------
-S.No: 66
---------------------------------------------------------------------------------
-Task Name:
-    Create checkTheStatusApi function for SplashScreen
-
-Details of the task:
-    Implement a private suspend function that posts the stored email to
-    https://system-project-api.onrender.com/api/checkthestatus and parses
-    the JSON response for email_verified and phone_verified booleans.
-
-Technical Requirements:
-    - POST with JSON {"email": ...}
-    - Parse: json.optBoolean("email_verified", false)
-    - Parse: json.optBoolean("phone_verified", false)
-    - Return StatusResult data class
-    - Default to false on any error
-
-Acceptance Criteria:
-    - Returns correct booleans from server response
-    - Returns StatusResult(false, false) on network error
-    - Does not crash on malformed JSON
-    - Connection cleaned up in finally block
-
-
---------------------------------------------------------------------------------
-S.No: 67
---------------------------------------------------------------------------------
-Task Name:
-    Implement SplashScreen Paper DB check for stored email
-
-Details of the task:
-    In the SplashScreen LaunchedEffect, after the 2-second delay, read
-    "user_email" from Paper DB on a background thread. If null or empty,
-    navigate to the login screen.
-
-Technical Requirements:
-    - withContext(Dispatchers.IO) { Paper.book().read<String>("user_email") }
-    - if (storedEmail.isNullOrEmpty()) navigate to "login"
-    - popUpTo("splash") { inclusive = true }
-    - Must run after delay(2000)
-
-Acceptance Criteria:
-    - Fresh install (no Paper data) goes to login
-    - Email check runs on IO dispatcher
-    - Navigation happens after splash delay
-    - Splash screen is removed from back stack
-
-
---------------------------------------------------------------------------------
-S.No: 68
---------------------------------------------------------------------------------
-Task Name:
-    Implement SplashScreen routing based on checkthestatus API response
-
-Details of the task:
-    If a stored email exists, call checkTheStatusApi. Based on the
-    response: if email_verified is true and MPIN exists in Paper, navigate
-    to dashboard (mpin_finger_print). If email_verified is true but no
-    MPIN, navigate to MPIN screen. Otherwise, navigate to login.
-
-Technical Requirements:
-    - Call checkTheStatusApi(storedEmail)
-    - Check status.emailVerified
-    - Read Paper.book().read<String>("user_mpin") for MPIN presence
-    - Three navigation paths: mpin_finger_print, mpin, or login
-    - All with popUpTo("splash") { inclusive = true }
-
-Acceptance Criteria:
-    - Verified user with MPIN goes directly to dashboard
-    - Verified user without MPIN goes to MPIN setup
-    - Unverified user goes to login
-    - API failure defaults to login screen
-    - No splash screen in back stack
-
-
---------------------------------------------------------------------------------
-S.No: 69
---------------------------------------------------------------------------------
-Task Name:
-    Define StatusResult data class for SplashScreen
-
-Details of the task:
-    Create a private data class StatusResult with emailVerified and
-    phoneVerified boolean fields, both defaulting to false. Used to
-    represent the checkthestatus API response.
-
-Technical Requirements:
-    - private data class StatusResult(
-          val emailVerified: Boolean = false,
-          val phoneVerified: Boolean = false
-      )
-    - Defined at file level in SplashScreen.kt
-
-Acceptance Criteria:
-    - Data class compiles and is usable by checkTheStatusApi
-    - Default values are false
-    - Destructuring works: val (emailVerified, phoneVerified) = status
-
-
---------------------------------------------------------------------------------
-S.No: 70
---------------------------------------------------------------------------------
-Task Name:
-    Add JitPack repository to settings.gradle.kts
-
-Details of the task:
-    Add the JitPack Maven repository URL to the dependencyResolutionManagement
-    repositories block in settings.gradle.kts. This is needed to resolve
-    certain third-party libraries not on Maven Central.
-
-Technical Requirements:
-    - maven { url = uri("https://jitpack.io") }
-    - Added after mavenCentral() in repositories block
-    - Under dependencyResolutionManagement
-
-Acceptance Criteria:
-    - Gradle sync succeeds with the new repository
-    - Libraries available on JitPack can be resolved
-    - Existing dependencies still resolve normally
-
-
---------------------------------------------------------------------------------
-S.No: 71
---------------------------------------------------------------------------------
-Task Name:
-    End-to-end test: Login → OTP → MPIN flow
-
-Details of the task:
-    Manually verify the complete login flow: enter valid credentials on
-    login screen, confirm loader appears during auth + OTP send, verify
-    navigation to OTP screen with timer running, enter correct OTP, verify
-    updatestatus is called, and confirm navigation to MPIN screen.
-
-Technical Requirements:
-    - Valid test credentials for the login API
-    - Network connectivity to the API server
-    - Paper DB cleared before test (fresh install)
-
-Acceptance Criteria:
-    - Login authenticates successfully
-    - OTP is sent and screen navigates to OTP
-    - Timer counts down from 60
-    - Correct OTP navigates to MPIN
-    - Wrong OTP shows error
-    - Email stored in Paper after verification
-
-
---------------------------------------------------------------------------------
-S.No: 72
---------------------------------------------------------------------------------
-Task Name:
-    End-to-end test: Signup → Dialog → OTP → MPIN flow
-
-Details of the task:
-    Manually verify the complete signup flow: fill all fields with valid
-    data, submit, confirm congratulations dialog appears, click Ok, verify
-    navigation to OTP screen, enter correct OTP, and confirm MPIN screen.
-
-Technical Requirements:
-    - Valid test data for all signup fields
-    - Network connectivity
-    - Paper DB cleared before test
-
-Acceptance Criteria:
-    - Signup succeeds and dialog shows
-    - Dialog Ok navigates to OTP screen
-    - OTP verification works and navigates to MPIN
-    - Email stored in Paper after verification
-
-
---------------------------------------------------------------------------------
-S.No: 73
---------------------------------------------------------------------------------
-Task Name:
-    End-to-end test: SplashScreen routing for returning user
-
-Details of the task:
-    Verify SplashScreen routing logic: test with no Paper data (goes to
-    login), with email stored but no MPIN (goes to MPIN), and with
-    email + MPIN stored (goes to dashboard). Also test with email stored
-    but email_verified = false (goes to login).
-
-Technical Requirements:
-    - Manipulate Paper DB state for each scenario
-    - Mock or use real API for checkthestatus
-    - Test all three routing paths
-
-Acceptance Criteria:
-    - Fresh install → login screen
-    - Verified email, no MPIN → MPIN screen
-    - Verified email + MPIN → dashboard
-    - Unverified email → login screen
-    - API error → login screen (safe fallback)
-
-
---------------------------------------------------------------------------------
-S.No: 74
---------------------------------------------------------------------------------
-Task Name:
-    Test OTP resend functionality
-
-Details of the task:
-    Verify that the resend button is disabled during the 60-second timer,
-    becomes active when timer reaches 0, and when clicked: generates a
-    new OTP, calls the sendotp API, resets the timer, and clears OTP boxes.
-
-Technical Requirements:
-    - Wait for timer to expire (or mock)
-    - Click resend and verify API call
-    - Verify new OTP is different from original
-    - Verify timer resets to 60
-
-Acceptance Criteria:
-    - Resend button dimmed during countdown
-    - Active after countdown expires
-    - New OTP sent on click
-    - Timer resets to 60 seconds
-    - OTP input boxes cleared
-
-
---------------------------------------------------------------------------------
-S.No: 75
---------------------------------------------------------------------------------
-Task Name:
-    Test OTP error scenarios
-
-Details of the task:
-    Verify all OTP error paths: entering fewer than 4 digits and clicking
-    verify shows "Please enter the complete 4-digit OTP". Entering wrong
-    4-digit OTP shows "Invalid OTP. Please try again." Failed updatestatus
-    API shows "OTP verification failed. Please try again."
-
-Technical Requirements:
-    - Test with 1, 2, 3 digits entered
-    - Test with wrong 4-digit code
-    - Simulate API failure for updatestatus
-
-Acceptance Criteria:
-    - Each error scenario shows correct message
-    - Errors clear when user types new digit
-    - User can retry after error
+    - stringResource calls resolve correctly
 
 
 ================================================================================
                               END OF TICKETS
 ================================================================================
 
-Make sure to apply all the changes
