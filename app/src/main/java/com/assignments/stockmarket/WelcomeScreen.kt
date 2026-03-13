@@ -1,5 +1,6 @@
 package com.assignments.stockmarket
 
+import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +41,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun WelcomeScreen(navController: NavController) {
 
+    val context = LocalContext.current
+
     // Lottie confetti animation
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.confetti))
     val progress by animateLottieCompositionAsState(
@@ -51,6 +56,31 @@ fun WelcomeScreen(navController: NavController) {
     var showWelcome by remember { mutableStateOf(false) }
     var showInto by remember { mutableStateOf(false) }
     var showTradeSphere by remember { mutableStateOf(false) }
+
+    // 🔊 Play welcome chime for 2 seconds
+    DisposableEffect(Unit) {
+        val mediaPlayer = MediaPlayer.create(context, R.raw.welcome_chime)
+        mediaPlayer?.start()
+
+        // Stop after 2 seconds
+        val handler = android.os.Handler(android.os.Looper.getMainLooper())
+        handler.postDelayed({
+            if (mediaPlayer?.isPlaying == true) {
+                mediaPlayer.stop()
+            }
+            mediaPlayer?.release()
+        }, 2000L)
+
+        onDispose {
+            handler.removeCallbacksAndMessages(null)
+            try {
+                if (mediaPlayer?.isPlaying == true) {
+                    mediaPlayer.stop()
+                }
+                mediaPlayer?.release()
+            } catch (_: Exception) { }
+        }
+    }
 
     LaunchedEffect(Unit) {
         // Party poppers burst first
@@ -164,4 +194,3 @@ fun WelcomeScreen(navController: NavController) {
         }
     }
 }
-
