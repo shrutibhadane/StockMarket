@@ -12,23 +12,25 @@ Task Name:
 Details of the task:
     Create a new Kotlin file OTPScreen.kt inside the stockmarket package.
     Define a @Composable function OTPScreen that accepts navController,
-    email (String), and expectedOtp (String). Set up the basic Box and
-    Column layout matching other screens — full-screen background,
-    horizontal padding, centered content.
+    email (String), expectedOtp (String), and isResetMpin (Boolean,
+    default false). Set up the basic Box and Column layout matching other
+    screens — full-screen background, horizontal padding, centered content.
 
 Technical Requirements:
     - Parameters: navController: NavController, email: String,
-      expectedOtp: String
+      expectedOtp: String, isResetMpin: Boolean = false
     - Box with fillMaxSize, colorResource(R.color.screen_background),
       padding(horizontal = 24.dp)
     - Column with horizontalAlignment = CenterHorizontally
     - State variables: currentExpectedOtp, enteredOtp, otpError,
       isLoading, resendKey
+    - isResetMpin parameter controls post-verification behavior
 
 Acceptance Criteria:
     - Screen renders with consistent dark blue background
-    - All three parameters are accessible
+    - All four parameters are accessible
     - State variables initialized correctly
+    - isResetMpin defaults to false for normal signup/login flow
 
 
 --------------------------------------------------------------------------------
@@ -81,16 +83,16 @@ Acceptance Criteria:
 S.No: 4
 --------------------------------------------------------------------------------
 Task Name:
-    Implement 60-second countdown timer with MM:SS display
+    Implement 120-second countdown timer with MM:SS display
 
 Details of the task:
-    Add a 60-second countdown timer using LaunchedEffect that counts down
-    every second. Display the remaining time in MM:SS format on the left
-    side of a Row. When the timer reaches zero, set timerRunning to false
-    to enable the resend button.
+    Add a 120-second countdown timer using LaunchedEffect that counts
+    down every second. Display the remaining time in MM:SS format on
+    the left side of a Row. When the timer reaches zero, set timerRunning
+    to false to enable the resend button.
 
 Technical Requirements:
-    - mutableIntStateOf(60) for timeLeft
+    - mutableIntStateOf(120) for timeLeft
     - mutableStateOf(true) for timerRunning
     - LaunchedEffect(timerRunning, resendKey) with delay(1000L) loop
     - String.format("%02d:%02d", seconds / 60, seconds % 60)
@@ -98,7 +100,7 @@ Technical Requirements:
     - Text: colorResource(R.color.text_color), 15.sp, PoppinsFamily, Bold
 
 Acceptance Criteria:
-    - Timer starts at 01:00 and counts to 00:00
+    - Timer starts at 02:00 and counts to 00:00
     - Display updates every second
     - timerRunning becomes false at 0
     - Timer displays with "sec left" suffix
@@ -114,7 +116,7 @@ Details of the task:
     On the right side of the timer Row, add a "Resend now" text that is
     only clickable when the timer has expired (!timerRunning) and not
     loading. When clicked, generate a new 4-digit OTP, call sendOtpApi
-    from DedicatedAPI.kt, reset the timer to 60, update the expected
+    from DedicatedAPI.kt, reset the timer to 120, update the expected
     OTP, clear input, and increment resendKey.
 
 Technical Requirements:
@@ -124,13 +126,13 @@ Technical Requirements:
     - New OTP: (1000..9999).random().toString()
     - Call sendOtpApi(email, newOtp) from DedicatedAPI.kt
     - On success: currentExpectedOtp = newOtp, enteredOtp = "",
-      resendKey++, timeLeft = 60, timerRunning = true
+      resendKey++, timeLeft = 120, timerRunning = true
     - On failure: otpError = "Failed to resend OTP. Try again."
 
 Acceptance Criteria:
     - Resend button dimmed while timer is running
     - Clicking before timer ends does nothing
-    - After expiry, click sends new OTP and resets timer
+    - After expiry, click sends new OTP and resets timer to 120s
     - OTP boxes cleared on resend
     - Failed resend shows error
 
@@ -139,11 +141,34 @@ Acceptance Criteria:
 S.No: 6
 --------------------------------------------------------------------------------
 Task Name:
+    Add OTP expiry notice text
+
+Details of the task:
+    Below the timer/resend Row (with 10dp spacing), add an informational
+    text explaining OTP expires in 2 minutes. Use text_color, 15sp,
+    PoppinsFamily Bold, centered, with 20dp horizontal padding.
+
+Technical Requirements:
+    - Text: stringResource(R.string.otp_expires_in_2_minutes_...)
+    - colorResource(R.color.text_color), 15.sp, PoppinsFamily, Bold
+    - padding(horizontal = 20.dp), TextAlign.Center
+    - 10dp spacer above
+
+Acceptance Criteria:
+    - Informational text renders below timer row
+    - Text is centered and properly padded
+    - Styling consistent with other helper text on screen
+
+
+--------------------------------------------------------------------------------
+S.No: 7
+--------------------------------------------------------------------------------
+Task Name:
     Build circular verify button with loading indicator
 
 Details of the task:
     Create an 86dp circular button with CircleShape, white border,
-    button_background_color, and ArrowForward icon (white, 60dp). Replace
+    button_background_color, and ArrowForward icon (white, 32dp). Replace
     icon with CircularProgressIndicator (white, 32dp, 3dp stroke) when
     isLoading is true.
 
@@ -161,58 +186,51 @@ Acceptance Criteria:
 
 
 --------------------------------------------------------------------------------
-S.No: 7
+S.No: 8
 --------------------------------------------------------------------------------
 Task Name:
-    Implement OTP verification logic on button click
+    Implement OTP verification with dual-mode logic (normal + MPIN reset)
 
 Details of the task:
     When the verify button is clicked: (1) guard with isLoading, (2) check
     enteredOtp length is 4, (3) compare enteredOtp with currentExpectedOtp.
     If incomplete, show "Please enter the complete 4-digit OTP". If wrong,
-    show "Invalid OTP. Please try again." If correct, set isLoading and
-    call updateStatusApi from DedicatedAPI.kt.
+    show "Invalid OTP. Please try again." If correct, branch based on
+    isResetMpin flag:
+
+    - isResetMpin = true: Skip updateStatusApi, navigate directly to
+      "mpin_reset" route (set new MPIN), pop OTP from back stack.
+    - isResetMpin = false (normal flow): Call updateStatusApi(email),
+      store email in Paper DB under "user_email" on IO thread, navigate
+      to "mpin" setup screen.
 
 Technical Requirements:
     - if (isLoading) return@clickable
     - if (enteredOtp.length < 4) → error and return
     - if (enteredOtp != currentExpectedOtp) → error and return
     - isLoading = true, otpError = null on match
-    - coroutineScope.launch { updateStatusApi(email) }
-    - val (updated, _) = updateStatusApi(email)
+    - coroutineScope.launch { ... }
+    - if (isResetMpin):
+        - isLoading = false
+        - navController.navigate("mpin_reset") {
+            popUpTo("otp/{email}/{otp}") { inclusive = true } }
+    - else:
+        - val (updated, _) = updateStatusApi(email)
+        - isLoading = false
+        - if (updated): withContext(Dispatchers.IO) {
+            Paper.book().write("user_email", email) }
+          → navigate("mpin") { popUpTo("otp/{email}/{otp}")
+            { inclusive = true } }
+        - else: otpError = "OTP verification failed..."
 
 Acceptance Criteria:
     - Incomplete OTP shows appropriate error
     - Wrong OTP shows "Invalid OTP" error
-    - Correct OTP triggers updateStatusApi call
+    - Correct OTP + normal mode → updateStatusApi + Paper write + mpin
+    - Correct OTP + reset mode → skip API, navigate to mpin_reset
     - Button shows loader during API call
-
-
---------------------------------------------------------------------------------
-S.No: 8
---------------------------------------------------------------------------------
-Task Name:
-    Store email in Paper DB after verification and navigate to MPIN
-
-Details of the task:
-    After updateStatusApi returns success, write the user's email to
-    Paper NoSQL DB under the key "user_email" on a background thread.
-    Then navigate to the MPIN screen, clearing the OTP screen from the
-    back stack. On failure, show verification error.
-
-Technical Requirements:
-    - withContext(Dispatchers.IO) { Paper.book().write("user_email",
-      email) }
-    - navController.navigate("mpin") { popUpTo("otp/{email}/{otp}")
-      { inclusive = true } }
-    - On failure: otpError = "OTP verification failed..."
-    - isLoading = false after completion
-
-Acceptance Criteria:
-    - Email persisted in Paper after verification
-    - Paper.book().read<String>("user_email") returns stored email
-    - Navigation to MPIN occurs after write completes
-    - API failure shows error, email NOT stored
+    - Email persisted in Paper only in normal mode
+    - OTP screen removed from back stack after navigation
 
 
 --------------------------------------------------------------------------------
@@ -241,24 +259,34 @@ Acceptance Criteria:
 S.No: 10
 --------------------------------------------------------------------------------
 Task Name:
-    Add OTP route with parameters to AppNavigation
+    Add OTP route with parameters and isResetMpin flag to AppNavigation
 
 Details of the task:
-    In AppNavigation.kt, add the OTP route as "otp/{email}/{otp}" with
-    two NavType.StringType arguments. Extract email and otp from the back
-    stack entry and pass them to OTPScreen.
+    In AppNavigation.kt, add the OTP route as
+    "otp/{email}/{otp}?isResetMpin={isResetMpin}" with two required
+    StringType arguments and one optional BoolType argument (default
+    false). Extract all three values from the back stack entry and pass
+    them to OTPScreen.
 
 Technical Requirements:
-    - composable(route = "otp/{email}/{otp}", arguments = listOf(...))
-    - navArgument("email") { type = NavType.StringType }
-    - navArgument("otp") { type = NavType.StringType }
-    - backStackEntry.arguments?.getString("email") / getString("otp")
-    - OTPScreen(navController, email, otp)
+    - composable(
+        route = "otp/{email}/{otp}?isResetMpin={isResetMpin}",
+        arguments = listOf(
+            navArgument("email") { type = NavType.StringType },
+            navArgument("otp") { type = NavType.StringType },
+            navArgument("isResetMpin") {
+                type = NavType.BoolType; defaultValue = false }
+        )
+      )
+    - Extract: email, otp, isResetMpin from backStackEntry.arguments
+    - OTPScreen(navController, email, otp, isResetMpin)
 
 Acceptance Criteria:
-    - OTPScreen receives email and otp correctly
+    - OTPScreen receives email, otp, and isResetMpin correctly
     - URL-encoded emails (with @, .) decoded properly
-    - Navigation from login/signup works with parameters
+    - Navigation from login/signup works (isResetMpin defaults to false)
+    - Navigation from MPIN reset works (isResetMpin = true)
+    - isResetMpin flag correctly controls post-OTP behavior
 
 
 --------------------------------------------------------------------------------
@@ -269,13 +297,15 @@ Task Name:
 
 Details of the task:
     Add all required string resources: otp, sec_left, resend_now,
-    otp_sent_failed.
+    otp_sent_failed, otp_expires_in_2_minutes_....
 
 Technical Requirements:
     - <string name="otp">OTP</string>
     - <string name="sec_left">sec left</string>
     - <string name="resend_now">Resend now</string>
     - <string name="otp_sent_failed">Failed to send OTP...</string>
+    - <string name="otp_expires_in_2_minutes_...">OTP expires in
+      2 minutes. Please request a new one if it expires</string>
 
 Acceptance Criteria:
     - All strings defined in strings.xml

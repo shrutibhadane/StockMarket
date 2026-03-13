@@ -7,46 +7,61 @@
 S.No: 1
 --------------------------------------------------------------------------------
 Task Name:
-    Create MPINScreen composable skeleton
+    Create MPINScreen composable skeleton with tri-mode parameters
 
 Details of the task:
     Create a new Kotlin file MPINScreen.kt inside the stockmarket package.
-    Define a @Composable function MPINScreen that accepts a NavController
-    and an optional onMPINClick callback. Set up the basic Box and Column
-    layout with screen_background color and horizontal padding of 24dp.
+    Define a @Composable function MPINScreen that accepts a NavController,
+    isVerifyMode (Boolean, default false), isResetMode (Boolean, default
+    false), and an optional onMPINClick callback. Set up the basic Box
+    and Column layout with screen_background color and horizontal padding
+    of 24dp. Initialize state variables for enteredMpin, mpinError,
+    wrongAttempts (Int), isSuspended (Boolean), and isLoading.
 
 Technical Requirements:
     - Jetpack Compose (Box, Column, Modifier)
-    - NavController and onMPINClick: () -> Unit = {} parameters
+    - Parameters: navController: NavController,
+      isVerifyMode: Boolean = false, isResetMode: Boolean = false,
+      onMPINClick: () -> Unit = {}
     - colorResource(R.color.screen_background)
     - Modifier.fillMaxSize().padding(horizontal = 24.dp)
     - Column with horizontalAlignment = CenterHorizontally
+    - State: enteredMpin (String), mpinError (String?),
+      wrongAttempts (mutableIntStateOf(0)), isSuspended (Boolean),
+      isLoading (Boolean)
+    - val coroutineScope = rememberCoroutineScope()
 
 Acceptance Criteria:
     - MPINScreen composable renders without crash
     - Background fills screen with correct color
-    - NavController is passed and accessible
+    - NavController and all mode flags are accessible
+    - All state variables initialized correctly
 
 
 --------------------------------------------------------------------------------
 S.No: 2
 --------------------------------------------------------------------------------
 Task Name:
-    Add logo and MPIN title
+    Add logo and dynamic MPIN title based on mode
 
 Details of the task:
-    Add the app logo at the top (100dp top padding) and an "MPIN" title
-    below it using PoppinsFamily, Bold, 24sp, white, centered.
+    Add the app logo at the top (100dp top padding) and a title that
+    changes dynamically based on the current mode:
+    - isResetMode = true → "Set New MPIN"
+    - isVerifyMode = true → "Enter MPIN"
+    - default (setup mode) → stringResource(R.string.mpin) i.e. "MPIN"
+    Use PoppinsFamily, Bold, 24sp, white, centered.
 
 Technical Requirements:
     - Image with painterResource(R.drawable.ic_stock_logo)
-    - Text with stringResource(R.string.mpin)
+    - Text with when { isResetMode → "Set New MPIN";
+      isVerifyMode → "Enter MPIN"; else → stringResource(R.string.mpin) }
     - PoppinsFamily, FontWeight.Bold, 24.sp, colorResource(R.color.white)
     - TextAlign.Center, fillMaxWidth()
-    - 60dp spacer between title and OTP input
 
 Acceptance Criteria:
     - Logo and title display correctly
+    - Title changes based on mode parameter
     - Font styling matches other screens
 
 
@@ -54,12 +69,122 @@ Acceptance Criteria:
 S.No: 3
 --------------------------------------------------------------------------------
 Task Name:
+    Add session expired subtitle for verify mode
+
+Details of the task:
+    When isVerifyMode is true, show a subtitle text below the title
+    (8dp spacing) explaining "Your session has expired. Please re-enter
+    your MPIN to continue." in text_color, 13sp, centered.
+
+Technical Requirements:
+    - if (isVerifyMode): Spacer(8.dp) + Text
+    - Text: "Your session has expired. Please re-enter your MPIN
+      to continue."
+    - colorResource(R.color.text_color), PoppinsFamily, Normal, 13.sp
+    - TextAlign.Center, fillMaxWidth(), padding(horizontal = 12.dp)
+    - 60dp spacer between subtitle area and next content
+
+Acceptance Criteria:
+    - Subtitle appears only in verify mode
+    - Text is centered and properly styled
+    - Setup and reset modes do not show subtitle
+
+
+--------------------------------------------------------------------------------
+S.No: 4
+--------------------------------------------------------------------------------
+Task Name:
+    Implement MPIN suspended state UI (lockout after 3 wrong attempts)
+
+Details of the task:
+    When isSuspended is true, hide the OTP input boxes and submit button.
+    Instead show a suspension message and a "Reset MPIN" button. The
+    suspension message reads: "Due to multiple incorrect MPIN's, Your
+    MPIN is suspended." in red-ish color (0xFFFF6B6B), SemiBold, 15sp,
+    centered.
+
+Technical Requirements:
+    - if (isSuspended) { ... } else { normal input UI }
+    - Text: "Due to multiple incorrect MPIN's, Your MPIN is suspended."
+    - Color(0xFFFF6B6B), PoppinsFamily, SemiBold, 15.sp, Center
+    - fillMaxWidth(), padding(horizontal = 12.dp)
+    - 32dp spacer between message and reset button
+
+Acceptance Criteria:
+    - Suspended message appears when isSuspended = true
+    - OTP input boxes and submit button are hidden
+    - Message is clearly visible with warning color
+    - Suspension only triggers in verify mode after 3 wrong attempts
+
+
+--------------------------------------------------------------------------------
+S.No: 5
+--------------------------------------------------------------------------------
+Task Name:
+    Build "Reset MPIN" button with OTP send flow
+
+Details of the task:
+    In the suspended state, add a full-width "Reset MPIN" button that:
+    (1) reads user_email from Paper DB on IO thread, (2) generates a
+    random 4-digit OTP, (3) calls sendOtpApi(email, otp), (4) on success
+    navigates to OTP screen with isResetMpin=true flag. Shows loader
+    during API call. Shows error if email not found or OTP send fails.
+
+Technical Requirements:
+    - Button with onClick handler guarded by isLoading
+    - coroutineScope.launch:
+        - val email = Paper.book().read<String>("user_email") on IO
+        - if email null/blank → mpinError = "No registered email..."
+        - val otp = (1000..9999).random().toString()
+        - val sent = sendOtpApi(email, otp) from DedicatedAPI.kt
+        - if sent → navController.navigate(
+            "otp/$email/$otp?isResetMpin=true")
+        - else → mpinError = "Failed to send OTP. Please try again."
+    - Button: fillMaxWidth(), height(50.dp), padding(horizontal = 32.dp)
+    - RoundedCornerShape(12.dp), button_background_color
+    - if (isLoading) CircularProgressIndicator(24dp, white, 2dp stroke)
+      else Text("Reset MPIN", white, Bold, 16sp)
+
+Acceptance Criteria:
+    - Button shows loader while sending OTP
+    - Successful OTP send navigates to OTP screen with reset flag
+    - Missing email shows "No registered email" error
+    - Failed OTP send shows error message
+    - Button disabled during loading
+
+
+--------------------------------------------------------------------------------
+S.No: 6
+--------------------------------------------------------------------------------
+Task Name:
+    Display error messages in suspended state
+
+Details of the task:
+    Below the Reset MPIN button, conditionally show mpinError in red
+    text for suspended-state errors (missing email, failed OTP send).
+
+Technical Requirements:
+    - if (mpinError != null) { Spacer(12.dp) + Text }
+    - Text: mpinError.orEmpty(), Color.Red, 14.sp, PoppinsFamily
+    - TextAlign.Center, fillMaxWidth()
+
+Acceptance Criteria:
+    - Error appears below reset button when set
+    - Supports "No registered email" and "Failed to send OTP" messages
+    - Styling matches error messages on other screens
+
+
+--------------------------------------------------------------------------------
+S.No: 7
+--------------------------------------------------------------------------------
+Task Name:
     Integrate OTPInput for 4-digit MPIN entry with state tracking
 
 Details of the task:
-    Add the OTPInput reusable component for 4-digit MPIN entry. Track
-    enteredMpin state via onOtpComplete and onValueChange callbacks.
-    Clear mpinError when user types. Wrap in a centered Column.
+    In the non-suspended state (isSuspended = false), add the OTPInput
+    reusable component for 4-digit MPIN entry. Track enteredMpin state
+    via onOtpComplete and onValueChange callbacks. Clear mpinError when
+    user types. Wrap in a centered Column.
 
 Technical Requirements:
     - var enteredMpin by remember { mutableStateOf("") }
@@ -73,19 +198,36 @@ Acceptance Criteria:
     - Digits auto-jump to next box
     - enteredMpin state always reflects current input
     - mpinError clears on any digit entry
+    - Input only visible when not suspended
 
 
 --------------------------------------------------------------------------------
-S.No: 4
+S.No: 8
 --------------------------------------------------------------------------------
 Task Name:
-    Build circular submit button, validate, save MPIN, and navigate
+    Build circular submit button with tri-mode MPIN logic
 
 Details of the task:
-    Create an 86dp circular button with ArrowForward icon. On click:
-    (1) validate MPIN is 4 digits — show error if incomplete, (2) save
-    MPIN to Paper DB on IO thread under key "user_mpin", (3) navigate
-    to "welcome" screen with popUpTo("mpin") inclusive.
+    Create an 86dp circular button with ArrowForward icon. On click,
+    first validate MPIN is 4 digits. Then execute mode-specific logic:
+
+    VERIFY MODE (isVerifyMode = true):
+    - Read "user_mpin" from Paper on IO
+    - Compare enteredMpin with storedMpin
+    - If match: save last_login_time → navigate to "dashboard" with
+      popUpTo("mpin_verify")
+    - If mismatch: increment wrongAttempts. If wrongAttempts >= 3, set
+      isSuspended = true. Otherwise show error with remaining attempts.
+
+    RESET MODE (isResetMode = true):
+    - Save new MPIN to Paper under "user_mpin" (replaces old one)
+    - Save last_login_time
+    - Navigate to "dashboard" with popUpTo("mpin_reset")
+
+    SETUP MODE (default):
+    - Save MPIN to Paper under "user_mpin"
+    - Save last_login_time
+    - Navigate to "welcome" with popUpTo("mpin")
 
 Technical Requirements:
     - Box .size(86.dp).clip(CircleShape)
@@ -93,30 +235,32 @@ Technical Requirements:
     - .border(2.dp, colorResource(R.color.white), CircleShape)
     - Icon: Icons.Default.ArrowForward, 32dp, white tint
     - if (enteredMpin.length < 4) { mpinError = "..."; return }
-    - val coroutineScope = rememberCoroutineScope()
-    - coroutineScope.launch { withContext(Dispatchers.IO) {
-        Paper.book().write("user_mpin", enteredMpin) } }
-    - navController.navigate("welcome") { popUpTo("mpin")
-      { inclusive = true } }
+    - coroutineScope.launch { withContext(Dispatchers.IO) { ... } }
+    - Paper.book().write("user_mpin", enteredMpin)
+    - Paper.book().write("last_login_time", System.currentTimeMillis())
     - 40dp spacer above the button
+    - wrongAttempts tracked via mutableIntStateOf(0)
 
 Acceptance Criteria:
     - Incomplete MPIN shows "Please enter a 4-digit MPIN"
-    - Complete MPIN saves to Paper DB
-    - Paper.book().read<String>("user_mpin") returns the saved value
-    - Navigation to Welcome screen occurs after save
-    - MPIN screen is removed from back stack
+    - Verify mode: correct MPIN → dashboard, wrong → error with count
+    - Verify mode: 3 wrong attempts → suspended state
+    - Reset mode: saves new MPIN (replaces old), goes to dashboard
+    - Setup mode: saves MPIN, goes to welcome
+    - All modes save last_login_time to Paper
+    - MPIN screen removed from back stack after navigation
 
 
 --------------------------------------------------------------------------------
-S.No: 5
+S.No: 9
 --------------------------------------------------------------------------------
 Task Name:
-    Display MPIN validation error message
+    Display MPIN validation error message (normal state)
 
 Details of the task:
-    Below the submit button, conditionally show mpinError in red text.
-    Display only when mpinError is not null. Use consistent error styling.
+    Below the submit button (in non-suspended state), conditionally show
+    mpinError in red text. Display only when mpinError is not null.
+    Supports messages: incomplete MPIN, invalid MPIN with attempt count.
 
 Technical Requirements:
     - if (mpinError != null) { Spacer(12.dp) + Text }
@@ -125,21 +269,23 @@ Technical Requirements:
 
 Acceptance Criteria:
     - Error appears when MPIN is incomplete and button is tapped
+    - Error shows "Invalid MPIN. Please try again. (X attempts left)"
     - Error disappears when user types a new digit
     - Styling matches error messages on other screens
 
 
 --------------------------------------------------------------------------------
-S.No: 6
+S.No: 10
 --------------------------------------------------------------------------------
 Task Name:
     Add biometric icon button and enable biometric text
 
 Details of the task:
-    Below the error area, add a weight spacer to push content to the
-    bottom. Add a circular biometric icon (ic_biometric, 60dp) that
-    invokes onMPINClick. Below it, add "Click here to enable biometric"
-    text that navigates to "mpin_finger_print" on click.
+    Below the error area (outside the suspended/normal if-else), add a
+    weight spacer to push content to the bottom. Add a circular biometric
+    icon (ic_biometric, 60dp) that invokes onMPINClick. Below it, add
+    "Click here to enable biometric" text that navigates to
+    "mpin_finger_print" on click.
 
 Technical Requirements:
     - Spacer(Modifier.weight(1f)) for bottom placement
@@ -151,29 +297,56 @@ Technical Requirements:
     - .clickable { navController.navigate("mpin_finger_print") }
 
 Acceptance Criteria:
-    - Biometric icon displays at the bottom of screen
+    - Biometric icon displays at the bottom of screen in all modes
     - Tapping icon invokes onMPINClick callback
     - Tapping text navigates to mpin_finger_print screen
     - Proper spacing between icon and text
 
 
 --------------------------------------------------------------------------------
-S.No: 7
+S.No: 11
 --------------------------------------------------------------------------------
 Task Name:
-    Add MPIN route to AppNavigation and string resources
+    Add MPIN routes (setup, verify, reset) to AppNavigation
 
 Details of the task:
-    Add the "mpin" composable route in AppNavigation.kt pointing to
-    MPINScreen. Add the mpin string resource in strings.xml.
+    In AppNavigation.kt, add three composable routes for the MPIN screen:
+    (1) "mpin" → setup mode (default, new user)
+    (2) "mpin_verify" → verify mode (session expired, re-authorization)
+    (3) "mpin_reset" → reset mode (after MPIN lockout + OTP verification)
 
 Technical Requirements:
     - composable("mpin") { MPINScreen(navController) }
+    - composable("mpin_verify") {
+        MPINScreen(navController, isVerifyMode = true) }
+    - composable("mpin_reset") {
+        MPINScreen(navController, isResetMode = true) }
+
+Acceptance Criteria:
+    - "mpin" route renders setup mode (title "MPIN")
+    - "mpin_verify" route renders verify mode (title "Enter MPIN")
+    - "mpin_reset" route renders reset mode (title "Set New MPIN")
+    - All three routes reachable from their respective navigation flows
+    - Splash → mpin_verify for expired sessions
+    - OTP (reset) → mpin_reset for lockout recovery
+    - OTP (normal) → mpin for first-time setup
+
+
+--------------------------------------------------------------------------------
+S.No: 12
+--------------------------------------------------------------------------------
+Task Name:
+    Add string resources for MPIN screen
+
+Details of the task:
+    Add the mpin string resource in strings.xml.
+
+Technical Requirements:
     - <string name="mpin">MPIN</string>
 
 Acceptance Criteria:
-    - Navigation to "mpin" route renders MPINScreen
     - String resource resolves correctly
+    - No duplicate resource names
 
 
 ================================================================================

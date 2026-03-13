@@ -80,31 +80,41 @@ Acceptance Criteria:
 S.No: 4
 --------------------------------------------------------------------------------
 Task Name:
-    Implement routing logic based on stored credentials
+    Implement routing logic based on stored credentials and session expiry
 
 Details of the task:
-    Based on the stored email and MPIN from Paper DB, route the user to
-    the correct screen:
+    Based on the stored email, MPIN, and last login time from Paper DB,
+    route the user to the correct screen:
     (1) No email → navigate to "login" (fresh install or logged out)
-    (2) Email exists, MPIN exists → navigate to "dashboard" (returning
-        user, fully set up)
-    (3) Email exists, no MPIN → navigate to "mpin" (verified but MPIN
+    (2) Email exists, no MPIN → navigate to "mpin" (verified but MPIN
         not yet created)
+    (3) Email + MPIN + last login within 24 hours → navigate to
+        "dashboard" (returning user, session still valid)
+    (4) Email + MPIN + last login expired (>24 hours or 0) → navigate
+        to "mpin_verify" (session expired, re-authorization required)
     Remove splash from back stack on all paths.
 
 Technical Requirements:
     - if (storedEmail.isNullOrEmpty()) → navigate("login")
     - else: read "user_mpin" from Paper on IO
-    - if (!storedMpin.isNullOrEmpty()) → navigate("dashboard")
-    - else → navigate("mpin")
+    - if (!storedMpin.isNullOrEmpty()):
+        - Read "last_login_time" from Paper on IO (Long, default 0L)
+        - val hoursSinceLastLogin = (currentTimeMillis - lastLoginTime)
+          / (1000 * 60 * 60)
+        - if (hoursSinceLastLogin < 24 && lastLoginTime > 0L) →
+          navigate("dashboard")
+        - else → navigate("mpin_verify")
+    - else (no MPIN) → navigate("mpin")
     - All navigation: popUpTo("splash") { inclusive = true }
 
 Acceptance Criteria:
     - Fresh install (no Paper data) → login screen
-    - Verified user with MPIN → dashboard directly
+    - Verified user with MPIN + recent login (<24h) → dashboard directly
+    - Verified user with MPIN + expired login (>24h) → MPIN verify screen
     - Verified user without MPIN → MPIN setup screen
     - Splash screen never in back stack after navigation
     - No API call needed (purely local checks)
+    - Paper key "last_login_time" stores Long (milliseconds)
 
 
 --------------------------------------------------------------------------------
