@@ -36,23 +36,37 @@ fun AppNavigation() {
             MPINScreen(navController)
         }
 
+        composable("mpin_verify") {
+            MPINScreen(navController, isVerifyMode = true)
+        }
+
+        composable("mpin_reset") {
+            MPINScreen(navController, isResetMode = true)
+        }
+
         composable("welcome") {
             WelcomeScreen(navController)
         }
 
         composable(
-            route = "otp/{email}/{otp}",
+            route = "otp/{email}/{otp}?isResetMpin={isResetMpin}",
             arguments = listOf(
                 navArgument("email") { type = NavType.StringType },
-                navArgument("otp") { type = NavType.StringType }
+                navArgument("otp") { type = NavType.StringType },
+                navArgument("isResetMpin") {
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
             )
         ) { backStackEntry ->
             val email = backStackEntry.arguments?.getString("email") ?: ""
             val otp = backStackEntry.arguments?.getString("otp") ?: ""
+            val isResetMpin = backStackEntry.arguments?.getBoolean("isResetMpin") ?: false
             OTPScreen(
                 navController = navController,
                 email = email,
-                expectedOtp = otp
+                expectedOtp = otp,
+                isResetMpin = isResetMpin
             )
         }
 

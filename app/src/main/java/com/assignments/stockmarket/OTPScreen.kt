@@ -54,7 +54,8 @@ import kotlinx.coroutines.withContext
 fun OTPScreen(
     navController: NavController,
     email: String,
-    expectedOtp: String
+    expectedOtp: String,
+    isResetMpin: Boolean = false
 ) {
     var currentExpectedOtp by remember { mutableStateOf(expectedOtp) }
     var enteredOtp by remember { mutableStateOf("") }
@@ -218,22 +219,31 @@ fun OTPScreen(
                             return@clickable
                         }
 
-                        // OTP matched — call update status API, store email, navigate to MPIN
+                        // OTP matched — handle based on mode
                         otpError = null
                         isLoading = true
                         coroutineScope.launch {
-                            val (updated, _) = updateStatusApi(email)
-                            isLoading = false
-                            if (updated) {
-                                // Store email in Paper NoSQL DB
-                                withContext(Dispatchers.IO) {
-                                    Paper.book().write("user_email", email)
-                                }
-                                navController.navigate("mpin") {
+                            if (isResetMpin) {
+                                // Reset MPIN flow — skip updateStatusApi, navigate to set new MPIN
+                                isLoading = false
+                                navController.navigate("mpin_reset") {
                                     popUpTo("otp/{email}/{otp}") { inclusive = true }
                                 }
                             } else {
-                                otpError = "OTP verification failed. Please try again."
+                                // Normal signup flow — call update status API, store email, navigate to MPIN
+                                val (updated, _) = updateStatusApi(email)
+                                isLoading = false
+                                if (updated) {
+                                    // Store email in Paper NoSQL DB
+                                    withContext(Dispatchers.IO) {
+                                        Paper.book().write("user_email", email)
+                                    }
+                                    navController.navigate("mpin") {
+                                        popUpTo("otp/{email}/{otp}") { inclusive = true }
+                                    }
+                                } else {
+                                    otpError = "OTP verification failed. Please try again."
+                                }
                             }
                         }
                     },

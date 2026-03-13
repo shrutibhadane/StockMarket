@@ -186,7 +186,7 @@ fun DashboardScreen(
                 LiveMarketCard(
                     title = "NIFTY 50",
                     symbolKey = "NIFTY50",
-                    defaultPrice = 25616.80,
+                    defaultPrice = 24850.00,
                     liveTicks = liveTicks
                 )
                 LiveMarketCard(
