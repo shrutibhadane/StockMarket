@@ -25,13 +25,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppBar() {
+fun MyAppBar(
+    navController: NavController
+) {
 
     val systemUiController = rememberSystemUiController()
     val statusBarColor = colorResource(id = R.color.screen_background)
@@ -71,7 +74,9 @@ fun MyAppBar() {
         },
 
         actions = {
-            IconButton(onClick = { /* Search action */ }) {
+            IconButton(onClick = {
+                navController.navigate("search")
+            }) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Search",
@@ -91,8 +96,3 @@ fun MyAppBar() {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyAppBar()
-}

@@ -66,7 +66,7 @@ fun DashboardScreen(
     var selectedBottomTab by remember { mutableStateOf(0) }
 
     Scaffold(
-        topBar = { MyAppBar() },
+        topBar = { MyAppBar(navController) },
         bottomBar = {
             BottomNavBar(
                 items = bottomNavItems,
