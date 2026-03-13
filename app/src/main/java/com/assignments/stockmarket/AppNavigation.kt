@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.assignments.stockmarket.search.SearchScreen
 
 @Composable
 fun AppNavigation() {
@@ -57,6 +58,10 @@ fun AppNavigation() {
 
         composable("dashboard") {
             DashboardScreen(navController)
+        }
+
+        composable("search") {
+            SearchScreen(navController)
         }
 
     }
