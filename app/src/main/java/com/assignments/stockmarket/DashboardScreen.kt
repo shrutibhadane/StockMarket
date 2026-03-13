@@ -1,8 +1,12 @@
 package com.assignments.stockmarket
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +14,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
@@ -27,11 +34,17 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -49,11 +62,29 @@ import com.assignments.stockmarket.tabs.holdings.HoldingsScreen
 import com.assignments.stockmarket.tabs.orders.OrdersScreen
 import com.assignments.stockmarket.tabs.positions.PositionsScreen
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import kotlinx.coroutines.delay
+import java.text.DecimalFormat
+import kotlin.math.abs
+
+private val priceFormat = DecimalFormat("#,##0.00")
+private val changeFormat = DecimalFormat("0.00")
 
 @Composable
 fun DashboardScreen(
     navController: NavController,
 ) {
+
+    // ── WebSocket lifecycle: connect on enter, disconnect on leave ──
+    DisposableEffect(Unit) {
+        WebSocketManager.connect()
+        onDispose {
+            WebSocketManager.disconnect()
+        }
+    }
+
+    // ── Observe live ticks and connection state from WebSocket ──
+    val liveTicks by WebSocketManager.ticks.collectAsState()
+    val connectionState by WebSocketManager.connectionState.collectAsState()
 
     val bottomNavItems = listOf(
         BottomNavItem("Stocks", Icons.Default.ShowChart),
@@ -80,37 +111,95 @@ fun DashboardScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(colorResource(R.color.screen_background))
-                .padding(innerPadding)  // Important to apply scaffold's padding
+                .padding(innerPadding)
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
 
             // Screen content changes depending on bottom nav selection
             when (selectedBottomTab) {
-                // 0 -> DashboardScreen(navController)
                 1 -> FAndQScreen()
                 2 -> LoansScreen()
                 3 -> MutualFundsScreen()
                 4 -> UPIScreen()
             }
 
-            // NIFTY 50 and SENSEX cards
+            // ── Connection Status Indicator ──
             Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.fillMaxWidth()
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
             ) {
-                MarketCard(
+                // Green dot only when LIVE server data, red dot when CONNECTING, no dot for FALLBACK
+                when (connectionState) {
+                    TickConnectionState.LIVE -> {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(Color(0xFF01FF41))
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "Live",
+                            color = Color(0xFF01FF41),
+                            fontSize = 11.sp,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                    TickConnectionState.FALLBACK -> {
+                        Text(
+                            text = "Live",
+                            color = Color.White,
+                            fontSize = 11.sp,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                    TickConnectionState.CONNECTING -> {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(Color(0xFFFF0105))
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "Connecting…",
+                            color = Color(0xFFFF0105),
+                            fontSize = 11.sp,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+            }
+
+            // ── Live Market Cards (horizontal scroll) ──
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+            ) {
+                LiveMarketCard(
                     title = "NIFTY 50",
-                    price = "25,616.80",
-                    change = "+196.50 (0.77%)",
-                    isPositive = true,
-                    modifier = Modifier.weight(1f),
+                    symbolKey = "NIFTY50",
+                    defaultPrice = 25616.80,
+                    liveTicks = liveTicks
                 )
-                MarketCard(
+                LiveMarketCard(
                     title = "SENSEX",
-                    price = "82,783.80",
-                    change = "+556.50 (0.63%)",
-                    isPositive = true,
-                    modifier = Modifier.weight(1f)
+                    symbolKey = "SENSEX",
+                    defaultPrice = 82783.80,
+                    liveTicks = liveTicks
+                )
+                LiveMarketCard(
+                    title = "BANK NIFTY",
+                    symbolKey = "BANKNIFTY",
+                    defaultPrice = 48500.00,
+                    liveTicks = liveTicks
                 )
             }
 
@@ -123,6 +212,62 @@ fun DashboardScreen(
 
 }
 
+/**
+ * A MarketCard that auto-updates from live WebSocket ticks.
+ * Falls back to [defaultPrice] when no tick has arrived yet.
+ * Flashes a subtle border color when the price updates.
+ */
+@Composable
+fun LiveMarketCard(
+    title: String,
+    symbolKey: String,
+    defaultPrice: Double,
+    liveTicks: Map<String, MarketTick>,
+    modifier: Modifier = Modifier
+) {
+    val tick = liveTicks[symbolKey]
+
+    val currentPrice = tick?.price ?: defaultPrice
+    val previousPrice = tick?.previousPrice ?: defaultPrice
+    val change = currentPrice - previousPrice
+    val isPositive = change >= 0
+    val percentChange = if (previousPrice != 0.0) (change / previousPrice) * 100.0 else 0.0
+
+    val sign = if (isPositive) "+" else "-"
+    val changeText = "$sign${changeFormat.format(abs(change))} (${changeFormat.format(abs(percentChange))}%)"
+
+    // Flash highlight when a new tick arrives
+    var isFlashing by remember { mutableStateOf(false) }
+
+    LaunchedEffect(tick) {
+        if (tick != null) {
+            isFlashing = true
+            delay(600)
+            isFlashing = false
+        }
+    }
+
+    val flashColor = if (isFlashing) {
+        if (isPositive) Color(0xFF01FF41).copy(alpha = 0.5f) else Color(0xFFFF0105).copy(alpha = 0.5f)
+    } else {
+        Color.White
+    }
+    val animatedBorderColor by animateColorAsState(
+        targetValue = flashColor,
+        animationSpec = tween(durationMillis = 400),
+        label = "borderFlash"
+    )
+
+    MarketCard(
+        title = title,
+        price = priceFormat.format(currentPrice),
+        change = changeText,
+        isPositive = isPositive,
+        borderColor = animatedBorderColor,
+        modifier = modifier.width(170.dp)
+    )
+}
+
 @Composable
 fun MarketCard(
     title: String,
@@ -130,14 +275,15 @@ fun MarketCard(
     change: String,
     isPositive: Boolean,
     modifier: Modifier = Modifier,
+    borderColor: Color = Color.White,
 ) {
     val changeColor = if (isPositive) colorResource(R.color.light_green_text_color)
     else colorResource(R.color.red_text_color)
 
     Card(
-        modifier = modifier.height(50.dp),
+        modifier = modifier.height(80.dp),
         shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(1.dp, colorResource(R.color.white)),
+        border = BorderStroke(1.dp, borderColor),
         colors = CardDefaults.cardColors(
             containerColor = colorResource(R.color.screen_background)
         )
@@ -150,31 +296,27 @@ fun MarketCard(
                 title,
                 fontWeight = FontWeight.Bold,
                 fontFamily = PoppinsFamily,
-                fontSize = 10.sp,
+                fontSize = 11.sp,
                 color = colorResource(R.color.white)
             )
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    price,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 8.sp,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(id = R.color.white)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    change,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 8.sp,
-                    fontFamily = PoppinsFamily,
-                    color = changeColor
-                )
-            }
+            Text(
+                price,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 12.sp,
+                fontFamily = PoppinsFamily,
+                color = colorResource(id = R.color.white)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                change,
+                fontWeight = FontWeight.Medium,
+                fontSize = 9.sp,
+                fontFamily = PoppinsFamily,
+                color = changeColor
+            )
         }
     }
 }
