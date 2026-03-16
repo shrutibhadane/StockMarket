@@ -58,11 +58,15 @@ fun AppNavigation() {
         }
 
         composable(
-            route = "otp/{email}/{otp}?isResetMpin={isResetMpin}",
+            route = "otp/{email}/{otp}?isResetMpin={isResetMpin}&isForgotPassword={isForgotPassword}",
             arguments = listOf(
                 navArgument("email") { type = NavType.StringType },
                 navArgument("otp") { type = NavType.StringType },
                 navArgument("isResetMpin") {
+                    type = NavType.BoolType
+                    defaultValue = false
+                },
+                navArgument("isForgotPassword") {
                     type = NavType.BoolType
                     defaultValue = false
                 }
@@ -71,16 +75,31 @@ fun AppNavigation() {
             val email = backStackEntry.arguments?.getString("email") ?: ""
             val otp = backStackEntry.arguments?.getString("otp") ?: ""
             val isResetMpin = backStackEntry.arguments?.getBoolean("isResetMpin") ?: false
+            val isForgotPassword = backStackEntry.arguments?.getBoolean("isForgotPassword") ?: false
             OTPScreen(
                 navController = navController,
                 email = email,
                 expectedOtp = otp,
-                isResetMpin = isResetMpin
+                isResetMpin = isResetMpin,
+                isForgotPassword = isForgotPassword
             )
         }
 
         composable("mpin_finger_print") {
             MPINFingerPrintScreen(navController)
+        }
+
+        composable(
+            route = "reset_password/{identifier}",
+            arguments = listOf(
+                navArgument("identifier") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val identifier = backStackEntry.arguments?.getString("identifier") ?: ""
+            ResetPasswordScreen(
+                navController = navController,
+                identifier = identifier
+            )
         }
 
         composable("dashboard") {

@@ -35,7 +35,9 @@ fun CustomTextField(
     onValueChange: (String) -> Unit,
     isPassword: Boolean = false,
     isConfirmPassword: Boolean = false,
-    errorMessage: String? = null
+    errorMessage: String? = null,
+    enabled: Boolean = true,
+    readOnly: Boolean = false
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
@@ -43,6 +45,8 @@ fun CustomTextField(
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
+            enabled = enabled,
+            readOnly = readOnly,
             placeholder = {
                 Text(
                     text = placeholder,

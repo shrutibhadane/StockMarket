@@ -1,5 +1,6 @@
 package com.assignments.stockmarket
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -55,8 +56,10 @@ fun OTPScreen(
     navController: NavController,
     email: String,
     expectedOtp: String,
-    isResetMpin: Boolean = false
+    isResetMpin: Boolean = false,
+    isForgotPassword: Boolean = false
 ) {
+    val otpLength = if (isForgotPassword) 6 else 4
     var currentExpectedOtp by remember { mutableStateOf(expectedOtp) }
     var enteredOtp by remember { mutableStateOf("") }
     var otpError by remember { mutableStateOf<String?>(null) }
@@ -121,6 +124,7 @@ fun OTPScreen(
             ) {
                 key(resendKey) {
                     OTPInput(
+                        otpLength = otpLength,
                         onOtpComplete = { otp ->
                             enteredOtp = otp
                         },
@@ -168,17 +172,37 @@ fun OTPScreen(
                         isLoading = true
                         otpError = null
                         coroutineScope.launch {
-                            val newOtp = (1000..9999).random().toString()
-                            val sent = sendOtpApi(email, newOtp)
-                            isLoading = false
-                            if (sent) {
-                                currentExpectedOtp = newOtp
-                                enteredOtp = ""
-                                resendKey++
-                                timeLeft = 120
-                                timerRunning = true
+                            if (isForgotPassword) {
+                                // Resend via forgot password API
+                                val isEmail = "@" in email
+                                val result = if (isEmail) {
+                                    forgotPasswordApi(email = email)
+                                } else {
+                                    forgotPasswordApi(phoneNumber = email)
+                                }
+                                isLoading = false
+                                if (result.success && !result.otp.isNullOrEmpty()) {
+                                    currentExpectedOtp = result.otp
+                                    enteredOtp = ""
+                                    resendKey++
+                                    timeLeft = 120
+                                    timerRunning = true
+                                } else {
+                                    otpError = result.message ?: "Failed to resend OTP. Try again."
+                                }
                             } else {
-                                otpError = "Failed to resend OTP. Try again."
+                                val newOtp = (1000..9999).random().toString()
+                                val sent = sendOtpApi(email, newOtp)
+                                isLoading = false
+                                if (sent) {
+                                    currentExpectedOtp = newOtp
+                                    enteredOtp = ""
+                                    resendKey++
+                                    timeLeft = 120
+                                    timerRunning = true
+                                } else {
+                                    otpError = "Failed to resend OTP. Try again."
+                                }
                             }
                         }
                     }
@@ -209,8 +233,8 @@ fun OTPScreen(
                     .clickable {
                         if (isLoading) return@clickable
 
-                        if (enteredOtp.length < 4) {
-                            otpError = "Please enter the complete 4-digit OTP"
+                        if (enteredOtp.length < otpLength) {
+                            otpError = "Please enter the complete $otpLength-digit OTP"
                             return@clickable
                         }
 
@@ -223,7 +247,14 @@ fun OTPScreen(
                         otpError = null
                         isLoading = true
                         coroutineScope.launch {
-                            if (isResetMpin) {
+                            if (isForgotPassword) {
+                                // Forgot password flow — navigate to reset password screen
+                                isLoading = false
+                                val encodedIdentifier = Uri.encode(email)
+                                navController.navigate("reset_password/$encodedIdentifier") {
+                                    popUpTo("otp/{email}/{otp}") { inclusive = true }
+                                }
+                            } else if (isResetMpin) {
                                 // Reset MPIN flow — skip updateStatusApi, navigate to set new MPIN
                                 isLoading = false
                                 navController.navigate("mpin_reset") {
