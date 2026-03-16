@@ -153,5 +153,9 @@ fun AppNavigation() {
         composable("orders") {
             OrdersScreen(navController)
         }
+
+        composable("investment_amount") {
+            InvestmentScreen(navController)
+        }
     }
 }

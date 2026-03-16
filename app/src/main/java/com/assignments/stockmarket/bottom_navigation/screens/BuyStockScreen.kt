@@ -45,7 +45,7 @@ fun BuyStockScreen(navController: NavController,
     val stock = stockDetailsList.find { it.id == stockId }
 
     Scaffold(
-        topBar = { AppBarBackArrow(navController) },
+        topBar = { AppBarBackArrow(navController)},
         bottomBar = {
             BottomBarButtons(
                 "SELL",

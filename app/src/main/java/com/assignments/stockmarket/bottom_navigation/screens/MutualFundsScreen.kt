@@ -44,7 +44,7 @@ fun MutualFundsScreen(navController: NavController) {
             BottomBarButtons(
                 "One-Time",
                 "Start SIP",
-                { navController.navigate("login") },
+                { navController.navigate("investment_amount") },
                 { navController.navigate("search") },
             )
         }

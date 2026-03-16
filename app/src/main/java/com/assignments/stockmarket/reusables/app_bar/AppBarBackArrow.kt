@@ -1,5 +1,12 @@
 package com.assignments.stockmarket.reusables.app_bar
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -9,19 +16,27 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import org.w3c.dom.Text
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBarBackArrow(
-    navController: NavController
+    navController: NavController,
+    title: String? = null,
+    subTitle: String? = null,
 ) {
 
     val systemUiController = rememberSystemUiController()
@@ -66,8 +81,32 @@ fun AppBarBackArrow(
         },
 
         title = {
-            // You can leave this empty or provide a title if needed
-            Text(text = "", color = Color.Transparent)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                if (title != null) {
+                    Text(
+                        text = title,
+                        color = colorResource(R.color.white),
+                        fontSize = 12.sp,
+                        fontFamily = PoppinsFamily,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Left,
+                    )
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+                if (subTitle != null) {
+                    Text(
+                        text = subTitle,
+                        color = colorResource(R.color.white),
+                        fontSize = 8.sp,
+                        fontFamily = PoppinsFamily,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Left,
+                    )
+                }
+            }
         },
     )
 }
