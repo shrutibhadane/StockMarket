@@ -42,6 +42,7 @@
     <string name="verifying">Verifying…</string>
     <string name="otp_expires_in_2_minutes_please_request_a_new_one_if_it_expires">OTP expires in 2 minutes. Please request a new one if it expires.</string>
     <string name="data_is_not_available">Data is not available</string>
+    <string name="reset_password">Reset Password</string>
 
 
 </resources>

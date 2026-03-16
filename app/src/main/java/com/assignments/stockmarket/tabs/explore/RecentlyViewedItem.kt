@@ -23,10 +23,10 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 
 @Composable
-fun RecentlyViewedItem(stock: Stock, navController: NavController) {
+fun RecentlyViewedItem(stockDetails: StockDetails, navController: NavController) {
 
     val changeColor =
-        if (stock.isPositive)
+        if (stockDetails.isPositive)
             colorResource(R.color.light_green_text_color)
         else
             colorResource(R.color.red_text_color)
@@ -43,7 +43,7 @@ fun RecentlyViewedItem(stock: Stock, navController: NavController) {
                     shape = RoundedCornerShape(10.dp)
                 )
             .clickable {
-                navController.navigate("buy_stock")
+                navController.navigate("buy_stock/${stockDetails.id}")
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -59,7 +59,7 @@ fun RecentlyViewedItem(stock: Stock, navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = stock.name,
+            text = stockDetails.name,
             fontSize = 13.sp,
             color = colorResource(R.color.white),
             fontFamily = PoppinsFamily,
@@ -67,7 +67,7 @@ fun RecentlyViewedItem(stock: Stock, navController: NavController) {
         )
 
         Text(
-            text = stock.change,
+            text = stockDetails.annualReturn.toString(),
             fontSize = 12.sp,
             color = changeColor,
             fontFamily = PoppinsFamily,

@@ -34,14 +34,6 @@ fun ExploreScreen(navController: NavController) {
             .padding(16.dp)
     ) {
 
-        val stocks = listOf(
-            Stock("Mothers", "+0.77%", true),
-            Stock("Reliance", "+4.92%", true),
-            Stock("Eternals", "-1.02%", false),
-            Stock("Dee Engin.", "+3.12%", true),
-            Stock("Silverbees", "-8.32%", false)
-        )
-
         val gridStocks = listOf(
             GridStock("Tejas", "Rs. 484.70", "+48.85 (0.77%)", true),
             GridStock("Silverbees", "Rs. 274.65", "+21.84 (8.64%)", true),
@@ -69,7 +61,7 @@ fun ExploreScreen(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
-            items(stocks) { stock ->
+            items(stockDetailsList) { stock ->
                 RecentlyViewedItem(stock, navController)
             }
 

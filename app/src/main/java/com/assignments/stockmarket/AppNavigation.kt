@@ -126,8 +126,16 @@ fun AppNavigation() {
             LoansScreen(navController)
         }
 
-        composable("buy_stock") {
-            BuyStockScreen(navController)
+        composable(
+            route = "buy_stock/{stockId}"
+        ) { backStackEntry ->
+
+            val stockId = backStackEntry.arguments?.getString("stockId")?.toInt() ?: 0
+
+            BuyStockScreen(
+                navController = navController,
+                stockId = stockId
+            )
         }
 
         composable("explore") {

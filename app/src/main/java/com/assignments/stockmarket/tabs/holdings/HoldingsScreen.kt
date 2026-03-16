@@ -40,8 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
-import com.assignments.stockmarket.tabs.explore.RecentlyViewedItem
-import com.assignments.stockmarket.tabs.explore.Stock
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
