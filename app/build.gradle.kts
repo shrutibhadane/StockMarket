@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.runtime)
+    implementation(libs.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,6 +81,12 @@ dependencies {
     //Fonts
     implementation(libs.androidx.compose.ui.text.google.fonts)
     implementation(libs.accompanist.systemuicontroller)
+
+    implementation("com.patrykandpatrick.vico:compose:1.13.0")
+    implementation("com.patrykandpatrick.vico:compose-m3:1.13.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("io.socket:socket.io-client:2.1.0")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
