@@ -52,9 +52,22 @@ fun SplashScreen(navController: NavController) {
             }
 
             if (!storedMpin.isNullOrEmpty()) {
-                // MPIN available → go directly to dashboard
-                navController.navigate("dashboard") {
-                    popUpTo("splash") { inclusive = true }
+                // MPIN available → check last login time
+                val lastLoginTime: Long = withContext(Dispatchers.IO) {
+                    Paper.book().read<Long>("last_login_time") ?: 0L
+                }
+                val hoursSinceLastLogin = (System.currentTimeMillis() - lastLoginTime) / (1000 * 60 * 60)
+
+                if (hoursSinceLastLogin < 24 && lastLoginTime > 0L) {
+                    // Last login within 24 hours → go directly to dashboard
+                    navController.navigate("dashboard") {
+                        popUpTo("splash") { inclusive = true }
+                    }
+                } else {
+                    // Last login expired (>24 hours) → re-authorize MPIN
+                    navController.navigate("mpin_verify") {
+                        popUpTo("splash") { inclusive = true }
+                    }
                 }
             } else {
                 // No MPIN set yet → go to MPIN setup screen

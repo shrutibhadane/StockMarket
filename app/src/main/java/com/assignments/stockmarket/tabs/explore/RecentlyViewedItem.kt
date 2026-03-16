@@ -1,6 +1,7 @@
 package com.assignments.stockmarket.tabs.explore
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,20 +18,21 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 
 @Composable
-fun RecentlyViewedItem(stock: Stock) {
+fun RecentlyViewedItem(stockDetails: StockDetails, navController: NavController) {
 
     val changeColor =
-        if (stock.isPositive)
+        if (stockDetails.isPositive)
             colorResource(R.color.light_green_text_color)
         else
             colorResource(R.color.red_text_color)
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
         Box(
@@ -39,7 +41,10 @@ fun RecentlyViewedItem(stock: Stock) {
                 .background(
                     color = colorResource(R.color.extra_light_blue_text_color),
                     shape = RoundedCornerShape(10.dp)
-                ),
+                )
+            .clickable {
+                navController.navigate("buy_stock/${stockDetails.id}")
+                },
             contentAlignment = Alignment.Center
         ) {
 
@@ -54,7 +59,7 @@ fun RecentlyViewedItem(stock: Stock) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = stock.name,
+            text = stockDetails.name,
             fontSize = 13.sp,
             color = colorResource(R.color.white),
             fontFamily = PoppinsFamily,
@@ -62,7 +67,7 @@ fun RecentlyViewedItem(stock: Stock) {
         )
 
         Text(
-            text = stock.change,
+            text = stockDetails.annualReturn.toString(),
             fontSize = 12.sp,
             color = changeColor,
             fontFamily = PoppinsFamily,

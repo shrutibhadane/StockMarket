@@ -31,15 +31,21 @@ import com.assignments.stockmarket.graph.ScrollableCandleChart
 import com.assignments.stockmarket.graph.candles
 import com.assignments.stockmarket.reusables.InvestmentsCard
 import com.assignments.stockmarket.reusables.MFImageBar
+import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
+import com.assignments.stockmarket.tabs.explore.stockDetailsList
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
-fun BuyStockScreen(navController: NavController) {
+fun BuyStockScreen(navController: NavController,
+                   stockId: Int) {
 
     var selectedPeriod by remember { mutableStateOf("3Y") }
 
+    val stock = stockDetailsList.find { it.id == stockId }
+
     Scaffold(
+        topBar = { AppBarBackArrow(navController) },
         bottomBar = {
             BottomBarButtons(
                 "SELL",
@@ -51,12 +57,14 @@ fun BuyStockScreen(navController: NavController) {
             )
         }
 
-    ) {
+    ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(colorResource(R.color.screen_background))
-                .padding(horizontal = 4.dp, vertical = 0.dp)
+                .padding(horizontal = 12.dp, vertical = 0.dp)
+                .padding(innerPadding)
         ) {
 
             MFImageBar()
@@ -70,13 +78,15 @@ fun BuyStockScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
-                        text = "Very High Risk",
-                        color = colorResource(R.color.light_grey_text_color),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
+                    stock?.let {
+                        Text(
+                            text = it.risk,
+                            color = colorResource(R.color.light_grey_text_color),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFamily,
+                        )
+                    }
 
                     Text(
                         text = " • ",
@@ -86,13 +96,15 @@ fun BuyStockScreen(navController: NavController) {
                         fontFamily = PoppinsFamily,
                     )
 
-                    Text(
-                        text = "Equity",
-                        color = colorResource(R.color.light_grey_text_color),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
+                    stock?.let {
+                        Text(
+                            text = it.category,
+                            color = colorResource(R.color.light_grey_text_color),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFamily,
+                        )
+                    }
 
                     Text(
                         text = " • ",
@@ -102,24 +114,28 @@ fun BuyStockScreen(navController: NavController) {
                         fontFamily = PoppinsFamily,
                     )
 
-                    Text(
-                        text = "Thematic",
-                        color = colorResource(R.color.light_grey_text_color),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
+                    stock?.let {
+                        Text(
+                            text = it.theme,
+                            color = colorResource(R.color.light_grey_text_color),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFamily,
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text = "Tejas Networks",
-                    color = colorResource(R.color.white),
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily
-                )
+                if (stock != null) {
+                    Text(
+                        text = stock.name ,
+                        color = colorResource(R.color.white),
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = PoppinsFamily
+                    )
+                }
 
             }
 
@@ -130,34 +146,40 @@ fun BuyStockScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             ) {
 
-                Text(
-                    text = "28.24%",
-                    color = colorResource(R.color.light_green_text_color),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                )
+                if (stock != null) {
+                    Text(
+                        text = stock.annualReturn.toString(),
+                        color = colorResource(R.color.light_green_text_color),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = PoppinsFamily,
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(6.dp))
 
-                Text(
-                    text = "3Y annualised",
-                    color = colorResource(R.color.light_grey_text_color),
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                )
+                stock?.let {
+                    Text(
+                        text = it.annualReturnPeriod,
+                        color = colorResource(R.color.light_grey_text_color),
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = PoppinsFamily,
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            Text(
-                text = "-2.07%",
-                color = colorResource(R.color.light_red_text_color),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = PoppinsFamily,
-            )
+            if (stock != null) {
+                Text(
+                    text = stock.dayChange.toString(),
+                    color = colorResource(R.color.light_red_text_color),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = PoppinsFamily,
+                )
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -190,8 +212,8 @@ fun BuyStockScreen(navController: NavController) {
 
             // Invested & Total Returns Section
             InvestmentsCard(
-                investedValue = "Rs. 3,000",
-                totalReturns = "-3.12%",
+                investedValue = stock?.investedAmount.toString(),
+                totalReturns = stock?.totalReturns.toString(),
                 arrowClick = { navController.navigate("dashboard") }
             )
         }

@@ -13,13 +13,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.tabs.holdings.Holding
 import com.assignments.stockmarket.tabs.holdings.HoldingItemCard
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
-fun PositionsScreen() {
+fun PositionsScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
