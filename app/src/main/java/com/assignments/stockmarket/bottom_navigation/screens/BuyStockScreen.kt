@@ -31,6 +31,7 @@ import com.assignments.stockmarket.graph.ScrollableCandleChart
 import com.assignments.stockmarket.graph.candles
 import com.assignments.stockmarket.reusables.InvestmentsCard
 import com.assignments.stockmarket.reusables.MFImageBar
+import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
@@ -40,6 +41,7 @@ fun BuyStockScreen(navController: NavController) {
     var selectedPeriod by remember { mutableStateOf("3Y") }
 
     Scaffold(
+        topBar = { AppBarBackArrow(navController) },
         bottomBar = {
             BottomBarButtons(
                 "SELL",
@@ -51,12 +53,14 @@ fun BuyStockScreen(navController: NavController) {
             )
         }
 
-    ) {
+    ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(colorResource(R.color.screen_background))
-                .padding(horizontal = 4.dp, vertical = 0.dp)
+                .padding(horizontal = 12.dp, vertical = 0.dp)
+                .padding(innerPadding)
         ) {
 
             MFImageBar()

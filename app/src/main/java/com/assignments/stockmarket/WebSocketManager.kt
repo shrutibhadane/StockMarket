@@ -108,7 +108,7 @@ object WebSocketManager {
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
 
             override fun onOpen(ws: WebSocket, response: Response) {
-                Log.d(TAG, "WebSocket opened (HTTP ${response.code()})")
+                Log.d(TAG, "WebSocket opened (HTTP ${response.code})")
             }
 
             override fun onMessage(ws: WebSocket, text: String) {
@@ -128,7 +128,7 @@ object WebSocketManager {
             }
 
             override fun onFailure(ws: WebSocket, t: Throwable, response: Response?) {
-                val httpCode = response?.code()?.toString() ?: "none"
+                val httpCode = response?.code?.toString() ?: "none"
                 Log.e(TAG, "WebSocket FAILURE: ${t.javaClass.simpleName}: ${t.message}  " +
                         "[HTTP $httpCode]", t)
                 markDisconnected("WebSocket failure: ${t.javaClass.simpleName}: ${t.message}")

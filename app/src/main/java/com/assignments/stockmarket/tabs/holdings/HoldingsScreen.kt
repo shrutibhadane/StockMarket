@@ -38,13 +38,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.tabs.explore.RecentlyViewedItem
 import com.assignments.stockmarket.tabs.explore.Stock
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
-fun HoldingsScreen() {
+fun HoldingsScreen(navController: NavController) {
 
     Column(
         Modifier.padding(16.dp)

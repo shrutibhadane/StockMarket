@@ -52,7 +52,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.bottom_navigation.BottomNavBar
 import com.assignments.stockmarket.bottom_navigation.BottomNavItem
-import com.assignments.stockmarket.bottom_navigation.screens.BuyStockScreen
 import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
 import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
 import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
@@ -211,7 +210,7 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            MarketTabs()
+            MarketTabs(navController)
 
         }
     }
@@ -328,7 +327,7 @@ fun MarketCard(
 }
 
 @Composable
-fun MarketTabs() {
+fun MarketTabs(navController: NavController) {
 
     val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
     var selectedTabIndex by remember { mutableStateOf(0) }
@@ -366,10 +365,10 @@ fun MarketTabs() {
         }
 
         when (selectedTabIndex) {
-            0 -> ExploreScreen()
-            1 -> HoldingsScreen()
-            2 -> PositionsScreen()
-            3 -> OrdersScreen()
+            0 -> ExploreScreen(navController)
+            1 -> HoldingsScreen(navController)
+            2 -> PositionsScreen(navController)
+            3 -> OrdersScreen(navController)
         }
     }
 }

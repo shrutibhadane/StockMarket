@@ -12,6 +12,10 @@ import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
 import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
 import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
 import com.assignments.stockmarket.search.SearchScreen
+import com.assignments.stockmarket.tabs.explore.ExploreScreen
+import com.assignments.stockmarket.tabs.holdings.HoldingsScreen
+import com.assignments.stockmarket.tabs.orders.OrdersScreen
+import com.assignments.stockmarket.tabs.positions.PositionsScreen
 
 @Composable
 fun AppNavigation() {
@@ -105,6 +109,22 @@ fun AppNavigation() {
 
         composable("buy_stock") {
             BuyStockScreen(navController)
+        }
+
+        composable("explore") {
+            ExploreScreen(navController)
+        }
+
+        composable("holdings") {
+            HoldingsScreen(navController)
+        }
+
+        composable("positions") {
+            PositionsScreen(navController)
+        }
+
+        composable("orders") {
+            OrdersScreen(navController)
         }
     }
 }
