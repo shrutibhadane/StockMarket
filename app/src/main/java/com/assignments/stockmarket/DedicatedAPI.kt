@@ -21,6 +21,8 @@ const val SIGNUP_API_URL = "$BASE_URL/signup"
 const val SEND_OTP_API_URL = "$BASE_URL/sendotp"
 const val UPDATE_STATUS_API_URL = "$BASE_URL/updatestatus"
 const val CHECK_STATUS_API_URL = "$BASE_URL/checkthestatus"
+const val FORGOT_PASSWORD_API_URL = "$BASE_URL/forgotpassword"
+const val RESET_PASSWORD_API_URL = "$BASE_URL/resetpassword"
 
 // ──────────────────────────────────────────────
 //  Data classes
@@ -30,6 +32,12 @@ data class SignUpResult(val success: Boolean, val message: String? = null)
 data class StatusResult(
     val emailVerified: Boolean = false,
     val phoneVerified: Boolean = false
+)
+
+data class ForgotPasswordResult(
+    val success: Boolean,
+    val otp: String? = null,
+    val message: String? = null
 )
 
 // ──────────────────────────────────────────────
@@ -234,3 +242,99 @@ suspend fun checkTheStatusApi(email: String): StatusResult = withContext(Dispatc
     }
 }
 
+/**
+ * Call forgot password API via POST to /api/forgotpassword.
+ * Sends `email` or `phone_number` to initiate password reset.
+ * Returns [ForgotPasswordResult] with success flag, OTP (on success), and message.
+ */
+suspend fun forgotPasswordApi(
+    email: String? = null,
+    phoneNumber: String? = null
+): ForgotPasswordResult = withContext(Dispatchers.IO) {
+    var connection: HttpURLConnection? = null
+    try {
+        connection = (URL(FORGOT_PASSWORD_API_URL).openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 15_000
+            readTimeout = 15_000
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json")
+            setRequestProperty("Accept", "application/json")
+        }
+
+        val payload = JSONObject().apply {
+            if (!email.isNullOrBlank()) put("email", email)
+            if (!phoneNumber.isNullOrBlank()) put("phone_number", phoneNumber)
+        }.toString()
+
+        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
+
+        val responseCode = connection.responseCode
+        val stream = if (responseCode in 200..299) connection.inputStream else connection.errorStream
+        val body = BufferedReader(stream.reader()).use { it.readText() }
+        val json = JSONObject(body)
+
+        if (json.optString("status").equals("OK", ignoreCase = true)) {
+            ForgotPasswordResult(
+                success = true,
+                otp = json.optString("otp").ifEmpty { null },
+                message = json.optString("message").ifEmpty { null }
+            )
+        } else {
+            ForgotPasswordResult(
+                success = false,
+                message = json.optString("message").ifEmpty { "Request failed" }
+            )
+        }
+    } catch (e: Exception) {
+        ForgotPasswordResult(success = false, message = "Error: ${e.javaClass.simpleName}: ${e.message}")
+    } finally {
+        connection?.disconnect()
+    }
+}
+
+/**
+ * Call reset password API via POST to /api/resetpassword.
+ * Sends `email` or `phone_number` along with new `password`.
+ * Returns [SignUpResult] with success flag and optional message.
+ */
+suspend fun resetPasswordApi(
+    email: String? = null,
+    phoneNumber: String? = null,
+    password: String
+): SignUpResult = withContext(Dispatchers.IO) {
+    var connection: HttpURLConnection? = null
+    try {
+        connection = (URL(RESET_PASSWORD_API_URL).openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 15_000
+            readTimeout = 15_000
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json")
+            setRequestProperty("Accept", "application/json")
+        }
+
+        val payload = JSONObject().apply {
+            if (!email.isNullOrBlank()) put("email", email)
+            if (!phoneNumber.isNullOrBlank()) put("phone_number", phoneNumber)
+            put("password", password)
+        }.toString()
+
+        OutputStreamWriter(connection.outputStream).use { it.write(payload); it.flush() }
+
+        val responseCode = connection.responseCode
+        val stream = if (responseCode in 200..299) connection.inputStream else connection.errorStream
+        val body = BufferedReader(stream.reader()).use { it.readText() }
+        val json = JSONObject(body)
+
+        if (json.optString("status").equals("OK", ignoreCase = true)) {
+            SignUpResult(success = true, message = json.optString("message").ifEmpty { null })
+        } else {
+            SignUpResult(success = false, message = json.optString("message").ifEmpty { "Request failed" })
+        }
+    } catch (e: Exception) {
+        SignUpResult(success = false, message = "Error: ${e.javaClass.simpleName}: ${e.message}")
+    } finally {
+        connection?.disconnect()
+    }
+}
