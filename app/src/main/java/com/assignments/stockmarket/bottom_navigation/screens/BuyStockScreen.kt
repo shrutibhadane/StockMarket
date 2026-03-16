@@ -1,9 +1,8 @@
 package com.assignments.stockmarket.bottom_navigation.screens
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,14 +11,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.graph.ScrollableCandleChart
+import com.assignments.stockmarket.graph.candles
 import com.assignments.stockmarket.reusables.InvestmentsCard
 import com.assignments.stockmarket.reusables.MFImageBar
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
@@ -34,6 +36,8 @@ import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
 fun BuyStockScreen(navController: NavController) {
+
+    var selectedPeriod by remember { mutableStateOf("3Y") }
 
     Scaffold(
         bottomBar = {
@@ -157,33 +161,10 @@ fun BuyStockScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Candlestick Chart Placeholder
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp)
-                    .background(
-                        Color(0xFF122B55),
-                        RoundedCornerShape(8.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Canvas(modifier = Modifier.fillMaxSize()) {
-                    // Example: Draw simple candlesticks (replace with actual chart)
-                    val candleWidth = size.width / 20
-                    for (i in 0 until 15) {
-                        val x = i * candleWidth * 1.2f
-                        val candleHeight = (20..80).random().toFloat()
-                        val top = size.height - candleHeight
-                        drawRect(
-                            color = if (i % 2 == 0) Color(0xFF00FF00) else Color.Red,
-                            topLeft = Offset(x, top),
-                            size = Size(candleWidth, candleHeight)
-                        )
-                    }
-                }
-            }
-
+            ScrollableCandleChart(
+                candles = candles,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -193,11 +174,14 @@ fun BuyStockScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 listOf("1M", "6M", "1Y", "3Y", "5Y", "ALL").forEach { period ->
-                    val isSelected = period == "3Y"
+                    val isSelected = period == selectedPeriod
                     Text(
                         text = period,
                         color = if (isSelected) Color(0xFF00FF00) else Color.Gray,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                        modifier = Modifier
+                            .clickable { selectedPeriod = period }
+                            .padding(8.dp)
                     )
                 }
             }
