@@ -31,8 +31,13 @@ fun OTPInput(
     val focusRequesters = List(otpLength) { FocusRequester() }
     val otpValues = remember { mutableStateListOf(*Array(otpLength) { "" }) }
 
+    // Adapt box size and spacing for different OTP lengths
+    val boxSize = if (otpLength <= 4) 70.dp else 50.dp
+    val spacing = if (otpLength <= 4) 16.dp else 8.dp
+    val fontSize = if (otpLength <= 4) 24.sp else 20.sp
+
     Row(
-        horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+        horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally),
         modifier = Modifier.fillMaxWidth()
     ) {
         for (i in 0 until otpLength) {
@@ -55,11 +60,11 @@ fun OTPInput(
                     }
                 },
                 modifier = Modifier
-                    .size(70.dp)
+                    .size(boxSize)
                     .focusRequester(focusRequesters[i]),
                 textStyle = TextStyle(
                     textAlign = TextAlign.Center,
-                    fontSize = 24.sp,
+                    fontSize = fontSize,
                     color = Color.White
                 ),
                 singleLine = true,
