@@ -18,4 +18,5 @@
     <color name="blue_text_color">#04007D</color>
     <color name="light_blue_button_bg_color">#BBBAFF</color>
     <color name="dark_blue_button_bg_color">#1F00AB</color>
+    <color name="purple">#6B0CC4</color>
 </resources>

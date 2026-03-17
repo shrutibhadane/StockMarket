@@ -1,9 +1,8 @@
 package com.assignments.stockmarket.reusables.app_bar
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -29,7 +27,6 @@ import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import org.w3c.dom.Text
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,11 +56,8 @@ fun AppBarBackArrow(
 
         navigationIcon = {
             IconButton(onClick = {
-                // Check if we are on the Home screen (the root screen)
                 if (navController.previousBackStackEntry == null) {
-                    // Navigate directly to Home if we are already on the root screen
                     navController.navigate("dashboard") {
-                        // Clear the back stack to prevent going back further
                         popUpTo("dashboard") { inclusive = true }
                     }
                 } else {
@@ -84,23 +78,27 @@ fun AppBarBackArrow(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(vertical = 0.dp),
+            verticalArrangement = Arrangement.spacedBy(0.dp)
             ) {
                 if (title != null) {
                     Text(
                         text = title,
                         color = colorResource(R.color.white),
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
+                        lineHeight = 14.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Left,
                     )
                 }
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 if (subTitle != null) {
                     Text(
                         text = subTitle,
                         color = colorResource(R.color.white),
-                        fontSize = 8.sp,
+                        fontSize = 10.sp,
+                        lineHeight = 10.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Left,

@@ -11,6 +11,7 @@ import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
 import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
 import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
 import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
+import com.assignments.stockmarket.investments.InvestmentScreen
 import com.assignments.stockmarket.search.SearchScreen
 import com.assignments.stockmarket.tabs.explore.ExploreScreen
 import com.assignments.stockmarket.tabs.holdings.HoldingsScreen
