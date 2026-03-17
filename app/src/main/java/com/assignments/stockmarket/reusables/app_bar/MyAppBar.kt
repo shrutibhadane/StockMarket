@@ -84,7 +84,7 @@ fun MyAppBar(
                 )
             }
 
-            IconButton(onClick = { /* Profile action */ }) {
+            IconButton(onClick = { navController.navigate("profile") }) {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = "Profile",

@@ -8,6 +8,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.assignments.stockmarket.navigation.AppNavigation
 import io.paperdb.Paper
 
 class MainActivity : AppCompatActivity() {

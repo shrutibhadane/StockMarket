@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,6 +37,7 @@ fun AppBarBackArrow(
     navController: NavController,
     title: String? = null,
     subTitle: String? = null,
+    showSettings: Boolean = false
 ) {
 
     val systemUiController = rememberSystemUiController()
@@ -68,7 +72,7 @@ fun AppBarBackArrow(
                 Icon(
                     painter = painterResource(id = R.drawable.back_arrow), // Use your back arrow icon
                     contentDescription = "Back",
-                    tint = Color.White,
+                    tint = colorResource(R.color.white),
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -102,6 +106,21 @@ fun AppBarBackArrow(
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Left,
+                    )
+                }
+            }
+        },
+
+        actions = {
+            if (showSettings) {
+                IconButton(onClick = {
+                    navController.navigate("settings")
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = "Settings",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
