@@ -100,5 +100,12 @@
     <string name="active_devices">Active Devices</string>
     <string name="logout_from_all_devices">Logout from all devices</string>
 
+    <!-- Change Password Screen -->
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="update_password">Update Passwords</string>
+    <string name="toggle_password">Toggle Password</string>
+
 
 </resources>

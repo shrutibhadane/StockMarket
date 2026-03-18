@@ -42,7 +42,9 @@ fun SecurityScreen(navController: NavController) {
                 SecurityItem(
                     icon = Icons.Default.Lock,
                     title = stringResource(R.string.change_password),
-                    onClick = { }
+                    onClick = {
+                        navController.navigate("change_password")
+                    }
                 )
             }
 
