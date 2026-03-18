@@ -16,6 +16,7 @@ import com.assignments.stockmarket.ResetPasswordScreen
 import com.assignments.stockmarket.SignUpScreen
 import com.assignments.stockmarket.SplashScreen
 import com.assignments.stockmarket.WelcomeScreen
+import com.assignments.stockmarket.about_us.AboutScreen
 import com.assignments.stockmarket.bottom_navigation.screens.BuyStockScreen
 import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
 import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
@@ -192,6 +193,10 @@ fun AppNavigation() {
 
         composable("change_password") {
             ChangePasswordScreen(navController)
+        }
+
+        composable("about") {
+            AboutScreen(navController)
         }
 
     }

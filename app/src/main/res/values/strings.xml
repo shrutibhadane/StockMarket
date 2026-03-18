@@ -118,8 +118,16 @@
     <string name="trading">Trading</string>
     <string name="funds_payments"><![CDATA[Funds & Payments]]></string>
     <string name="reports_statements"><![CDATA[Reports & Statements]]></string>
+
+    <!--About Screen-->
     <string name="app">App</string>
     <string name="about">About</string>
     <string name="help_support"><![CDATA[Help & Support]]></string>
+    <string name="stock_market_is_a_modern_investment_platform_designed_to_help_users_track_markets_manage_investments_and_trade_with_confidence">Stock Market is a modern investment platform designed to help users track markets, manage investments, and trade with confidence.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="visit_website">Visit Website</string>
+    <string name="_2025_stock_market_app">© 2025 Stock Market App</string>
+
 
 </resources>
