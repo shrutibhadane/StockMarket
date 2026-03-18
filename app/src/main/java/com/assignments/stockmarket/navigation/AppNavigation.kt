@@ -23,6 +23,7 @@ import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
 import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
 import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
 import com.assignments.stockmarket.change_password.ChangePasswordScreen
+import com.assignments.stockmarket.help_support.HelpSupportScreen
 import com.assignments.stockmarket.investments.InvestmentScreen
 import com.assignments.stockmarket.notifications.NotificationSettingsScreen
 import com.assignments.stockmarket.profile.ProfileScreen
@@ -197,6 +198,10 @@ fun AppNavigation() {
 
         composable("about") {
             AboutScreen(navController)
+        }
+
+        composable("help_support") {
+            HelpSupportScreen(navController)
         }
 
     }

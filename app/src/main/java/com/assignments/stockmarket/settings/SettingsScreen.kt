@@ -114,7 +114,9 @@ fun SettingsScreen(navController: NavController) {
                     SettingsItem(
                         icon = Icons.Default.Help,
                         title = stringResource(R.string.help_support),
-                        onClick = { }
+                        onClick = {
+                            navController.navigate("help_support")
+                        }
                     )
                 }
 
