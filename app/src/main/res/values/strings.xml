@@ -76,6 +76,7 @@
     <string name="version">Version %1$s</string>
     <string name="charges">Charges</string>
     <string name="trial_link">https://yourwebsite.com/charges</string>
+    <string name="hey_i_m_using_this_amazing_stock_market_app_download_it_here_https_yourapp_link">Hey! I\'m using this amazing stock market app. Download it here: https://yourapp.link</string>
 
 
 </resources>

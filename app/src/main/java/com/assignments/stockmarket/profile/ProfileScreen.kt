@@ -72,13 +72,13 @@ fun ProfileScreen(navController: NavController) {
             ProfileMenuItem(Icons.Default.Person, stringResource(R.string.account_details))
             ProfileMenuItem(Icons.Default.AccountBalance, stringResource(R.string.banks_autopay))
 
-            ProfileMenuItem(icon = Icons.Default.Star, title = stringResource(R.string.refer), actionText = stringResource(
-                R.string.invite
-            ))
-
-            ProfileMenuItem(Icons.Default.SupportAgent,
-                stringResource(R.string.customer_support_24x7)
+            ProfileMenuItem(icon = Icons.Default.Star, title = stringResource(R.string.refer),
+                actionText = stringResource(
+                    R.string.invite
+                )
             )
+
+            ProfileMenuItem(Icons.Default.SupportAgent, stringResource(R.string.customer_support_24x7))
             ProfileMenuItem(Icons.Default.Report, stringResource(R.string.reports))
 
             Spacer(modifier = Modifier.weight(1f))

@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -39,7 +37,7 @@ fun BottomInfoRow() {
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically // vertically center all items
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
         Text(
@@ -66,7 +64,7 @@ fun BottomInfoRow() {
                 modifier = Modifier.size(20.dp)
             )
 
-            Spacer(modifier = Modifier.width(8.dp)) // horizontal gap between icon and text
+            Spacer(modifier = Modifier.width(8.dp))
 
             Text(
                 text = stringResource(R.string.version, version),
