@@ -78,5 +78,27 @@
     <string name="trial_link">https://yourwebsite.com/charges</string>
     <string name="hey_i_m_using_this_amazing_stock_market_app_download_it_here_https_yourapp_link">Hey! I\'m using this amazing stock market app. Download it here: https://yourapp.link</string>
 
+    <!--Notification Settings Screen-->
+    <string name="trading_alerts">Trading Alerts</string>
+    <string name="order_executed">Order executed</string>
+    <string name="order_rejected">Order rejected</string>
+    <string name="price_alerts">Price alerts</string>
+    <string name="portfolio_updates">Portfolio Updates</string>
+    <string name="portfolio_performance">Portfolio performance</string>
+    <string name="dividend_updates">Dividend updates</string>
+    <string name="general">General</string>
+    <string name="market_news">Market news</string>
+    <string name="offers_promotions"><![CDATA[Offers & promotions]]></string>
+    <string name="app_updates">App updates</string>
+
+    <!--Security & Login Screen-->
+    <string name="security_login"><![CDATA[Security & Login]]></string>
+    <string name="authentication">Authentication</string>
+    <string name="change_password">Change Password</string>
+    <string name="enable_fingerprint_login">Enable Fingerprint Login</string>
+    <string name="session">Session</string>
+    <string name="active_devices">Active Devices</string>
+    <string name="logout_from_all_devices">Logout from all devices</string>
+
 
 </resources>

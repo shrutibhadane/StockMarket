@@ -22,8 +22,11 @@ import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
 import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
 import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
 import com.assignments.stockmarket.investments.InvestmentScreen
+import com.assignments.stockmarket.notifications.NotificationSettingsScreen
 import com.assignments.stockmarket.profile.ProfileScreen
 import com.assignments.stockmarket.search.SearchScreen
+import com.assignments.stockmarket.security.SecurityScreen
+import com.assignments.stockmarket.settings.SettingsScreen
 import com.assignments.stockmarket.tabs.explore.ExploreScreen
 import com.assignments.stockmarket.tabs.holdings.HoldingsScreen
 import com.assignments.stockmarket.tabs.orders.OrdersScreen
@@ -173,5 +176,18 @@ fun AppNavigation() {
         composable("profile") {
             ProfileScreen(navController)
         }
+
+        composable("settings") {
+            SettingsScreen(navController)
+        }
+
+        composable("notification_settings") {
+            NotificationSettingsScreen(navController)
+        }
+
+        composable("security_and_login") {
+            SecurityScreen(navController)
+        }
+
     }
 }
