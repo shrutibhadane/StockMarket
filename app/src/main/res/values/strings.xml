@@ -107,5 +107,9 @@
     <string name="update_password">Update Passwords</string>
     <string name="toggle_password">Toggle Password</string>
 
+    <!-- Logout Dialog -->
+    <string name="logout">Logout</string>
+    <string name="do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again">Do you want to logout from your account? You will need to enter your MPIN to login again.</string>
+
 
 </resources>

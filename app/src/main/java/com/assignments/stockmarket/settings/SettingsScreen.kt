@@ -13,16 +13,23 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
+import com.assignments.stockmarket.reusables.dialogs.LogoutDialog
 import com.assignments.stockmarket.settings.components.SettingsItem
 import com.assignments.stockmarket.settings.components.SettingsSectionTitle
 
 @Composable
 fun SettingsScreen(navController: NavController) {
+
+    var showLogoutDialog by remember { mutableStateOf(false) }
 
         Scaffold(
             topBar = {
@@ -112,11 +119,27 @@ fun SettingsScreen(navController: NavController) {
                     SettingsItem(
                         icon = Icons.Default.Logout,
                         title = "Logout",
-                        onClick = { }
+                        onClick = { showLogoutDialog = true }
                     )
                 }
 
             }
         }
 
+    LogoutDialog(
+        showDialog = showLogoutDialog,
+        onConfirm = {
+
+            showLogoutDialog = false
+
+            navController.navigate("mpin") {
+                popUpTo(0) { inclusive = true }
+            }
+        },
+        onDismiss = {
+            showLogoutDialog = false
+        }
+    )
+
 }
+
