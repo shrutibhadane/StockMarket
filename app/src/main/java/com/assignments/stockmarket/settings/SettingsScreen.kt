@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
@@ -35,7 +36,7 @@ fun SettingsScreen(navController: NavController) {
             topBar = {
                 AppBarBackArrow(
                     navController = navController,
-                    title = "Settings"
+                    title = stringResource(R.string.settings)
                 )
             }
         ) { innerPadding ->
@@ -47,12 +48,12 @@ fun SettingsScreen(navController: NavController) {
                     .padding(innerPadding)
             ) {
 
-                item { SettingsSectionTitle("General") }
+                item { SettingsSectionTitle(stringResource(R.string.general)) }
 
                 item {
                     SettingsItem(
                         icon = Icons.Default.Person,
-                        title = "Profile",
+                        title = stringResource(R.string.profile),
                         onClick = {
                             navController.navigate("profile")
                         }
@@ -62,7 +63,7 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Notifications,
-                        title = "Notifications",
+                        title = stringResource(R.string.notifications),
                         onClick = {
                             navController.navigate("notification_settings")
                         }
@@ -72,19 +73,19 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Security,
-                        title = "Security & Login",
+                        title = stringResource(R.string.security_login),
                         onClick = {
                             navController.navigate("security_and_login")
                         }
                     )
                 }
 
-                item { SettingsSectionTitle("Trading") }
+                item { SettingsSectionTitle(stringResource(R.string.trading)) }
 
                 item {
                     SettingsItem(
                         icon = Icons.Default.AccountBalanceWallet,
-                        title = "Funds & Payments",
+                        title = stringResource(R.string.funds_payments),
                         onClick = { }
                     )
                 }
@@ -92,17 +93,17 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Help,
-                        title = "Reports & Statements",
+                        title = stringResource(R.string.reports_statements),
                         onClick = { }
                     )
                 }
 
-                item { SettingsSectionTitle("App") }
+                item { SettingsSectionTitle(stringResource(R.string.app)) }
 
                 item {
                     SettingsItem(
                         icon = Icons.Default.Help,
-                        title = "About",
+                        title = stringResource(R.string.about),
                         onClick = { }
                     )
                 }
@@ -110,7 +111,7 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Help,
-                        title = "Help & Support",
+                        title = stringResource(R.string.help_support),
                         onClick = { }
                     )
                 }
@@ -118,7 +119,7 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Logout,
-                        title = "Logout",
+                        title = stringResource(R.string.logout),
                         onClick = { showLogoutDialog = true }
                     )
                 }

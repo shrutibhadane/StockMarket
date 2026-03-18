@@ -111,5 +111,15 @@
     <string name="logout">Logout</string>
     <string name="do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again">Do you want to logout from your account? You will need to enter your MPIN to login again.</string>
 
+    <!-- Settings Screen -->
+    <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
+    <string name="notifications">Notifications</string>
+    <string name="trading">Trading</string>
+    <string name="funds_payments"><![CDATA[Funds & Payments]]></string>
+    <string name="reports_statements"><![CDATA[Reports & Statements]]></string>
+    <string name="app">App</string>
+    <string name="about">About</string>
+    <string name="help_support"><![CDATA[Help & Support]]></string>
 
 </resources>
