@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,8 +42,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -198,7 +198,10 @@ fun DashboardScreen(
         BottomNavItem("Loans", Icons.Default.AttachMoney)
     )
 
-    var selectedBottomTab by remember { mutableStateOf(0) }
+    var selectedBottomTab by remember { mutableIntStateOf(0) }
+    // Tab state shared between stickyHeader and tab content
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
 
     Scaffold(
         topBar = {   if (selectedBottomTab == 0) {
@@ -215,106 +218,159 @@ fun DashboardScreen(
         }
     ) { innerPadding ->
 
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(colorResource(R.color.screen_background))
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
-
-            // Screen content changes depending on bottom nav selection
             when (selectedBottomTab) {
+                0 -> {
+                    // ── Stocks tab: collapsing header + sticky tabs ──
+                    @OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp)
+                    ) {
+
+                        // ── Scrollable: Connection Status + Market Cards ──
+                        item {
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // Connection Status Indicator
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp)
+                            ) {
+                                when (connectionState) {
+                                    TickConnectionState.LIVE -> {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(8.dp)
+                                                .clip(CircleShape)
+                                                .background(Color(0xFF01FF41))
+                                        )
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text(
+                                            text = "Live",
+                                            color = Color(0xFF01FF41),
+                                            fontSize = 11.sp,
+                                            fontFamily = PoppinsFamily,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                    }
+                                    TickConnectionState.FALLBACK -> {
+                                        Text(
+                                            text = "Live",
+                                            color = Color.White,
+                                            fontSize = 11.sp,
+                                            fontFamily = PoppinsFamily,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                    }
+                                    TickConnectionState.CONNECTING -> {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(8.dp)
+                                                .clip(CircleShape)
+                                                .background(Color(0xFFFF0105))
+                                        )
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text(
+                                            text = "Connecting…",
+                                            color = Color(0xFFFF0105),
+                                            fontSize = 11.sp,
+                                            fontFamily = PoppinsFamily,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                    }
+                                }
+                            }
+
+                            // Live Market Cards (horizontal scroll)
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .horizontalScroll(rememberScrollState())
+                            ) {
+                                LiveMarketCard(
+                                    title = "NIFTY 50",
+                                    symbolKey = "NIFTY50",
+                                    defaultPrice = 25616.80,
+                                    liveTicks = liveTicks
+                                )
+                                LiveMarketCard(
+                                    title = "SENSEX",
+                                    symbolKey = "SENSEX",
+                                    defaultPrice = 82783.80,
+                                    liveTicks = liveTicks
+                                )
+                                LiveMarketCard(
+                                    title = "BANK NIFTY",
+                                    symbolKey = "BANKNIFTY",
+                                    defaultPrice = 48500.00,
+                                    liveTicks = liveTicks
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+
+                        // ── Sticky: Tab Row (pins to top on scroll) ──
+                        stickyHeader {
+                            TabRow(
+                                selectedTabIndex = selectedTabIndex,
+                                containerColor = colorResource(id = R.color.screen_background),
+                                contentColor = colorResource(R.color.white),
+                                indicator = { tabPositions ->
+                                    TabRowDefaults.Indicator(
+                                        modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+                                        color = colorResource(R.color.white),
+                                    )
+                                }
+                            ) {
+                                tabItems.forEachIndexed { index, title ->
+                                    Tab(
+                                        selected = selectedTabIndex == index,
+                                        onClick = { selectedTabIndex = index },
+                                        selectedContentColor = colorResource(R.color.white),
+                                        unselectedContentColor = colorResource(R.color.white).copy(alpha = 0.6f),
+                                        text = {
+                                            Text(
+                                                text = title,
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Medium
+                                            )
+                                        }
+                                    )
+                                }
+                            }
+                        }
+
+                        // ── Tab Content (scrolls under the sticky tabs) ──
+                        item {
+                            Box(
+                                modifier = Modifier.fillParentMaxHeight()
+                            ) {
+                                when (selectedTabIndex) {
+                                    0 -> ExploreScreen(navController, companies, isLoadingCompanies, marketTicks)
+                                    1 -> HoldingsScreen(navController)
+                                    2 -> PositionsScreen(navController)
+                                    3 -> OrdersScreen(navController)
+                                }
+                            }
+                        }
+                    }
+                }
                 1 -> FAndQScreen(navController)
                 2 -> MutualFundsScreen(navController)
                 3 -> UPIScreen(navController)
                 4 -> LoansScreen(navController)
             }
-
-            // ── Connection Status Indicator ──
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            ) {
-                // Green dot only when LIVE server data, red dot when CONNECTING, no dot for FALLBACK
-                when (connectionState) {
-                    TickConnectionState.LIVE -> {
-                        Box(
-                            modifier = Modifier
-                                .size(8.dp)
-                                .clip(CircleShape)
-                                .background(Color(0xFF01FF41))
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = "Live",
-                            color = Color(0xFF01FF41),
-                            fontSize = 11.sp,
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                    TickConnectionState.FALLBACK -> {
-                        Text(
-                            text = "Live",
-                            color = Color.White,
-                            fontSize = 11.sp,
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                    TickConnectionState.CONNECTING -> {
-                        Box(
-                            modifier = Modifier
-                                .size(8.dp)
-                                .clip(CircleShape)
-                                .background(Color(0xFFFF0105))
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = "Connecting…",
-                            color = Color(0xFFFF0105),
-                            fontSize = 11.sp,
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                }
-            }
-
-            // ── Live Market Cards (horizontal scroll) ──
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
-            ) {
-                LiveMarketCard(
-                    title = "NIFTY 50",
-                    symbolKey = "NIFTY50",
-                    defaultPrice = 25616.80,
-                    liveTicks = liveTicks
-                )
-                LiveMarketCard(
-                    title = "SENSEX",
-                    symbolKey = "SENSEX",
-                    defaultPrice = 82783.80,
-                    liveTicks = liveTicks
-                )
-                LiveMarketCard(
-                    title = "BANK NIFTY",
-                    symbolKey = "BANKNIFTY",
-                    defaultPrice = 48500.00,
-                    liveTicks = liveTicks
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            MarketTabs(navController, companies, isLoadingCompanies, marketTicks)
-
         }
     }
 
@@ -429,56 +485,8 @@ fun MarketCard(
     }
 }
 
-@Composable
-fun MarketTabs(
-    navController: NavController,
-    companies: List<CompanyEntity>,
-    isLoadingCompanies: Boolean,
-    marketTicks: Map<String, MarketTick>
-) {
 
-    val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
-    var selectedTabIndex by remember { mutableStateOf(0) }
 
-    Column {
 
-        TabRow(
-            selectedTabIndex = selectedTabIndex,
-            containerColor = colorResource(id = R.color.screen_background),
-            contentColor = colorResource(R.color.white),
-            indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
-                    color = colorResource(R.color.white),
-                )
-            }
-        ) {
-
-            tabItems.forEachIndexed { index, title ->
-
-                Tab(
-                    selected = selectedTabIndex == index,
-                    onClick = { selectedTabIndex = index },
-                    selectedContentColor = colorResource(R.color.white),
-                    unselectedContentColor = colorResource(R.color.white).copy(alpha = 0.6f),
-                    text = {
-                        Text(
-                            text = title,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                )
-            }
-        }
-
-        when (selectedTabIndex) {
-            0 -> ExploreScreen(navController, companies, isLoadingCompanies, marketTicks)
-            1 -> HoldingsScreen(navController)
-            2 -> PositionsScreen(navController)
-            3 -> OrdersScreen(navController)
-        }
-    }
-}
 
 

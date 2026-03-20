@@ -3,17 +3,17 @@ package com.assignments.stockmarket.tabs.explore
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +41,7 @@ fun ExploreScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
 
@@ -117,20 +118,31 @@ fun ExploreScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxHeight()
-        ) {
+        // Non-lazy grid: 3 columns, rows built manually
+        val gridItems = gridStocks.size + 1 // +1 for SeeAll card
+        val rows = (gridItems + 2) / 3 // ceiling division
 
-            items(gridStocks) { stock ->
-                StockGridCard(stock)
+        for (rowIndex in 0 until rows) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                for (colIndex in 0 until 3) {
+                    val itemIndex = rowIndex * 3 + colIndex
+                    Box(modifier = Modifier.weight(1f)) {
+                        when {
+                            itemIndex < gridStocks.size -> StockGridCard(gridStocks[itemIndex])
+                            itemIndex == gridStocks.size -> SeeAllCard()
+                            // else: empty cell
+                        }
+                    }
+                }
             }
-
-            item {
-                SeeAllCard()
+            if (rowIndex < rows - 1) {
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
