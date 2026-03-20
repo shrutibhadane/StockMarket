@@ -41,10 +41,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -64,6 +67,9 @@ import com.assignments.stockmarket.tabs.orders.OrdersScreen
 import com.assignments.stockmarket.tabs.positions.PositionsScreen
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import kotlinx.coroutines.delay
+import android.util.Log
+import com.assignments.stockmarket.db.CompanyEntity
+import com.assignments.stockmarket.db.CompanyRepository
 import java.text.DecimalFormat
 import kotlin.math.abs
 
@@ -74,6 +80,97 @@ private val changeFormat = DecimalFormat("0.00")
 fun DashboardScreen(
     navController: NavController,
 ) {
+
+    val context = LocalContext.current
+
+    // ── Fetch companies once and cache into Room ──
+    var companies by remember { mutableStateOf<List<CompanyEntity>>(emptyList()) }
+    var isLoadingCompanies by remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        Log.i("DashboardScreen", "=== COMPANIES LOAD START ===")
+        isLoadingCompanies = true
+
+        // Step 1: Check Room cache first
+        val cached = CompanyRepository.getCompanies(context)
+        if (cached.isNotEmpty()) {
+            companies = cached
+            isLoadingCompanies = false
+            Log.i("DashboardScreen", "Loaded ${cached.size} companies from Room cache (no API call)")
+            Log.i("DashboardScreen", "=== COMPANIES LOAD END (from Room) === total=${companies.size}")
+            return@LaunchedEffect
+        }
+
+        // Step 2: Room is empty — fetch from API
+        Log.i("DashboardScreen", "Room is empty. Calling API…")
+        try {
+            val rawResult = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                val tag = "DashboardScreen"
+                var connection: java.net.HttpURLConnection? = null
+                try {
+                    val url = java.net.URL(COMPANIES_API_URL)
+                    Log.i(tag, "Opening connection to: $COMPANIES_API_URL")
+                    connection = url.openConnection() as java.net.HttpURLConnection
+                    connection.requestMethod = "GET"
+                    connection.connectTimeout = 60_000
+                    connection.readTimeout = 60_000
+                    connection.setRequestProperty("Accept", "application/json")
+
+                    Log.i(tag, "Connecting…")
+                    val responseCode = connection.responseCode
+                    Log.i(tag, "HTTP Response Code: $responseCode")
+
+                    val stream = if (responseCode in 200..299) {
+                        connection.inputStream
+                    } else {
+                        connection.errorStream
+                    }
+
+                    val body = stream?.bufferedReader()?.use { it.readText() } ?: "EMPTY BODY"
+                    Log.i(tag, "Response body length: ${body.length}")
+                    body
+                } catch (e: Exception) {
+                    Log.e(tag, "HTTP Exception: ${e.javaClass.simpleName}: ${e.message}")
+                    "ERROR: ${e.message}"
+                } finally {
+                    connection?.disconnect()
+                }
+            }
+
+            // Step 3: Parse the raw JSON
+            if (rawResult.startsWith("ERROR")) {
+                Log.e("DashboardScreen", "API call failed: $rawResult")
+            } else {
+                val json = org.json.JSONObject(rawResult)
+                val dataObj = json.optJSONObject("data")
+                val companiesArray = dataObj?.optJSONArray("companies")
+
+                if (companiesArray != null && companiesArray.length() > 0) {
+                    val parsed = mutableListOf<CompanyEntity>()
+                    for (i in 0 until companiesArray.length()) {
+                        val c = companiesArray.getJSONObject(i)
+                        parsed.add(
+                            CompanyEntity(
+                                symbol = c.optString("symbol", ""),
+                                name = c.optString("name", ""),
+                                logo = c.optString("logo", "")
+                            )
+                        )
+                    }
+
+                    // Step 4: Save to Room
+                    Log.i("DashboardScreen", "Saving ${parsed.size} companies to Room DB…")
+                    companies = CompanyRepository.saveAndLoad(context, parsed)
+                    Log.i("DashboardScreen", "Room DB now has ${companies.size} companies ✓")
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("DashboardScreen", "FATAL: ${e.javaClass.simpleName}: ${e.message}", e)
+        }
+
+        isLoadingCompanies = false
+        Log.i("DashboardScreen", "=== COMPANIES LOAD END (from API) === total=${companies.size}")
+    }
 
     // ── WebSocket lifecycle: connect on enter, disconnect on leave ──
     DisposableEffect(Unit) {
@@ -210,7 +307,7 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            MarketTabs(navController)
+            MarketTabs(navController, companies, isLoadingCompanies)
 
         }
     }
@@ -327,7 +424,11 @@ fun MarketCard(
 }
 
 @Composable
-fun MarketTabs(navController: NavController) {
+fun MarketTabs(
+    navController: NavController,
+    companies: List<CompanyEntity>,
+    isLoadingCompanies: Boolean
+) {
 
     val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
     var selectedTabIndex by remember { mutableStateOf(0) }
@@ -365,7 +466,7 @@ fun MarketTabs(navController: NavController) {
         }
 
         when (selectedTabIndex) {
-            0 -> ExploreScreen(navController)
+            0 -> ExploreScreen(navController, companies, isLoadingCompanies)
             1 -> HoldingsScreen(navController)
             2 -> PositionsScreen(navController)
             3 -> OrdersScreen(navController)

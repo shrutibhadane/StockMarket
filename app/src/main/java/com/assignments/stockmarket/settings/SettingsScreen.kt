@@ -16,21 +16,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.db.CompanyRepository
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.dialogs.LogoutDialog
 import com.assignments.stockmarket.settings.components.SettingsItem
 import com.assignments.stockmarket.settings.components.SettingsSectionTitle
+import io.paperdb.Paper
+import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(navController: NavController) {
 
     var showLogoutDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
         Scaffold(
             topBar = {
@@ -134,10 +141,17 @@ fun SettingsScreen(navController: NavController) {
     LogoutDialog(
         showDialog = showLogoutDialog,
         onConfirm = {
-
             showLogoutDialog = false
 
-            navController.navigate("mpin") {
+            // Clear Room database (companies cache)
+            coroutineScope.launch {
+                CompanyRepository.clearAll(context)
+            }
+
+            // Clear Paper credentials
+            Paper.book().destroy()
+
+            navController.navigate("login") {
                 popUpTo(0) { inclusive = true }
             }
         },

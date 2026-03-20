@@ -1,6 +1,7 @@
 package com.assignments.stockmarket.tabs.explore
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,8 +14,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,10 +26,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
-fun ExploreScreen(navController: NavController) {
+fun ExploreScreen(
+    navController: NavController,
+    companies: List<CompanyEntity> = emptyList(),
+    isLoadingCompanies: Boolean = false
+) {
 
     Column(
         modifier = Modifier
@@ -42,7 +50,6 @@ fun ExploreScreen(navController: NavController) {
             GridStock("Netweb Tech", "Rs. 3705.00", "-156.40 (4.44%)", false)
         )
 
-
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
@@ -57,12 +64,36 @@ fun ExploreScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-
-            items(stockDetailsList) { stock ->
-                RecentlyViewedItem(stock, navController)
+        // Show loader while companies are loading, then show company cards
+        if (isLoadingCompanies) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(90.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    color = colorResource(R.color.white),
+                    strokeWidth = 2.dp,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+        } else if (companies.isNotEmpty()) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                items(companies) { company ->
+                    CompanyRecentItem(company = company)
+                }
+            }
+        } else {
+            // Fallback to hardcoded data if no companies available
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                items(stockDetailsList) { stock ->
+                    RecentlyViewedItem(stock, navController)
+                }
             }
 
         }
