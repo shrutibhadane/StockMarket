@@ -182,7 +182,13 @@ fun DashboardScreen(
 
     // ── Observe live ticks and connection state from WebSocket ──
     val liveTicks by WebSocketManager.ticks.collectAsState()
+    val marketTicks by WebSocketManager.marketTicks.collectAsState()
     val connectionState by WebSocketManager.connectionState.collectAsState()
+
+    // Debug: log market ticks when they arrive
+    LaunchedEffect(marketTicks.size) {
+        Log.i("DashboardScreen", "📈 marketTicks updated: ${marketTicks.size} symbols → ${marketTicks.keys.take(5)}")
+    }
 
     val bottomNavItems = listOf(
         BottomNavItem("Stocks", Icons.Default.ShowChart),
@@ -307,7 +313,7 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            MarketTabs(navController, companies, isLoadingCompanies)
+            MarketTabs(navController, companies, isLoadingCompanies, marketTicks)
 
         }
     }
@@ -427,7 +433,8 @@ fun MarketCard(
 fun MarketTabs(
     navController: NavController,
     companies: List<CompanyEntity>,
-    isLoadingCompanies: Boolean
+    isLoadingCompanies: Boolean,
+    marketTicks: Map<String, MarketTick>
 ) {
 
     val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
@@ -466,7 +473,7 @@ fun MarketTabs(
         }
 
         when (selectedTabIndex) {
-            0 -> ExploreScreen(navController, companies, isLoadingCompanies)
+            0 -> ExploreScreen(navController, companies, isLoadingCompanies, marketTicks)
             1 -> HoldingsScreen(navController)
             2 -> PositionsScreen(navController)
             3 -> OrdersScreen(navController)

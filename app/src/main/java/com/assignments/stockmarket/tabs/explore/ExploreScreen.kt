@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.MarketTick
 import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
@@ -33,7 +34,8 @@ import com.assignments.stockmarket.ui.theme.PoppinsFamily
 fun ExploreScreen(
     navController: NavController,
     companies: List<CompanyEntity> = emptyList(),
-    isLoadingCompanies: Boolean = false
+    isLoadingCompanies: Boolean = false,
+    marketTicks: Map<String, MarketTick> = emptyMap()
 ) {
 
     Column(
@@ -83,7 +85,10 @@ fun ExploreScreen(
                 horizontalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 items(companies) { company ->
-                    CompanyRecentItem(company = company)
+                    CompanyRecentItem(
+                        company = company,
+                        tick = marketTicks[company.symbol]
+                    )
                 }
             }
         } else {

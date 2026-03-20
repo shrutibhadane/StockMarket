@@ -60,9 +60,13 @@ object WebSocketManager {
 
     private var webSocket: WebSocket? = null
 
-    // Latest ticks keyed by symbol — observed by the UI
+    // Latest ticks keyed by symbol — observed by the UI (index ticks: NIFTY50, SENSEX, BANKNIFTY)
     private val _ticks = MutableStateFlow<Map<String, MarketTick>>(emptyMap())
     val ticks: StateFlow<Map<String, MarketTick>> = _ticks
+
+    // Latest market data keyed by symbol — observed by the UI (company ticks: RELIANCE, TCS, etc.)
+    private val _marketTicks = MutableStateFlow<Map<String, MarketTick>>(emptyMap())
+    val marketTicks: StateFlow<Map<String, MarketTick>> = _marketTicks
 
     // Connection state — observed by the UI for indicator
     private val _connectionState = MutableStateFlow(TickConnectionState.CONNECTING)
@@ -188,16 +192,17 @@ object WebSocketManager {
         cancelFallback()
         stopSimulator()   // real data takes over
         sendSioEvent("start_ticks")
+        sendSioEvent("start_market_data")
     }
 
     private fun onSioEvent(arrayPayload: String) {
         try {
             val arr = JSONArray(arrayPayload)
             val name = arr.getString(0)
-            if (name == "tick_data" && arr.length() > 1) {
-                parseTick(arr.getJSONObject(1))
-            } else {
-                Log.d(TAG, "SIO event '$name' (ignored)")
+            when {
+                name == "tick_data" && arr.length() > 1 -> parseTick(arr.getJSONObject(1))
+                name == "market_data" && arr.length() > 1 -> parseMarketData(arr.getJSONObject(1))
+                else -> Log.d(TAG, "SIO event '$name' (ignored)")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse SIO event: ${e.javaClass.simpleName}: ${e.message}")
@@ -236,6 +241,36 @@ object WebSocketManager {
             }
         }
         _ticks.value = updated
+    }
+
+    /**
+     * Parse market_data events — same JSON structure as tick_data but for company symbols
+     * (RELIANCE, TCS, HDFCBANK, etc.). Updates [_marketTicks].
+     */
+    private fun parseMarketData(json: JSONObject) {
+        val status = json.optString("status", "")
+        if (status != "OK") {
+            Log.d(TAG, "Market data non-OK status: $status — ${json.optString("message", "")}")
+            return
+        }
+        val data = json.optJSONObject("data") ?: return
+        val ticksArray = data.optJSONArray("ticks") ?: return
+
+        Log.d(TAG, "📈 Market seq ${data.optInt("sequence")}: ${ticksArray.length()} company ticks")
+
+        val updated = _marketTicks.value.toMutableMap()
+        for (i in 0 until ticksArray.length()) {
+            val t = ticksArray.getJSONObject(i)
+            val sym = t.optString("symbol", "")
+            if (sym.isNotEmpty()) {
+                updated[sym] = MarketTick(
+                    symbol = sym,
+                    price = t.optDouble("price", 0.0),
+                    previousPrice = t.optDouble("previous_price", 0.0)
+                )
+            }
+        }
+        _marketTicks.value = updated
     }
 
     // ───────── Reconnect ─────────
@@ -295,10 +330,35 @@ object WebSocketManager {
      */
     private data class SimSymbol(val symbol: String, var price: Double)
 
+    // Index ticks (NIFTY50, SENSEX, BANKNIFTY)
     private val simSymbols = listOf(
         SimSymbol("NIFTY50", 22430.00),
         SimSymbol("SENSEX", 73420.00),
         SimSymbol("BANKNIFTY", 48508.00)
+    )
+
+    // Company / market_data ticks (dummy prices for fallback)
+    private val simMarketSymbols = listOf(
+        SimSymbol("RELIANCE", 2920.50),
+        SimSymbol("TCS", 3580.00),
+        SimSymbol("HDFCBANK", 1620.75),
+        SimSymbol("INFY", 1455.30),
+        SimSymbol("ICICIBANK", 1085.60),
+        SimSymbol("SBIN", 785.40),
+        SimSymbol("BHARTIARTL", 1540.20),
+        SimSymbol("KOTAKBANK", 1780.90),
+        SimSymbol("LT", 3420.00),
+        SimSymbol("WIPRO", 475.80),
+        SimSymbol("HINDUNILVR", 2350.00),
+        SimSymbol("ITC", 430.50),
+        SimSymbol("AXISBANK", 1120.00),
+        SimSymbol("MARUTI", 12450.00),
+        SimSymbol("BAJFINANCE", 6890.00),
+        SimSymbol("TATAMOTORS", 640.30),
+        SimSymbol("SUNPHARMA", 1720.00),
+        SimSymbol("TITAN", 3280.00),
+        SimSymbol("ASIANPAINT", 2890.00),
+        SimSymbol("ULTRACEMCO", 10250.00)
     )
 
     private fun startSimulator() {
@@ -313,6 +373,7 @@ object WebSocketManager {
                         return
                     }
                     generateSimulatedTick()
+                    generateSimulatedMarketTick()
                 }
             }, 0L, SIMULATOR_INTERVAL_MS)
         }
@@ -338,5 +399,26 @@ object WebSocketManager {
             )
         }
         _ticks.value = updated
+    }
+
+    /**
+     * Generates simulated company market ticks — fallback for when WebSocket
+     * market_data events are not available. Same approach as index simulator.
+     */
+    private fun generateSimulatedMarketTick() {
+        val updated = _marketTicks.value.toMutableMap()
+        for (sym in simMarketSymbols) {
+            val prev = sym.price
+            val pct = ((-15..15).random()) / 10000.0
+            val newPrice = (prev * (1.0 + pct) * 100.0).roundToInt() / 100.0
+            sym.price = newPrice
+            updated[sym.symbol] = MarketTick(
+                symbol = sym.symbol,
+                price = newPrice,
+                previousPrice = prev
+            )
+        }
+        _marketTicks.value = updated
+        Log.d(TAG, "📈 Simulated ${simMarketSymbols.size} company market ticks")
     }
 }
