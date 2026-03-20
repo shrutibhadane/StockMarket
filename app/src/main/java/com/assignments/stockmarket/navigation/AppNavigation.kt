@@ -23,10 +23,12 @@ import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
 import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
 import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
 import com.assignments.stockmarket.change_password.ChangePasswordScreen
+import com.assignments.stockmarket.funds_payments.FundsPaymentsScreen
 import com.assignments.stockmarket.help_support.HelpSupportScreen
 import com.assignments.stockmarket.investments.InvestmentScreen
 import com.assignments.stockmarket.notifications.NotificationSettingsScreen
 import com.assignments.stockmarket.profile.ProfileScreen
+import com.assignments.stockmarket.reports_statements.ReportsScreen
 import com.assignments.stockmarket.search.SearchScreen
 import com.assignments.stockmarket.security.SecurityScreen
 import com.assignments.stockmarket.settings.SettingsScreen
@@ -202,6 +204,14 @@ fun AppNavigation() {
 
         composable("help_support") {
             HelpSupportScreen(navController)
+        }
+
+        composable("funds_payments") {
+            FundsPaymentsScreen(navController)
+        }
+
+        composable("reports") {
+            ReportsScreen(navController)
         }
 
     }

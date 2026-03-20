@@ -50,7 +50,7 @@
     <!-- Investment Amount Screen -->
     <string name="one_time">One Time</string>
     <string name="franklin_india_opportunities_direct_fund_growth">Franklin India Opportunities Direct Fund Growth</string>
-    <string name="add_to_cart">Add to cart</string>
+    <string name="add_to_wallet">Add to Wallet</string>
     <string name="invest_now">Invest Now</string>
     <string name="investment_amount">Investment Amount</string>
     <string name="rs">Rs. %1$d</string>
@@ -141,6 +141,19 @@
     <string name="report_an_issue">Report an Issue</string>
     <string name="let_us_know_if_something_is_not_working">Let us know if something isn\'t working</string>
 
+    <!-- Funds & Payments Screen-->
+    <string name="linked_bank_accounts">Linked Bank Accounts</string>
+    <string name="hdfc_bank">HDFC Bank</string>
+    <string name="_4321">**** 4321</string>
+    <string name="icici_bank">ICICI Bank</string>
+    <string name="_1298">**** 1298</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="added_money">Added Money</string>
+    <string name="withdrawn">Withdrawn</string>
+    <string name="rs_5_000">+ ₹5,000</string>
+    <string name="rs_2_000">- ₹2,000</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
 
 
 </resources>

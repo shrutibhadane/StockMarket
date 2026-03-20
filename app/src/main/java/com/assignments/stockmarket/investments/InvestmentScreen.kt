@@ -56,7 +56,7 @@ fun InvestmentScreen(navController: NavController) {
                     .padding(16.dp)
             ) {
                 BottomBarButtons(
-                    stringResource(R.string.add_to_cart),
+                    stringResource(R.string.add_to_wallet),
                     stringResource(R.string.invest_now),
                     { navController.navigate(R.string.login) },
                     { navController.navigate(R.string.search) },

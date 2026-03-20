@@ -86,7 +86,9 @@ fun SettingsScreen(navController: NavController) {
                     SettingsItem(
                         icon = Icons.Default.AccountBalanceWallet,
                         title = stringResource(R.string.funds_payments),
-                        onClick = { }
+                        onClick = {
+                            navController.navigate("funds_payments")
+                        }
                     )
                 }
 
@@ -94,7 +96,9 @@ fun SettingsScreen(navController: NavController) {
                     SettingsItem(
                         icon = Icons.Default.Help,
                         title = stringResource(R.string.reports_statements),
-                        onClick = { }
+                        onClick = {
+                            navController.navigate("reports")
+                        }
                     )
                 }
 
@@ -137,7 +141,7 @@ fun SettingsScreen(navController: NavController) {
 
             showLogoutDialog = false
 
-            navController.navigate("mpin") {
+            navController.navigate("login") {
                 popUpTo(0) { inclusive = true }
             }
         },

@@ -1,5 +1,6 @@
 package com.assignments.stockmarket.search
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -29,7 +31,9 @@ import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 
 @Composable
-fun SearchTextField(query: MutableState<TextFieldValue>, navController: NavController) {
+fun SearchTextField(
+    query: MutableState<TextFieldValue>, navController: NavController,
+    backIconRes: Int? = null, ) {
     BasicTextField(
         value = query.value,
         onValueChange = { newText -> query.value = newText },
@@ -51,17 +55,18 @@ fun SearchTextField(query: MutableState<TextFieldValue>, navController: NavContr
                 horizontalArrangement = Arrangement.Start, // Left alignment for the items
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Back arrow icon on the left
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back",
-                    tint = colorResource(R.color.light_grey_text_color),
-                    modifier = Modifier
-                        .size(18.dp)
-                        .clickable {
-                            navController.popBackStack()
-                        }
-                )
+                backIconRes?.let { icon ->
+                    Icon(
+                        painter = painterResource(id = icon),
+                        contentDescription = null,
+                        tint = colorResource(R.color.light_grey_text_color),
+                        modifier = Modifier
+                            .size(18.dp)
+                            .clickable {
+                                navController.popBackStack()
+                            }
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(10.dp))
 
