@@ -1,6 +1,7 @@
 package com.assignments.stockmarket.tabs.explore
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -36,7 +37,8 @@ private val priceFormat = DecimalFormat("#,##0.00")
 @Composable
 fun CompanyRecentItem(
     company: CompanyEntity,
-    tick: MarketTick? = null
+    tick: MarketTick? = null,
+    onClick: () -> Unit = {}
 ) {
     // Calculate percentage change from live tick
     val change = if (tick != null && tick.previousPrice != 0.0) {
@@ -53,7 +55,9 @@ fun CompanyRecentItem(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.width(80.dp)
+        modifier = Modifier
+            .width(80.dp)
+            .clickable { onClick() }
     ) {
 
         // Company logo loaded via Glide
@@ -124,4 +128,3 @@ fun CompanyRecentItem(
         }
     }
 }
-

@@ -38,11 +38,16 @@ import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable
 fun BuyStockScreen(navController: NavController,
-                   stockId: Int) {
+                   stockId: Int,
+                   stockName: String = "") {
 
     var selectedPeriod by remember { mutableStateOf("3Y") }
 
-    val stock = stockDetailsList.find { it.id == stockId }
+    val stock = if (stockName.isNotEmpty()) {
+        stockDetailsList.find { it.name.equals(stockName, ignoreCase = true) }
+    } else {
+        stockDetailsList.find { it.id == stockId }
+    }
 
     Scaffold(
         topBar = { AppBarBackArrow(navController)},

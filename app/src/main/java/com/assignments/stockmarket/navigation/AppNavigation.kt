@@ -30,6 +30,7 @@ import com.assignments.stockmarket.profile.ProfileScreen
 import com.assignments.stockmarket.search.SearchScreen
 import com.assignments.stockmarket.security.SecurityScreen
 import com.assignments.stockmarket.settings.SettingsScreen
+import com.assignments.stockmarket.tabs.explore.AllStocksScreen
 import com.assignments.stockmarket.tabs.explore.ExploreScreen
 import com.assignments.stockmarket.tabs.holdings.HoldingsScreen
 import com.assignments.stockmarket.tabs.orders.OrdersScreen
@@ -154,6 +155,24 @@ fun AppNavigation() {
                 navController = navController,
                 stockId = stockId
             )
+        }
+
+        composable(
+            route = "buy_stock_name/{stockName}",
+            arguments = listOf(
+                navArgument("stockName") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val stockName = backStackEntry.arguments?.getString("stockName") ?: ""
+            BuyStockScreen(
+                navController = navController,
+                stockId = 0,
+                stockName = stockName
+            )
+        }
+
+        composable("all_stocks") {
+            AllStocksScreen(navController)
         }
 
         composable("explore") {
