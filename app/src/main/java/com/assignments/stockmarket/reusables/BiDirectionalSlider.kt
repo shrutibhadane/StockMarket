@@ -176,11 +176,12 @@ fun BiDirectionalSlider(
                         detectVerticalDragGestures(
                             onDragStart = { isDragging = true },
                             onDragEnd = {
-                                // Thumb STAYS in place — just stop accumulating
                                 isDragging = false
+                                thumbYPx = trackHeightPx / 2f   // snap back to center
                             },
                             onDragCancel = {
                                 isDragging = false
+                                thumbYPx = trackHeightPx / 2f   // snap back to center
                             },
                             onVerticalDrag = { change, dragAmount ->
                                 change.consume()

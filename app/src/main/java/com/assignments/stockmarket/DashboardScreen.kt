@@ -50,6 +50,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -342,8 +343,11 @@ fun DashboardScreen(
                                         text = {
                                             Text(
                                                 text = title,
-                                                fontSize = 14.sp,
-                                                fontWeight = FontWeight.Medium
+                                                fontSize = 13.sp,
+                                                fontWeight = FontWeight.Medium,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis,
+                                                softWrap = false
                                             )
                                         }
                                     )
