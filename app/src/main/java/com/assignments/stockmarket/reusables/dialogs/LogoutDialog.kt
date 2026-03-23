@@ -22,6 +22,7 @@ import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 @Composable
 fun LogoutDialog(
     showDialog: Boolean,
+    message: String,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -63,7 +64,8 @@ fun LogoutDialog(
 
             text = {
                 Text(
-                    text = stringResource(R.string.do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again),
+                    text = message,
+                    //text = stringResource(R.string.do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again),
                     fontSize = 14.sp,
                     color = colorResource(R.color.white),
                     fontWeight = FontWeight.Bold,

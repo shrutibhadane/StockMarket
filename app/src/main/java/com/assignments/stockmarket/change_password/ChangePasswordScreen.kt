@@ -1,6 +1,5 @@
 package com.assignments.stockmarket.change_password
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -87,10 +86,51 @@ fun ChangePasswordScreen(navController: NavController) {
 
             Button(
                 onClick = {
-                    if (newPassword != confirmPassword) {
-                        Toast.makeText(context,
-                            context.getString(R.string.passwords_do_not_match), Toast.LENGTH_SHORT).show()
-                    }
+                        when {
+                            currentPassword.isEmpty() ||
+                                    newPassword.isEmpty() ||
+                                    confirmPassword.isEmpty() -> {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.fill_all_fields),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            newPassword.length < 8 -> {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.password_must_be_at_least_8_characters),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            newPassword != confirmPassword -> {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.passwords_do_not_match),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            newPassword == currentPassword -> {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.new_password_must_be_different),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> {
+                                // Call API or ViewModel
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.password_updated_successfully),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
                 },
                 modifier = Modifier
                     .fillMaxWidth()

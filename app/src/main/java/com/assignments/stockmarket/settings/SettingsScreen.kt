@@ -137,6 +137,7 @@ fun SettingsScreen(navController: NavController) {
 
     LogoutDialog(
         showDialog = showLogoutDialog,
+        message = stringResource(R.string.do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again),
         onConfirm = {
 
             showLogoutDialog = false

@@ -17,6 +17,7 @@ import com.assignments.stockmarket.SignUpScreen
 import com.assignments.stockmarket.SplashScreen
 import com.assignments.stockmarket.WelcomeScreen
 import com.assignments.stockmarket.about_us.AboutScreen
+import com.assignments.stockmarket.active_devices.ActiveDevicesScreen
 import com.assignments.stockmarket.bottom_navigation.screens.BuyStockScreen
 import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
 import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
@@ -212,6 +213,10 @@ fun AppNavigation() {
 
         composable("reports") {
             ReportsScreen(navController)
+        }
+
+        composable("active_devices") {
+            ActiveDevicesScreen(navController)
         }
 
     }

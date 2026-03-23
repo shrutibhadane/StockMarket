@@ -106,10 +106,16 @@
     <string name="passwords_do_not_match">Passwords do not match</string>
     <string name="update_password">Update Passwords</string>
     <string name="toggle_password">Toggle Password</string>
+    <string name="fill_all_fields">Fill all the fields</string>
+    <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters</string>
+    <string name="new_password_must_be_different">New password must be different</string>
+    <string name="password_updated_successfully">Password updated successfully</string>
 
     <!-- Logout Dialog -->
     <string name="logout">Logout</string>
     <string name="do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again">Do you want to logout from your account? You will need to enter your MPIN to login again.</string>
+    <string name="do_you_want_to_logout_from_your_account">Do you want to logout from your account?</string>
+    <string name="do_you_want_to_logout_from_all_devices">Do you want to logout from all devices?</string>
 
     <!-- Settings Screen -->
     <string name="settings">Settings</string>
