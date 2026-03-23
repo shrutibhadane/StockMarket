@@ -56,6 +56,7 @@ import com.assignments.stockmarket.graph.Candle
 import com.assignments.stockmarket.graph.LiveCandleManager
 import com.assignments.stockmarket.graph.ScrollableCandleChart
 import com.assignments.stockmarket.reusables.InvestmentsCard
+import com.assignments.stockmarket.reusables.MFImageBar
 import com.assignments.stockmarket.reusables.SliderOverlay
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
@@ -305,6 +306,11 @@ fun BuyStockScreen(
                 }
 
                 Spacer(modifier = Modifier.height(4.dp))
+
+                // ── Icon bar (cart, bookmark, search) ──
+                MFImageBar()
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 // ── Risk / Category / Theme (from static data) ──
                 if (stock != null) {
