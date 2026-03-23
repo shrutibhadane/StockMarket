@@ -6,18 +6,24 @@ import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,17 +56,19 @@ import com.assignments.stockmarket.graph.Candle
 import com.assignments.stockmarket.graph.LiveCandleManager
 import com.assignments.stockmarket.graph.ScrollableCandleChart
 import com.assignments.stockmarket.reusables.InvestmentsCard
-import com.assignments.stockmarket.reusables.MFImageBar
+import com.assignments.stockmarket.reusables.SliderOverlay
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
 import com.assignments.stockmarket.tabs.explore.stockDetailsList
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.net.URLDecoder
 import java.text.DecimalFormat
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 private val priceDisplayFormat = DecimalFormat("#,##0.00")
 private val changeFmt = DecimalFormat("0.00")
@@ -110,11 +118,26 @@ fun BuyStockScreen(
     // A counter that increments every time we receive a tick — ensures LaunchedEffect re-fires
     var tickVersion by remember { mutableIntStateOf(0) }
 
+    // ── Chart loading state ──
+    var chartLoading by remember { mutableStateOf(true) }
+
+    // ── Candle timer (remaining seconds for the current forming candle) ──
+    var remainingSeconds by remember { mutableIntStateOf(60) }
+
     // Reset candle manager when period or symbol changes
     LaunchedEffect(selectedPeriod, symbolKey) {
         candleManager.reset(selectedPeriod)
         completedCandles.clear()
         formingCandle = null
+        chartLoading = true
+    }
+
+    // ── Timer ticker — updates every second ──
+    LaunchedEffect(Unit) {
+        while (true) {
+            remainingSeconds = candleManager.remainingSeconds()
+            delay(1000L)
+        }
     }
 
     // ── 5. Animated price — "glitchy slide" effect ──
@@ -125,6 +148,9 @@ fun BuyStockScreen(
     // Detect tick changes and feed into candle manager IMMEDIATELY (non-blocking)
     LaunchedEffect(currentTick) {
         if (currentTick == null) return@LaunchedEffect
+
+        // First tick received — chart is no longer loading
+        chartLoading = false
 
         // Increment version to ensure we always process
         tickVersion++
@@ -137,6 +163,9 @@ fun BuyStockScreen(
         }
         // Always update the forming candle snapshot
         formingCandle = candleManager.getCurrentForming()
+
+        // Update remaining seconds immediately on tick
+        remainingSeconds = candleManager.remainingSeconds()
 
         // Update display prices
         displayPrevPrice = displayPrice
@@ -181,219 +210,369 @@ fun BuyStockScreen(
     val changeColor = if (isPositive) colorResource(R.color.light_green_text_color)
     else colorResource(R.color.red_text_color)
 
-    Scaffold(
-        topBar = { AppBarBackArrow(navController) },
-        bottomBar = {
-            BottomBarButtons(
-                "SELL",
-                "BUY",
-                { navController.navigate("login") },
-                { navController.navigate("search") },
-                R.drawable.red_dot,
-                R.drawable.green_dot,
-            )
-        }
-    ) { innerPadding ->
+    // ── Slider overlay state ──
+    var showSlider by remember { mutableStateOf(false) }
+    var sliderAction by remember { mutableStateOf("BUY") }
+    var sliderValue by remember { mutableFloatStateOf(0f) }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(colorResource(R.color.screen_background))
-                .padding(innerPadding)
-                .padding(horizontal = 12.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
+    // ── Confirmed quantity after user hits "Confirm" on slider ──
+    var confirmedBuyQty by remember { mutableStateOf<Int?>(null) }
+    var confirmedSellQty by remember { mutableStateOf<Int?>(null) }
 
-            // ── Restore the icon bar (search, bookmark, cart icons) ──
-            MFImageBar()
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            topBar = { AppBarBackArrow(navController) },
+            bottomBar = {
+                BottomBarButtons(
+                    if (confirmedSellQty != null) "PROCEED" else "SELL",
+                    if (confirmedBuyQty != null) "PROCEED" else "BUY",
+                    {
+                        if (confirmedSellQty != null) {
+                            // TODO: proceed with sell order
+                        } else {
+                            sliderAction = "SELL"
+                            sliderValue = 0f
+                            showSlider = true
+                        }
+                    },
+                    {
+                        if (confirmedBuyQty != null) {
+                            // TODO: proceed with buy order
+                        } else {
+                            sliderAction = "BUY"
+                            sliderValue = 0f
+                            showSlider = true
+                        }
+                    },
+                    R.drawable.red_dot,
+                    R.drawable.green_dot,
+                )
+            }
+        ) { innerPadding ->
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // ── Company logo + name header ──
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(colorResource(R.color.screen_background))
+                    .padding(innerPadding)
+                    .padding(horizontal = 12.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
-                // Company logo from Room DB (loaded via Glide)
-                val logoUrl = company?.logo
-                if (logoUrl != null) {
-                    GlideImage(
-                        model = logoUrl,
-                        contentDescription = company?.name ?: "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(
-                                color = colorResource(R.color.extra_light_blue_text_color),
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                }
 
-                Column {
-                    Text(
-                        text = company?.name ?: stock?.name ?: decodedName,
-                        color = colorResource(R.color.white),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily
-                    )
-                    if (company != null) {
-                        Text(
-                            text = company!!.symbol,
-                            color = colorResource(R.color.light_grey_text_color),
-                            fontSize = 12.sp,
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.Medium
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // ── Company logo + name header ──
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    // Company logo from Room DB (loaded via Glide)
+                    val logoUrl = company?.logo
+                    if (logoUrl != null) {
+                        GlideImage(
+                            model = logoUrl,
+                            contentDescription = company?.name ?: "",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(44.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(
+                                    color = colorResource(R.color.extra_light_blue_text_color),
+                                    shape = RoundedCornerShape(10.dp)
+                                )
                         )
+                        Spacer(modifier = Modifier.width(12.dp))
+                    }
+
+                    Column {
+                        Text(
+                            text = company?.name ?: stock?.name ?: decodedName,
+                            color = colorResource(R.color.white),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFamily
+                        )
+                        if (company != null) {
+                            Text(
+                                text = company!!.symbol,
+                                color = colorResource(R.color.light_grey_text_color),
+                                fontSize = 12.sp,
+                                fontFamily = PoppinsFamily,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
-            // ── Risk / Category / Theme (from static data) ──
-            if (stock != null) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = stock.risk,
-                        color = colorResource(R.color.light_grey_text_color),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
-                    Text(
-                        text = " • ",
-                        color = colorResource(R.color.light_grey_text_color),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
-                    Text(
-                        text = stock.category,
-                        color = colorResource(R.color.light_grey_text_color),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
-                    Text(
-                        text = " • ",
-                        color = colorResource(R.color.light_grey_text_color),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
-                    Text(
-                        text = stock.theme,
-                        color = colorResource(R.color.light_grey_text_color),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            // ── Live price + change ──
-            if (displayPrice > 0f) {
-                Text(
-                    text = "₹${priceDisplayFormat.format(displayPrice)}",
-                    color = colorResource(R.color.white),
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                )
-
-                Spacer(modifier = Modifier.height(2.dp))
-
-                Text(
-                    text = "${sign}${changeFmt.format(abs(priceDiff))} (${changeFmt.format(abs(pctChange))}%)",
-                    color = changeColor,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = PoppinsFamily,
-                )
-            } else {
-                // Fallback from static data
-                stock?.let {
+                // ── Risk / Category / Theme (from static data) ──
+                if (stock != null) {
                     Row(
+                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = it.annualReturn.toString(),
-                            color = colorResource(R.color.light_green_text_color),
-                            fontSize = 20.sp,
+                            text = stock.risk,
+                            color = colorResource(R.color.light_grey_text_color),
+                            fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFamily,
                         )
-                        Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = it.annualReturnPeriod,
+                            text = " • ",
+                            color = colorResource(R.color.light_grey_text_color),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFamily,
+                        )
+                        Text(
+                            text = stock.category,
+                            color = colorResource(R.color.light_grey_text_color),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFamily,
+                        )
+                        Text(
+                            text = " • ",
+                            color = colorResource(R.color.light_grey_text_color),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFamily,
+                        )
+                        Text(
+                            text = stock.theme,
                             color = colorResource(R.color.light_grey_text_color),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFamily,
                         )
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+
+                // ── Live price + change ──
+                if (displayPrice > 0f) {
                     Text(
-                        text = it.dayChange.toString(),
-                        color = colorResource(R.color.light_red_text_color),
-                        fontSize = 14.sp,
+                        text = "₹${priceDisplayFormat.format(displayPrice)}",
+                        color = colorResource(R.color.white),
+                        fontSize = 26.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily,
                     )
-                }
-            }
 
-            Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(2.dp))
 
-            // ── Live Japanese Candlestick Chart ──
-            ScrollableCandleChart(
-                candles = completedCandles.toList(),
-                formingCandle = formingCandle,
-                animatedPrice = animatedPrice.value,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // ── Time period selector ──
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                listOf("1M", "6M", "1Y", "3Y", "5Y", "ALL").forEach { period ->
-                    val isSelected = period == selectedPeriod
                     Text(
-                        text = period,
-                        color = if (isSelected) Color(0xFF7CFC00) else Color.Gray,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                        text = "${sign}${changeFmt.format(abs(priceDiff))} (${changeFmt.format(abs(pctChange))}%)",
+                        color = changeColor,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
                         fontFamily = PoppinsFamily,
-                        fontSize = 13.sp,
-                        modifier = Modifier
-                            .clickable { selectedPeriod = period }
-                            .padding(horizontal = 10.dp, vertical = 8.dp)
                     )
+                } else {
+                    // Fallback from static data
+                    stock?.let {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = it.annualReturn.toString(),
+                                color = colorResource(R.color.light_green_text_color),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = PoppinsFamily,
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = it.annualReturnPeriod,
+                                color = colorResource(R.color.light_grey_text_color),
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = PoppinsFamily,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = it.dayChange.toString(),
+                            color = colorResource(R.color.light_red_text_color),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFamily,
+                        )
+                    }
                 }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // ── Live Japanese Candlestick Chart (with loading & timer) ──
+                ScrollableCandleChart(
+                    candles = completedCandles.toList(),
+                    formingCandle = formingCandle,
+                    animatedPrice = animatedPrice.value,
+                    remainingSeconds = remainingSeconds,
+                    isLoading = chartLoading,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // ── Time period selector ──
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    listOf("1M", "6M", "1Y", "3Y", "5Y", "ALL").forEach { period ->
+                        val isSelected = period == selectedPeriod
+                        Text(
+                            text = period,
+                            color = if (isSelected) Color(0xFF7CFC00) else Color.Gray,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                            fontFamily = PoppinsFamily,
+                            fontSize = 13.sp,
+                            modifier = Modifier
+                                .clickable { selectedPeriod = period }
+                                .padding(horizontal = 10.dp, vertical = 8.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // ── Invested & Total Returns Section ──
+                InvestmentsCard(
+                    investedValue = stock?.investedAmount?.toString() ?: "—",
+                    totalReturns = stock?.totalReturns?.toString() ?: "—",
+                    arrowClick = { navController.navigate("dashboard") }
+                )
+
+                // ── Confirmed Qty Badge(s) below Invested section ──
+                if (confirmedBuyQty != null || confirmedSellQty != null) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        confirmedBuyQty?.let { qty ->
+                            ConfirmedQtyBadge(
+                                qty = qty,
+                                label = "BUY",
+                                badgeColor = Color(0xFF4CAF50),
+                                onClear = { confirmedBuyQty = null },
+                                onClick = {
+                                    sliderAction = "BUY"
+                                    sliderValue = qty.toFloat()
+                                    showSlider = true
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                        }
+                        confirmedSellQty?.let { qty ->
+                            ConfirmedQtyBadge(
+                                qty = qty,
+                                label = "SELL",
+                                badgeColor = Color(0xFFE53935),
+                                onClear = { confirmedSellQty = null },
+                                onClick = {
+                                    sliderAction = "SELL"
+                                    sliderValue = qty.toFloat()
+                                    showSlider = true
+                                }
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+
+        // ── Slider overlay (shown when Buy/Sell tapped) ──
+        SliderOverlay(
+            visible = showSlider,
+            actionLabel = sliderAction,
+            value = sliderValue,
+            onValueChange = { sliderValue = it },
+            onConfirm = { confirmedValue ->
+                val qty = confirmedValue.roundToInt()
+                if (qty > 0) {
+                    if (sliderAction == "BUY") {
+                        confirmedBuyQty = qty
+                    } else {
+                        confirmedSellQty = qty
+                    }
+                }
+                showSlider = false
+            },
+            onDismiss = { showSlider = false }
+        )
+    }
+}
+
+/**
+ * Circular badge showing the confirmed quantity with a cross (X) to clear it.
+ * Green circle for BUY, Red circle for SELL.
+ */
+@Composable
+private fun ConfirmedQtyBadge(
+    qty: Int,
+    label: String,
+    badgeColor: Color,
+    onClear: () -> Unit,
+    onClick: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Label above the badge
+        Text(
+            text = label,
+            color = badgeColor,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = PoppinsFamily
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        // Circular badge with qty + cross — tapping the circle reopens the slider
+        Box(contentAlignment = Alignment.TopEnd) {
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(badgeColor)
+                    .clickable { onClick() },
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = qty.toString(),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = PoppinsFamily
+                )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // ── Invested & Total Returns Section ──
-            InvestmentsCard(
-                investedValue = stock?.investedAmount?.toString() ?: "—",
-                totalReturns = stock?.totalReturns?.toString() ?: "—",
-                arrowClick = { navController.navigate("dashboard") }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
+            // Cross (X) button at top-right of the circle
+            Box(
+                modifier = Modifier
+                    .size(20.dp)
+                    .offset(x = 2.dp, y = (-2).dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF333333))
+                    .clickable { onClear() },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Remove",
+                    tint = Color.White,
+                    modifier = Modifier.size(12.dp)
+                )
+            }
         }
     }
 }

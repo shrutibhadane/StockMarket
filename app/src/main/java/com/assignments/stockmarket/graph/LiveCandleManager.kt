@@ -7,15 +7,10 @@ import kotlin.math.min
 /**
  * Manages the formation of Japanese candlesticks from live WebSocket tick data.
  *
- * Each tick arrives ~every 3 seconds.  Based on the selected time interval
- * the ticks are grouped into candles:
- *
- *   1M  → 1-minute candle   → ~20 ticks per candle  (60s / 3s)
- *   6M  → 6-minute candle   → ~120 ticks per candle
- *   1Y  → treated as 5-min  → ~100 ticks per candle
- *   3Y  → treated as 15-min → ~300 ticks per candle
- *   5Y  → treated as 30-min → ~600 ticks per candle
- *   ALL → treated as 60-min → ~1200 ticks per candle
+ * Each tick arrives ~every 3 seconds.  Every candle is exactly **1 minute**
+ * (~20 ticks).  The period selector (1M, 6M, 1Y …) represents the *historical
+ * time-range* displayed on the chart (1 Month, 6 Months, 1 Year …), NOT the
+ * candle duration.
  *
  * Japanese candlestick rules:
  *   - **Open** = first tick price of the period
@@ -29,16 +24,11 @@ import kotlin.math.min
 class LiveCandleManager {
 
     companion object {
-        /** How many ticks form one candle for each time-selector label. */
-        fun ticksPerCandle(period: String): Int = when (period) {
-            "1M"  -> 20    // 1-minute candle  (20 × 3s = 60s)
-            "6M"  -> 120   // 6-minute candle
-            "1Y"  -> 100   // 5-minute candle
-            "3Y"  -> 300   // 15-minute candle
-            "5Y"  -> 600   // 30-minute candle
-            "ALL" -> 1200  // 60-minute candle
-            else  -> 20
-        }
+        /** Every candle is 1 minute = 20 ticks (tick every ~3 s). */
+        const val TICKS_PER_CANDLE = 20
+
+        /** Candle duration in milliseconds (60 seconds). */
+        const val CANDLE_DURATION_MS = 60_000L
 
         /** Max candles kept visible on the chart. */
         const val MAX_CANDLES = 60
@@ -55,7 +45,6 @@ class LiveCandleManager {
     private var currentLow: Float = Float.MAX_VALUE
     private var currentStartTime: Long = 0L
     private var tickCount = 0
-    private var tickLimit = 20
 
     // Latest price for animation target
     var latestPrice: Float = 0f
@@ -74,9 +63,18 @@ class LiveCandleManager {
         currentLow = Float.MAX_VALUE
         currentStartTime = 0L
         tickCount = 0
-        tickLimit = ticksPerCandle(period)
         latestPrice = 0f
         previousPrice = 0f
+    }
+
+    /**
+     * Returns the remaining seconds for the current forming candle (0..60).
+     */
+    fun remainingSeconds(): Int {
+        if (currentOpen == null) return 60
+        val elapsed = System.currentTimeMillis() - currentStartTime
+        val remaining = ((CANDLE_DURATION_MS - elapsed) / 1000).coerceIn(0, 60)
+        return remaining.toInt()
     }
 
     /**
@@ -87,7 +85,6 @@ class LiveCandleManager {
         val price = tick.price.toFloat()
         previousPrice = latestPrice
         latestPrice = price
-        tickLimit = ticksPerCandle(period)
 
         val now = System.currentTimeMillis()
 
@@ -108,8 +105,9 @@ class LiveCandleManager {
         currentLow = min(currentLow, price)
         tickCount++
 
-        // Check if candle is complete
-        if (tickCount >= tickLimit) {
+        // Check if candle is complete (time-based OR tick-based)
+        val elapsed = now - currentStartTime
+        if (tickCount >= TICKS_PER_CANDLE || elapsed >= CANDLE_DURATION_MS) {
             // Finalize the current candle
             val completedCandle = Candle(
                 open = currentOpen!!,
