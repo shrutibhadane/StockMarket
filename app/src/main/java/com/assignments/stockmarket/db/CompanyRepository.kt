@@ -32,6 +32,14 @@ object CompanyRepository {
     }
 
     /**
+     * Find a single company by its display name (case-sensitive Room query).
+     */
+    suspend fun getCompanyByName(context: Context, name: String): CompanyEntity? = withContext(Dispatchers.IO) {
+        val dao = AppDatabase.getInstance(context).companyDao()
+        dao.getCompanyByName(name)
+    }
+
+    /**
      * Save pre-parsed companies into Room and return the full list from DB.
      */
     suspend fun saveAndLoad(context: Context, companies: List<CompanyEntity>): List<CompanyEntity> = withContext(Dispatchers.IO) {
