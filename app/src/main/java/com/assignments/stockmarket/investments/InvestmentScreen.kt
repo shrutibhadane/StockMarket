@@ -88,7 +88,7 @@ fun InvestmentScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = stringResource(R.string.rs, amount),
+                text = stringResource(R.string.rs_symbol, amount),
                 color = colorResource(R.color.white),
                 fontSize = 30.sp,
                 lineHeight = 30.sp,

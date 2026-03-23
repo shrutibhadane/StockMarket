@@ -16,21 +16,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.db.CompanyRepository
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.dialogs.LogoutDialog
 import com.assignments.stockmarket.settings.components.SettingsItem
 import com.assignments.stockmarket.settings.components.SettingsSectionTitle
+import io.paperdb.Paper
+import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(navController: NavController) {
 
     var showLogoutDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
         Scaffold(
             topBar = {
@@ -86,9 +93,7 @@ fun SettingsScreen(navController: NavController) {
                     SettingsItem(
                         icon = Icons.Default.AccountBalanceWallet,
                         title = stringResource(R.string.funds_payments),
-                        onClick = {
-                            navController.navigate("funds_payments")
-                        }
+                        onClick = { }
                     )
                 }
 
@@ -96,9 +101,7 @@ fun SettingsScreen(navController: NavController) {
                     SettingsItem(
                         icon = Icons.Default.Help,
                         title = stringResource(R.string.reports_statements),
-                        onClick = {
-                            navController.navigate("reports")
-                        }
+                        onClick = { }
                     )
                 }
 
@@ -139,8 +142,15 @@ fun SettingsScreen(navController: NavController) {
         showDialog = showLogoutDialog,
         message = stringResource(R.string.do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again),
         onConfirm = {
-
             showLogoutDialog = false
+
+            // Clear Room database (companies cache)
+            coroutineScope.launch {
+                CompanyRepository.clearAll(context)
+            }
+
+            // Clear Paper credentials
+            Paper.book().destroy()
 
             navController.navigate("login") {
                 popUpTo(0) { inclusive = true }

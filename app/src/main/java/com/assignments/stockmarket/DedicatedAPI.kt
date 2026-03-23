@@ -7,6 +7,8 @@ import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import org.json.JSONArray
+import com.assignments.stockmarket.db.CompanyEntity
 
 // ──────────────────────────────────────────────
 //  Base URL
@@ -23,6 +25,7 @@ const val UPDATE_STATUS_API_URL = "$BASE_URL/updatestatus"
 const val CHECK_STATUS_API_URL = "$BASE_URL/checkthestatus"
 const val FORGOT_PASSWORD_API_URL = "$BASE_URL/forgotpassword"
 const val RESET_PASSWORD_API_URL = "$BASE_URL/resetpassword"
+const val COMPANIES_API_URL = "$BASE_URL/companies"
 
 // ──────────────────────────────────────────────
 //  Data classes
@@ -337,4 +340,89 @@ suspend fun resetPasswordApi(
     } finally {
         connection?.disconnect()
     }
+}
+
+/**
+ * Fetch companies list via GET from /api/companies.
+ * Retries up to 3 times to handle Render free-tier cold starts.
+ * Returns a list of [CompanyEntity] parsed from the JSON response.
+ */
+suspend fun fetchCompaniesApi(): List<CompanyEntity> = withContext(Dispatchers.IO) {
+    val tag = "FetchCompaniesAPI"
+    val maxRetries = 3
+
+    for (attempt in 1..maxRetries) {
+        var connection: HttpURLConnection? = null
+        try {
+            android.util.Log.i(tag, "Attempt $attempt/$maxRetries — GET $COMPANIES_API_URL")
+            connection = (URL(COMPANIES_API_URL).openConnection() as HttpURLConnection).apply {
+                requestMethod = "GET"
+                connectTimeout = 60_000
+                readTimeout = 60_000
+                setRequestProperty("Accept", "application/json")
+            }
+
+            val responseCode = connection.responseCode
+            android.util.Log.i(tag, "Attempt $attempt — Response code: $responseCode")
+
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                val errorBody = try {
+                    connection.errorStream?.bufferedReader()?.use { it.readText() } ?: "No error body"
+                } catch (_: Exception) { "Could not read error body" }
+                android.util.Log.e(tag, "Attempt $attempt — Non-200: $responseCode — $errorBody")
+                connection.disconnect()
+                if (attempt < maxRetries) {
+                    Thread.sleep(2_000L)
+                    continue
+                }
+                return@withContext emptyList()
+            }
+
+            val body = BufferedReader(connection.inputStream.reader()).use { it.readText() }
+            android.util.Log.i(tag, "Response body length: ${body.length}")
+            val json = JSONObject(body)
+
+            if (!json.optString("status").equals("OK", ignoreCase = true)) {
+                android.util.Log.e(tag, "Status not OK: ${json.optString("status")}")
+                return@withContext emptyList()
+            }
+
+            val dataObj = json.optJSONObject("data")
+            if (dataObj == null) {
+                android.util.Log.e(tag, "Missing 'data' object in response")
+                return@withContext emptyList()
+            }
+            val companiesArray = dataObj.optJSONArray("companies")
+            if (companiesArray == null) {
+                android.util.Log.e(tag, "Missing 'companies' array in response")
+                return@withContext emptyList()
+            }
+
+            val result = mutableListOf<CompanyEntity>()
+            for (i in 0 until companiesArray.length()) {
+                val c = companiesArray.getJSONObject(i)
+                result.add(
+                    CompanyEntity(
+                        symbol = c.optString("symbol", ""),
+                        name = c.optString("name", ""),
+                        logo = c.optString("logo", "")
+                    )
+                )
+            }
+            android.util.Log.i(tag, "Parsed ${result.size} companies from API")
+            return@withContext result
+        } catch (e: Exception) {
+            android.util.Log.e(tag, "Attempt $attempt — Exception: ${e.javaClass.simpleName}: ${e.message}")
+            connection?.disconnect()
+            if (attempt < maxRetries) {
+                android.util.Log.i(tag, "Retrying in 2 seconds…")
+                Thread.sleep(2_000L)
+            } else {
+                android.util.Log.e(tag, "All $maxRetries attempts failed", e)
+            }
+        } finally {
+            connection?.disconnect()
+        }
+    }
+    emptyList()
 }
