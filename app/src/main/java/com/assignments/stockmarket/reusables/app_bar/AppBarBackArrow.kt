@@ -65,7 +65,6 @@ fun AppBarBackArrow(
                         popUpTo("dashboard") { inclusive = true }
                     }
                 } else {
-                    // Regular back navigation
                     navController.popBackStack()
                 }
             }) {
@@ -89,8 +88,8 @@ fun AppBarBackArrow(
                     Text(
                         text = title,
                         color = colorResource(R.color.white),
-                        fontSize = 14.sp,
-                        lineHeight = 14.sp,
+                        fontSize = 18.sp,
+                        lineHeight = 18.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Left,
@@ -101,8 +100,8 @@ fun AppBarBackArrow(
                     Text(
                         text = subTitle,
                         color = colorResource(R.color.white),
-                        fontSize = 10.sp,
-                        lineHeight = 10.sp,
+                        fontSize = 12.sp,
+                        lineHeight = 12.sp,
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Left,

@@ -42,7 +42,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.WebSocketManager
 import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.db.CompanyRepository
-import com.assignments.stockmarket.reusables.app_bar.MyAppBar
+import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -69,7 +69,8 @@ fun AllStocksScreen(navController: NavController) {
     val marketTicks by WebSocketManager.marketTicks.collectAsState()
 
     Scaffold(
-        topBar = { MyAppBar(navController) }
+        topBar = { AppBarBackArrow(navController, "All Stocks")
+        }
     ) { innerPadding ->
 
         LazyColumn(
@@ -79,20 +80,6 @@ fun AllStocksScreen(navController: NavController) {
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
         ) {
-
-            // Heading
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "All Stocks",
-                    color = colorResource(R.color.white),
-                    fontSize = 20.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-            }
 
             // Company list — one card per row
             items(companies) { company ->
