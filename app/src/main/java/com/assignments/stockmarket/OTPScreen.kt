@@ -59,6 +59,17 @@ fun OTPScreen(
     isResetMpin: Boolean = false,
     isForgotPassword: Boolean = false
 ) {
+    OtpVerificationContent(navController, email, expectedOtp, isResetMpin, isForgotPassword)
+}
+
+@Composable
+private fun OtpVerificationContent(
+    navController: NavController,
+    email: String,
+    expectedOtp: String,
+    isResetMpin: Boolean,
+    isForgotPassword: Boolean
+) {
     val otpLength = if (isForgotPassword) 6 else 4
     var currentExpectedOtp by remember { mutableStateOf(expectedOtp) }
     var enteredOtp by remember { mutableStateOf("") }
