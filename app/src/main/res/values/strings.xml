@@ -161,5 +161,23 @@
     <string name="yesterday">Yesterday</string>
     <string name="today">Today</string>
 
+    <!-- KYC Screen -->
+    <string name="personal">Personal</string>
+    <string name="pan">PAN</string>
+    <string name="aadhaar">Aadhaar</string>
+    <string name="review">Review</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="full_name">Full Name</string>
+    <string name="dob_dd_mm_yyyy">DOB (DD/MM/YYYY)</string>
+    <string name="continue_">Continue</string>
+    <string name="pan_verification">PAN Verification</string>
+    <string name="back">Back</string>
+    <string name="verify_pan">Verify PAN</string>
+    <string name="aadhaar_verification">Aadhaar Verification</string>
+    <string name="aadhaar_number">Aadhaar Number</string>
+    <string name="verify_aadhaar">Verify Aadhaar</string>
+    <string name="review_details">Review Details</string>
+    <string name="submit_kyc">Submit KYC</string>
+
 
 </resources>

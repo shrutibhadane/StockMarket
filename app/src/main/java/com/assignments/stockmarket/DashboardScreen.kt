@@ -56,6 +56,7 @@ import com.assignments.stockmarket.bottom_navigation.screens.f_and_q.FAndQScreen
 import com.assignments.stockmarket.bottom_navigation.screens.loans.LoansScreen
 import com.assignments.stockmarket.bottom_navigation.screens.mutual_funds.MutualFundsScreen
 import com.assignments.stockmarket.bottom_navigation.screens.upi.UPIScreen
+import com.assignments.stockmarket.kyc_verification.KYCScreen
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.app_bar.MyAppBar
 import com.assignments.stockmarket.tabs.explore.ExploreScreen
@@ -126,7 +127,7 @@ fun DashboardScreen(
                 1 -> FAndQScreen(navController)
                 2 -> MutualFundsScreen(navController)
                 3 -> UPIScreen(navController)
-                4 -> LoansScreen(navController)
+                4 -> KYCScreen(navController)
             }
 
             // ── Connection Status Indicator ──

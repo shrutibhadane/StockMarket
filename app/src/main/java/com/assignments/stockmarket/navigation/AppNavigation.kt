@@ -27,6 +27,7 @@ import com.assignments.stockmarket.change_password.ChangePasswordScreen
 import com.assignments.stockmarket.funds_payments.FundsPaymentsScreen
 import com.assignments.stockmarket.help_support.HelpSupportScreen
 import com.assignments.stockmarket.investments.InvestmentScreen
+import com.assignments.stockmarket.kyc_verification.KYCScreen
 import com.assignments.stockmarket.notifications.NotificationSettingsScreen
 import com.assignments.stockmarket.profile.ProfileScreen
 import com.assignments.stockmarket.reports_statements.ReportsScreen
@@ -217,6 +218,10 @@ fun AppNavigation() {
 
         composable("active_devices") {
             ActiveDevicesScreen(navController)
+        }
+
+        composable("kyc") {
+            KYCScreen(navController)
         }
 
     }

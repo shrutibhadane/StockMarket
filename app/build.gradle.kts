@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.runtime)
     implementation(libs.ui)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.foundation)
     testImplementation(libs.junit)
     testImplementation("org.robolectric:robolectric:4.14.1")
     testImplementation("androidx.test:core:1.6.1")
