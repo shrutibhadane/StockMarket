@@ -18,11 +18,11 @@ import com.assignments.stockmarket.SplashScreen
 import com.assignments.stockmarket.WelcomeScreen
 import com.assignments.stockmarket.about_us.AboutScreen
 import com.assignments.stockmarket.active_devices.ActiveDevicesScreen
-import com.assignments.stockmarket.bottom_navigation.screens.BuyStockScreen
-import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
-import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
-import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
-import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
+import com.assignments.stockmarket.bottom_navigation.screens.buy_stocks.BuyStockScreen
+import com.assignments.stockmarket.bottom_navigation.screens.f_and_q.FAndQScreen
+import com.assignments.stockmarket.bottom_navigation.screens.loans.LoansScreen
+import com.assignments.stockmarket.bottom_navigation.screens.mutual_funds.MutualFundsScreen
+import com.assignments.stockmarket.bottom_navigation.screens.upi.UPIScreen
 import com.assignments.stockmarket.change_password.ChangePasswordScreen
 import com.assignments.stockmarket.funds_payments.FundsPaymentsScreen
 import com.assignments.stockmarket.help_support.HelpSupportScreen

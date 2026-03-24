@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.bottom_navigation.screens
+package com.assignments.stockmarket.bottom_navigation.screens.buy_stocks
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
