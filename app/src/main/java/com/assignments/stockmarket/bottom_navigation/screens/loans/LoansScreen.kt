@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.bottom_navigation.screens
+package com.assignments.stockmarket.bottom_navigation.screens.loans
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

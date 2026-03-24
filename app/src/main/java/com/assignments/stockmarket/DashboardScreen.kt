@@ -56,10 +56,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.bottom_navigation.BottomNavBar
 import com.assignments.stockmarket.bottom_navigation.BottomNavItem
-import com.assignments.stockmarket.bottom_navigation.screens.FAndQScreen
-import com.assignments.stockmarket.bottom_navigation.screens.LoansScreen
-import com.assignments.stockmarket.bottom_navigation.screens.MutualFundsScreen
-import com.assignments.stockmarket.bottom_navigation.screens.UPIScreen
+import com.assignments.stockmarket.bottom_navigation.screens.f_and_q.FAndQScreen
+import com.assignments.stockmarket.bottom_navigation.screens.loans.LoansScreen
+import com.assignments.stockmarket.bottom_navigation.screens.mutual_funds.MutualFundsScreen
+import com.assignments.stockmarket.bottom_navigation.screens.upi.UPIScreen
+import com.assignments.stockmarket.kyc_verification.KYCScreen
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.app_bar.MyAppBar
 import com.assignments.stockmarket.tabs.explore.ExploreScreen
@@ -205,11 +206,12 @@ fun DashboardScreen(
     val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
 
     Scaffold(
-        topBar = {   if (selectedBottomTab == 0) {
-            MyAppBar(navController)
-        } else {
-            AppBarBackArrow(navController)
-        } },
+        topBar = {
+            when (selectedBottomTab) {
+                0 -> MyAppBar(navController)
+                3 -> AppBarBackArrow(navController, title = "Add Money")
+                else -> AppBarBackArrow(navController)
+            } },
         bottomBar = {
             BottomNavBar(
                 items = bottomNavItems,
@@ -373,7 +375,7 @@ fun DashboardScreen(
                 1 -> FAndQScreen(navController)
                 2 -> MutualFundsScreen(navController)
                 3 -> UPIScreen(navController)
-                4 -> LoansScreen(navController)
+                4 -> KYCScreen(navController)
             }
         }
     }

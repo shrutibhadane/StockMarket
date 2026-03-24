@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.bottom_navigation.screens
+package com.assignments.stockmarket.bottom_navigation.screens.mutual_funds
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
