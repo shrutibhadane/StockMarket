@@ -8,7 +8,7 @@
     <style name="Theme.StockMarket" parent="Base.Theme.StockMarket" />
 
     <!-- <style name="Theme.StockMarket" parent="Base.Theme.StockMarket">
-        <item name="windowSplashScreenBackground">@color/screen_background</item>
+        <item name="windowSplashScreenBackground">@color/bg_primary</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_stock_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.StockMarket</item>
     </style>-->

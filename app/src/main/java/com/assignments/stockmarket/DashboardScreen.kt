@@ -224,7 +224,7 @@ fun DashboardScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.screen_background))
+                .background(colorResource(R.color.bg_primary))
                 .padding(innerPadding)
         ) {
             when (selectedBottomTab) {
@@ -327,7 +327,7 @@ fun DashboardScreen(
                         stickyHeader {
                             TabRow(
                                 selectedTabIndex = selectedTabIndex,
-                                containerColor = colorResource(id = R.color.screen_background),
+                                containerColor = colorResource(id = R.color.bg_primary),
                                 contentColor = colorResource(R.color.white),
                                 indicator = { tabPositions ->
                                     TabRowDefaults.Indicator(
@@ -455,7 +455,7 @@ fun MarketCard(
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, borderColor),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.screen_background)
+            containerColor = colorResource(R.color.bg_primary)
         )
     ) {
         Column(

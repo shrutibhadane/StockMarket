@@ -102,7 +102,7 @@ fun SignUpScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(R.color.screen_background))
+            .background(color = colorResource(R.color.bg_primary))
             .padding(horizontal = 24.dp)
     ) {
         Column(

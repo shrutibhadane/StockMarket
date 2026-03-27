@@ -74,8 +74,8 @@ class Sprint1FoundationTest {
 
     @Test
     fun T1_2_TC01_screenBackgroundColorExists() {
-        val resId = context.resources.getIdentifier("screen_background", "color", context.packageName)
-        assertTrue("screen_background color should exist", resId != 0)
+        val resId = context.resources.getIdentifier("bg_primary", "color", context.packageName)
+        assertTrue("bg_primary color should exist", resId != 0)
     }
 
     @Test
@@ -117,7 +117,7 @@ class Sprint1FoundationTest {
     @Test
     fun T1_2_TC08_allTwentyColorsExist() {
         val colorNames = listOf(
-            "screen_background", "text_field_color", "text_color", "button_background_color",
+            "bg_primary", "text_field_color", "text_color", "button_background_color",
             "white", "black", "light_green_text_color", "red_text_color", "green_text_color",
             "light_red_text_color", "light_grey_text_color", "light_grey_image_color",
             "blue_text_color", "light_blue_text_color", "extra_light_blue_text_color",

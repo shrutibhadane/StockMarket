@@ -119,7 +119,7 @@ fun ScrollableCandleChart(
                 modifier = Modifier
                     .width(chartWidth)
                     .height(280.dp)
-                    .background(colorResource(R.color.screen_background))
+                    .background(colorResource(R.color.bg_primary))
             ) {
                 if (totalCandles == 0) return@Canvas
 

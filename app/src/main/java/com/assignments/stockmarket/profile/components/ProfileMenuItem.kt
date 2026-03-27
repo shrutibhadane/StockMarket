@@ -100,14 +100,14 @@ fun ProfileMenuItem(
                             imageVector = Icons.Default.Whatsapp,
                             contentDescription = "Invite",
                             modifier = Modifier.size(12.dp),
-                            tint = colorResource(R.color.screen_background),
+                            tint = colorResource(R.color.bg_primary),
                         )
 
                         Spacer(modifier = Modifier.width(4.dp))
 
                         Text(
                             text = actionText,
-                            color = colorResource(R.color.screen_background),
+                            color = colorResource(R.color.bg_primary),
                             fontFamily = PoppinsFamily,
                             fontSize = 9.sp,
                             fontWeight = FontWeight.Bold

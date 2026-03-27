@@ -76,7 +76,7 @@ fun AllStocksScreen(navController: NavController) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.screen_background))
+                .background(colorResource(R.color.bg_primary))
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
         ) {

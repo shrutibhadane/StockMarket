@@ -37,7 +37,7 @@ fun BottomBarButtons(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(R.color.screen_background))
+            .background(colorResource(R.color.bg_primary))
             .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {

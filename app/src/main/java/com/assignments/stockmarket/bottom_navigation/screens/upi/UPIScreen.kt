@@ -49,7 +49,7 @@ fun UPIScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.screen_background))
+            .background(colorResource(R.color.bg_primary))
             .padding(20.dp)
     ) {
 
@@ -238,7 +238,7 @@ fun UPIScreen(navController: NavController) {
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
-                color = colorResource(R.color.screen_background)
+                color = colorResource(R.color.bg_primary)
             )
         }
     }

@@ -19,7 +19,7 @@ Details of the task:
 Technical Requirements:
     - Jetpack Compose (Box, Column, Modifier)
     - NavController parameter
-    - colorResource for screen_background
+    - colorResource for bg_primary
     - padding(horizontal = 24.dp)
     - rememberScrollState() with Modifier.verticalScroll
 

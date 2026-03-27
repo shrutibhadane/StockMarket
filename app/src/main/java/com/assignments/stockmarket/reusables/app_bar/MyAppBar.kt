@@ -36,7 +36,7 @@ fun MyAppBar(
 ) {
 
     val systemUiController = rememberSystemUiController()
-    val statusBarColor = colorResource(id = R.color.screen_background)
+    val statusBarColor = colorResource(id = R.color.bg_primary)
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -47,7 +47,7 @@ fun MyAppBar(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colorResource(R.color.screen_background),   // your blue
+            containerColor = colorResource(R.color.bg_primary),
             scrolledContainerColor = colorResource(R.color.white),
             titleContentColor = colorResource(R.color.white),
             actionIconContentColor = colorResource(R.color.white),

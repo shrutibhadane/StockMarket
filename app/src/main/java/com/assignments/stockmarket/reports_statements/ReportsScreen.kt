@@ -62,7 +62,7 @@ fun ReportsScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.screen_background))
+                .background(colorResource(R.color.bg_primary))
                 .padding(innerPadding)
                 .padding(horizontal = 20.dp)
         ) {
@@ -94,7 +94,7 @@ fun ReportTabs(navController: NavController) {
 
         TabRow(
             selectedTabIndex = selectedTabIndex,
-            containerColor = colorResource(id = R.color.screen_background),
+            containerColor = colorResource(id = R.color.bg_primary),
             contentColor = colorResource(R.color.white),
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(

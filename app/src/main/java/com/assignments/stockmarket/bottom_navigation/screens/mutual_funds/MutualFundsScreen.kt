@@ -53,7 +53,7 @@ fun MutualFundsScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.screen_background))
+                .background(colorResource(R.color.bg_primary))
                 .padding(horizontal = 4.dp, vertical = 0.dp)
         ) {
 

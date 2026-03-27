@@ -37,7 +37,7 @@ fun BalanceCard(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = colorResource(R.color.screen_background),
+                color = colorResource(R.color.bg_primary),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(0.dp),
@@ -93,14 +93,14 @@ fun BalanceCard(navController: NavController) {
                     imageVector = Icons.Default.Money,
                     contentDescription = stringResource(R.string.add_money),
                     modifier = Modifier.size(16.dp),
-                    tint = colorResource(R.color.screen_background),
+                    tint = colorResource(R.color.bg_primary),
                 )
 
                 Spacer(modifier = Modifier.width(4.dp))
 
                 Text(
                     text = stringResource(R.string.add_money),
-                    color = colorResource(R.color.screen_background),
+                    color = colorResource(R.color.bg_primary),
                     fontFamily = PoppinsFamily,
                     fontSize =  9.sp,
                     fontWeight = FontWeight.Bold

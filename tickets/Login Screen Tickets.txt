@@ -13,13 +13,13 @@ Details of the task:
     Create a new Kotlin file LoginScreen.kt inside the stockmarket package.
     Define a @Composable function LoginScreen that accepts a NavController
     and an optional onLoginClick callback. Set up the basic Box and Column
-    layout with full-screen background color (screen_background) and
+    layout with full-screen background color (bg_primary) and
     horizontal padding of 24dp.
 
 Technical Requirements:
     - Jetpack Compose (Box, Column, Modifier)
     - NavController and onLoginClick: () -> Unit = {} parameters
-    - colorResource(R.color.screen_background) background
+    - colorResource(R.color.bg_primary) background
     - Modifier.fillMaxSize().padding(horizontal = 24.dp)
     - Column with horizontalAlignment = CenterHorizontally
 

@@ -21,7 +21,7 @@ fun FilterChip(label: String) {
     ) {
         Text(
             text = label,
-            color = colorResource(R.color.screen_background),
+            color = colorResource(R.color.bg_primary),
             fontSize = 11.sp,
             fontFamily = PoppinsFamily,
             fontWeight = FontWeight.SemiBold,

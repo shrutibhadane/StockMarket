@@ -19,7 +19,7 @@ Details of the task:
 Technical Requirements:
     - Parameters: navController: NavController, email: String,
       expectedOtp: String, isResetMpin: Boolean = false
-    - Box with fillMaxSize, colorResource(R.color.screen_background),
+    - Box with fillMaxSize, colorResource(R.color.bg_primary),
       padding(horizontal = 24.dp)
     - Column with horizontalAlignment = CenterHorizontally
     - State variables: currentExpectedOtp, enteredOtp, otpError,

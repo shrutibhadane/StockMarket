@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Base Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="screen_background">#FF001336</color>
+
+    <!-- Base Colors -->
+    <color name="bg_primary">#FF001336</color>
+
+
     <color name="text_field_color">#FF374560</color>
     <color name="text_color">#FFD0CECE</color>
     <color name="button_background_color">#FF485773</color>

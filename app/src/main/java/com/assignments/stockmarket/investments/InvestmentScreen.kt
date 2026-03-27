@@ -69,7 +69,7 @@ fun InvestmentScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.screen_background))
+                .background(colorResource(R.color.bg_primary))
                 .padding(horizontal = 0.dp, vertical = 0.dp)
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,

@@ -47,7 +47,7 @@ fun SearchScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.screen_background))
+            .background(colorResource(R.color.bg_primary))
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
 

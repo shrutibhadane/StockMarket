@@ -42,7 +42,7 @@ fun BalanceCard() {
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                color = colorResource(R.color.screen_background)
+                color = colorResource(R.color.bg_primary)
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -52,7 +52,7 @@ fun BalanceCard() {
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 12.sp,
-                color = colorResource(R.color.screen_background).copy(alpha = 0.7f)
+                color = colorResource(R.color.bg_primary).copy(alpha = 0.7f)
             )
         }
 

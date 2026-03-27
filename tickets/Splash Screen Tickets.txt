@@ -12,11 +12,11 @@ Task Name:
 Details of the task:
     Create a new Kotlin file SplashScreen.kt inside the stockmarket
     package. Define a @Composable function SplashScreen that accepts a
-    NavController. Set up a centered Box layout with screen_background
+    NavController. Set up a centered Box layout with bg_primary
     color containing the app logo (300dp) and app name text.
 
 Technical Requirements:
-    - Box with fillMaxSize, colorResource(R.color.screen_background),
+    - Box with fillMaxSize, colorResource(R.color.bg_primary),
       contentAlignment = Center
     - Column with horizontalAlignment = CenterHorizontally
     - Image: painterResource(R.drawable.ic_stock_logo), .size(300.dp)

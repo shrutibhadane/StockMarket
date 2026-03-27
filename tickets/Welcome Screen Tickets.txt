@@ -85,12 +85,12 @@ Task Name:
 Details of the task:
     Create a new Kotlin file WelcomeScreen.kt inside the stockmarket
     package. Define a @Composable function WelcomeScreen that accepts a
-    NavController. Set up a full-screen Box with screen_background color
+    NavController. Set up a full-screen Box with bg_primary color
     and centered content alignment.
 
 Technical Requirements:
     - @Composable fun WelcomeScreen(navController: NavController)
-    - Box with fillMaxSize, colorResource(R.color.screen_background),
+    - Box with fillMaxSize, colorResource(R.color.bg_primary),
       contentAlignment = Center
     - val context = LocalContext.current for MediaPlayer
     - State flags: showConfetti, showWelcome, showInto, showTradeSphere

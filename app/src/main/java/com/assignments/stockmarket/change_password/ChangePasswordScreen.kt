@@ -53,7 +53,7 @@ fun ChangePasswordScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.screen_background))
+                .background(colorResource(R.color.bg_primary))
                 .padding(innerPadding)
                 .padding(horizontal = 20.dp),
         ) {
@@ -142,7 +142,7 @@ fun ChangePasswordScreen(navController: NavController) {
             ) {
                 Text(
                     text = stringResource(R.string.update_password),
-                    color = colorResource(R.color.screen_background),
+                    color = colorResource(R.color.bg_primary),
                     fontSize = 14.sp,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold

@@ -14,7 +14,7 @@ Details of the task:
     Define a @Composable function MPINScreen that accepts a NavController,
     isVerifyMode (Boolean, default false), isResetMode (Boolean, default
     false), and an optional onMPINClick callback. Set up the basic Box
-    and Column layout with screen_background color and horizontal padding
+    and Column layout with bg_primary color and horizontal padding
     of 24dp. Initialize state variables for enteredMpin, mpinError,
     wrongAttempts (Int), isSuspended (Boolean), and isLoading.
 
@@ -23,7 +23,7 @@ Technical Requirements:
     - Parameters: navController: NavController,
       isVerifyMode: Boolean = false, isResetMode: Boolean = false,
       onMPINClick: () -> Unit = {}
-    - colorResource(R.color.screen_background)
+    - colorResource(R.color.bg_primary)
     - Modifier.fillMaxSize().padding(horizontal = 24.dp)
     - Column with horizontalAlignment = CenterHorizontally
     - State: enteredMpin (String), mpinError (String?),

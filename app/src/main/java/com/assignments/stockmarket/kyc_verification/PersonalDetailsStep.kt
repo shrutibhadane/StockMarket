@@ -189,7 +189,7 @@ fun PersonalDetailsStep(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = PoppinsFamily,
-                color = colorResource(R.color.screen_background)
+                color = colorResource(R.color.bg_primary)
             )
         }
 

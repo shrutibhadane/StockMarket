@@ -93,9 +93,9 @@ fun AadhaarStep(
                 onClick = onBack, modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(R.color.light_blue_button_bg_color),
-                    contentColor = colorResource(R.color.screen_background),
+                    contentColor = colorResource(R.color.bg_primary),
                     disabledContainerColor = colorResource(R.color.light_grey_text_color),
-                    disabledContentColor = colorResource(R.color.screen_background)
+                    disabledContentColor = colorResource(R.color.bg_primary)
                 )
             ) {
                 Text(
@@ -114,9 +114,9 @@ fun AadhaarStep(
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(R.color.light_blue_button_bg_color),
-                    contentColor = colorResource(R.color.screen_background),
+                    contentColor = colorResource(R.color.bg_primary),
                     disabledContainerColor = colorResource(R.color.light_grey_text_color),
-                    disabledContentColor = colorResource(R.color.screen_background)
+                    disabledContentColor = colorResource(R.color.bg_primary)
                 )
             ) {
                 Text(
@@ -124,7 +124,7 @@ fun AadhaarStep(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.screen_background)
+                    color = colorResource(R.color.bg_primary)
                 )
             }
         }

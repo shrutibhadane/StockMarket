@@ -32,7 +32,7 @@ fun LogoutDialog(
         AlertDialog(
             onDismissRequest = { onDismiss() },
 
-            containerColor = colorResource(R.color.screen_background),
+            containerColor = colorResource(R.color.bg_primary),
 
             shape = RoundedCornerShape(12.dp),
 
