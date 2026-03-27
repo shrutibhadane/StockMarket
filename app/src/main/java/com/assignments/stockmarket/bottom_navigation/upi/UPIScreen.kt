@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.bottom_navigation.screens.upi
+package com.assignments.stockmarket.bottom_navigation.upi
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
-import com.assignments.stockmarket.bottom_navigation.screens.upi.components.UpiAppItem
-import com.assignments.stockmarket.bottom_navigation.screens.upi.components.openUpiApp
+import com.assignments.stockmarket.bottom_navigation.upi.components.UpiAppItem
+import com.assignments.stockmarket.bottom_navigation.upi.components.openUpiApp
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 
 @Composable

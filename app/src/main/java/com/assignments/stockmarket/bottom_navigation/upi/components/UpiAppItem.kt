@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.bottom_navigation.screens.upi.components
+package com.assignments.stockmarket.bottom_navigation.upi.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

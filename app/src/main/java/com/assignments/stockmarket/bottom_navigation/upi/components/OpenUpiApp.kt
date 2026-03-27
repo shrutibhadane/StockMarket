@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.bottom_navigation.screens.upi.components
+package com.assignments.stockmarket.bottom_navigation.upi.components
 
 import android.content.Context
 import android.content.Intent

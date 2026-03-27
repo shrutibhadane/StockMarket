@@ -1,6 +1,8 @@
-package com.assignments.stockmarket
+package com.assignments.stockmarket.authorization
 
 import android.media.MediaPlayer
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -35,6 +37,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import kotlinx.coroutines.delay
 
@@ -63,7 +66,7 @@ fun WelcomeScreen(navController: NavController) {
         mediaPlayer?.start()
 
         // Stop after 2 seconds
-        val handler = android.os.Handler(android.os.Looper.getMainLooper())
+        val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
             if (mediaPlayer?.isPlaying == true) {
                 mediaPlayer.stop()

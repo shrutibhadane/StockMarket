@@ -1,6 +1,5 @@
-package com.assignments.stockmarket
+package com.assignments.stockmarket.authorization
 
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -46,49 +45,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.assignments.stockmarket.R
+import com.assignments.stockmarket.resetPasswordApi
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import kotlinx.coroutines.launch
 
-// Valid TLDs for email validation
-private val VALID_TLDS = setOf(
-    "com", "in", "org", "net", "edu", "gov", "co", "io", "info", "biz", "us", "uk", "ca", "au"
-)
-
 @Composable
-fun SignUpScreen(
+fun ResetPasswordScreen(
     navController: NavController,
-    onSignUpClick: () -> Unit = {}
+    identifier: String
 ) {
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var username by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-
-    var firstNameError by remember { mutableStateOf<String?>(null) }
-    var lastNameError by remember { mutableStateOf<String?>(null) }
-    var usernameError by remember { mutableStateOf<String?>(null) }
-    var emailError by remember { mutableStateOf<String?>(null) }
-    var phoneNumberError by remember { mutableStateOf<String?>(null) }
     var passwordError by remember { mutableStateOf<String?>(null) }
     var confirmPasswordError by remember { mutableStateOf<String?>(null) }
-
     var apiError by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
     var showSuccessDialog by remember { mutableStateOf(false) }
     var isPasswordFocused by remember { mutableStateOf(false) }
     var isConfirmPasswordFocused by remember { mutableStateOf(false) }
 
-    // Store generated OTP and email for navigation after dialog OK
-    var generatedOtp by remember { mutableStateOf("") }
-    var signupEmail by remember { mutableStateOf("") }
-
     val coroutineScope = rememberCoroutineScope()
-    val signupFailedMessage = stringResource(R.string.error_signup_failed)
-    val otpSentFailedMessage = stringResource(R.string.error_otp_send_failed)
 
     // Password criteria checks
     val hasMinLength = password.length >= 8
@@ -119,9 +97,9 @@ fun SignUpScreen(
                 modifier = Modifier.padding(top = 80.dp)
             )
 
-            // Sign up Title
+            // Reset Password Title
             Text(
-                text = stringResource(R.string.label_sign_up),
+                text = stringResource(R.string.action_reset_password),
                 color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -132,87 +110,13 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // First Name
+            // Frozen Email / Phone field (read-only)
             CustomTextField(
-                placeholder = stringResource(R.string.label_first_name),
-                value = firstName,
-                onValueChange = {
-                    firstName = it
-                    firstNameError = if (it.isNotEmpty() && !it.all { c -> c.isLetter() })
-                        "First Name should contain only alphabets"
-                    else null
-                    apiError = null
-                },
-                errorMessage = firstNameError
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Last Name
-            CustomTextField(
-                placeholder = stringResource(R.string.label_last_name),
-                value = lastName,
-                onValueChange = {
-                    lastName = it
-                    lastNameError = if (it.isNotEmpty() && !it.all { c -> c.isLetter() })
-                        "Last Name should contain only alphabets"
-                    else null
-                    apiError = null
-                },
-                errorMessage = lastNameError
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Username
-            CustomTextField(
-                placeholder = stringResource(R.string.label_username),
-                value = username,
-                onValueChange = {
-                    username = it
-                    val allowedPattern = Regex("^[a-zA-Z0-9#*&]*$")
-                    usernameError = when {
-                        it.isNotEmpty() && !allowedPattern.matches(it) ->
-                            "Username can only contain letters, numbers and #*&"
-                        it.isNotEmpty() && it.length <= 5 ->
-                            "Username must be more than 5 characters"
-                        else -> null
-                    }
-                    apiError = null
-                },
-                errorMessage = usernameError
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Email
-            CustomTextField(
-                placeholder = stringResource(R.string.label_email),
-                value = email,
-                onValueChange = {
-                    email = it
-                    emailError = if (it.isNotEmpty()) validateEmail(it) else null
-                    apiError = null
-                },
-                errorMessage = emailError
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Phone Number
-            CustomTextField(
-                placeholder = stringResource(R.string.label_phone_number),
-                value = phoneNumber,
-                onValueChange = { input ->
-                    // Allow only digits
-                    val filtered = input.filter { it.isDigit() }
-                    phoneNumber = filtered
-                    phoneNumberError = if (filtered.isNotEmpty() && (filtered.length < 10 || filtered.length > 15))
-                        "Phone number must be 10-15 digits"
-                    else null
-                    apiError = null
-                },
-                errorMessage = phoneNumberError
+                placeholder = stringResource(R.string.hint_email_or_phone),
+                value = identifier,
+                onValueChange = { /* No-op: field is frozen */ },
+                readOnly = true,
+                enabled = false
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -245,11 +149,11 @@ fun SignUpScreen(
             if (showPasswordCriteria) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Column(modifier = Modifier.fillMaxWidth().padding(start = 4.dp)) {
-                    PasswordCriteriaRow("At least 8 characters", hasMinLength)
-                    PasswordCriteriaRow("At least 1 uppercase letter", hasUpperCase)
-                    PasswordCriteriaRow("At least 1 lowercase letter", hasLowerCase)
-                    PasswordCriteriaRow("At least 1 digit", hasDigit)
-                    PasswordCriteriaRow("At least 1 symbol", hasSymbol)
+                    ResetPasswordCriteriaRow("At least 8 characters", hasMinLength)
+                    ResetPasswordCriteriaRow("At least 1 uppercase letter", hasUpperCase)
+                    ResetPasswordCriteriaRow("At least 1 lowercase letter", hasLowerCase)
+                    ResetPasswordCriteriaRow("At least 1 digit", hasDigit)
+                    ResetPasswordCriteriaRow("At least 1 symbol", hasSymbol)
                 }
             }
 
@@ -299,42 +203,6 @@ fun SignUpScreen(
                         // Local validation
                         var valid = true
 
-                        if (firstName.isEmpty()) {
-                            firstNameError = "First Name should not be empty"; valid = false
-                        } else if (!firstName.all { it.isLetter() }) {
-                            firstNameError = "First Name should contain only alphabets"; valid = false
-                        }
-
-                        if (lastName.isEmpty()) {
-                            lastNameError = "Last Name should not be empty"; valid = false
-                        } else if (!lastName.all { it.isLetter() }) {
-                            lastNameError = "Last Name should contain only alphabets"; valid = false
-                        }
-
-                        val usernameAllowed = Regex("^[a-zA-Z0-9#*&]*$")
-                        if (username.isEmpty()) {
-                            usernameError = "Username should not be empty"; valid = false
-                        } else if (!usernameAllowed.matches(username)) {
-                            usernameError = "Username can only contain letters, numbers and #*&"; valid = false
-                        } else if (username.length <= 5) {
-                            usernameError = "Username must be more than 5 characters"; valid = false
-                        }
-
-                        if (email.isEmpty()) {
-                            emailError = "Email should not be empty"; valid = false
-                        } else {
-                            val emailValidation = validateEmail(email)
-                            if (emailValidation != null) {
-                                emailError = emailValidation; valid = false
-                            }
-                        }
-
-                        if (phoneNumber.isEmpty()) {
-                            phoneNumberError = "Phone Number should not be empty"; valid = false
-                        } else if (phoneNumber.length < 10 || phoneNumber.length > 15) {
-                            phoneNumberError = "Phone number must be 10-15 digits"; valid = false
-                        }
-
                         if (password.isEmpty()) {
                             passwordError = "Password should not be empty"; valid = false
                         }
@@ -349,31 +217,27 @@ fun SignUpScreen(
 
                         apiError = null
                         isLoading = true
+
+                        val isEmail = "@" in identifier
+
                         coroutineScope.launch {
-                            val result = registerUser(
-                                firstName = firstName.trim(),
-                                lastName = lastName.trim(),
-                                username = username.trim(),
-                                email = email.trim(),
-                                phoneNumber = phoneNumber.trim(),
-                                password = password.trim()
-                            )
-                            if (result.success) {
-                                // Generate OTP and send via API
-                                val otp = (1000..9999).random().toString()
-                                val otpSent = sendOtpApi(email.trim(), otp)
-                                isLoading = false
-                                if (otpSent) {
-                                    generatedOtp = otp
-                                    signupEmail = email.trim()
-                                    onSignUpClick()
-                                    showSuccessDialog = true
-                                } else {
-                                    apiError = otpSentFailedMessage
-                                }
+                            val result = if (isEmail) {
+                                resetPasswordApi(
+                                    email = identifier,
+                                    password = password.trim()
+                                )
                             } else {
-                                isLoading = false
-                                apiError = result.message ?: signupFailedMessage
+                                resetPasswordApi(
+                                    phoneNumber = identifier,
+                                    password = password.trim()
+                                )
+                            }
+                            isLoading = false
+
+                            if (result.success) {
+                                showSuccessDialog = true
+                            } else {
+                                apiError = result.message ?: "Failed to reset password. Please try again."
                             }
                         }
                     },
@@ -388,7 +252,7 @@ fun SignUpScreen(
                 } else {
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
-                        contentDescription = stringResource(R.string.label_sign_up),
+                        contentDescription = stringResource(R.string.action_reset_password),
                         tint = if (allCriteriaMet) colorResource(R.color.white) else colorResource(R.color.white).copy(alpha = 0.4f),
                         modifier = Modifier.size(32.dp)
                     )
@@ -408,31 +272,17 @@ fun SignUpScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.weight(2f))
-
             Spacer(modifier = Modifier.height(30.dp))
-
-            // Bottom Text
-            Text(
-                text = stringResource(R.string.msg_already_have_account),
-                color = colorResource(R.color.white),
-                fontSize = 12.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(bottom = 20.dp)
-                    .clickable { navController.navigate("login") }
-            )
         }
     }
 
-    // Success Dialog — navigate to OTP screen on Ok
+    // Success Dialog — navigate to login screen on Ok
     if (showSuccessDialog) {
         AlertDialog(
             onDismissRequest = { /* Prevent dismiss by tapping outside */ },
             title = {
                 Text(
-                    text = "Congratulations! 🎉",
+                    text = "Password Reset Successful! 🎉",
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
@@ -440,7 +290,7 @@ fun SignUpScreen(
             },
             text = {
                 Text(
-                    text = "Your account has been created successfully!",
+                    text = "Your password has been updated successfully. Please login with your new password.",
                     fontFamily = PoppinsFamily,
                     fontSize = 15.sp
                 )
@@ -449,9 +299,8 @@ fun SignUpScreen(
                 TextButton(
                     onClick = {
                         showSuccessDialog = false
-                        val encodedEmail = Uri.encode(signupEmail)
-                        navController.navigate("otp/$encodedEmail/$generatedOtp") {
-                            popUpTo("sign_up") { inclusive = true }
+                        navController.navigate("login") {
+                            popUpTo(0) { inclusive = true }
                         }
                     }
                 ) {
@@ -468,7 +317,7 @@ fun SignUpScreen(
 }
 
 @Composable
-private fun PasswordCriteriaRow(label: String, met: Boolean) {
+private fun ResetPasswordCriteriaRow(label: String, met: Boolean) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = 2.dp)
@@ -487,17 +336,5 @@ private fun PasswordCriteriaRow(label: String, met: Boolean) {
             fontFamily = PoppinsFamily
         )
     }
-}
-
-private fun validateEmail(email: String): String? {
-    if ("@" !in email) return "Email must contain @"
-    val parts = email.split("@")
-    if (parts.size != 2 || parts[0].isEmpty()) return "Invalid email format"
-    val domain = parts[1]
-    if ("." !in domain) return "Email must have a valid domain"
-    val tld = domain.substringAfterLast(".").lowercase()
-    if (tld.isEmpty()) return "Email must have a valid TLD"
-    if (tld !in VALID_TLDS) return "Invalid TLD. Use .com, .in, .org, etc."
-    return null
 }
 

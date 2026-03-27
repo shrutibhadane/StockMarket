@@ -1,4 +1,4 @@
-package com.assignments.stockmarket
+package com.assignments.stockmarket.authorization
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 
 @Composable

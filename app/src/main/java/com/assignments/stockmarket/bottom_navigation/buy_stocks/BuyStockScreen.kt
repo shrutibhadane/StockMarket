@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.bottom_navigation.screens.buy_stocks
+package com.assignments.stockmarket.bottom_navigation.buy_stocks
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing

@@ -1,4 +1,4 @@
-package com.assignments.stockmarket
+package com.assignments.stockmarket.authorization
 
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -42,8 +42,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.assignments.stockmarket.R
+import com.assignments.stockmarket.forgotPasswordApi
 import com.assignments.stockmarket.reusables.OTPInput
+import com.assignments.stockmarket.sendOtpApi
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.updateStatusApi
 import io.paperdb.Paper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

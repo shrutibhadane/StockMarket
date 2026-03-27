@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.bottom_navigation.screens.f_and_q
+package com.assignments.stockmarket.bottom_navigation.loans
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,11 +10,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 
 @Composable
-fun FAndQScreen(navController: NavController) {
+fun LoansScreen(navController: NavController) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text("F & Q Screen", color = Color.White)
+        Text("Loans Screen", color = Color.White)
     }
 }

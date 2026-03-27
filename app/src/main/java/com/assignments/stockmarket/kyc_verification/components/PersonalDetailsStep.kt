@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.kyc_verification
+package com.assignments.stockmarket.kyc_verification.components
 
 import android.app.DatePickerDialog
 import androidx.compose.foundation.clickable
@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource

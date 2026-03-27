@@ -1,4 +1,4 @@
-package com.assignments.stockmarket
+package com.assignments.stockmarket.dashboard
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
@@ -56,10 +56,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.bottom_navigation.BottomNavBar
 import com.assignments.stockmarket.bottom_navigation.BottomNavItem
-import com.assignments.stockmarket.bottom_navigation.screens.f_and_q.FAndQScreen
-import com.assignments.stockmarket.bottom_navigation.screens.loans.LoansScreen
-import com.assignments.stockmarket.bottom_navigation.screens.mutual_funds.MutualFundsScreen
-import com.assignments.stockmarket.bottom_navigation.screens.upi.UPIScreen
+import com.assignments.stockmarket.bottom_navigation.f_and_q.FAndQScreen
+import com.assignments.stockmarket.bottom_navigation.mutual_funds.MutualFundsScreen
+import com.assignments.stockmarket.bottom_navigation.upi.UPIScreen
 import com.assignments.stockmarket.kyc_verification.KYCScreen
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.app_bar.MyAppBar
@@ -70,8 +69,19 @@ import com.assignments.stockmarket.tabs.positions.PositionsScreen
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import kotlinx.coroutines.delay
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
+import com.assignments.stockmarket.COMPANIES_API_URL
+import com.assignments.stockmarket.MarketTick
+import com.assignments.stockmarket.R
+import com.assignments.stockmarket.TickConnectionState
+import com.assignments.stockmarket.WebSocketManager
 import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.db.CompanyRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.DecimalFormat
 import kotlin.math.abs
 
@@ -106,13 +116,13 @@ fun DashboardScreen(
         // Step 2: Room is empty — fetch from API
         Log.i("DashboardScreen", "Room is empty. Calling API…")
         try {
-            val rawResult = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            val rawResult = withContext(Dispatchers.IO) {
                 val tag = "DashboardScreen"
-                var connection: java.net.HttpURLConnection? = null
+                var connection: HttpURLConnection? = null
                 try {
-                    val url = java.net.URL(COMPANIES_API_URL)
-                    Log.i(tag, "Opening connection to: $COMPANIES_API_URL")
-                    connection = url.openConnection() as java.net.HttpURLConnection
+                    val url = URL(COMPANIES_API_URL)
+                    Log.i(tag, "Opening connection to: ${COMPANIES_API_URL}")
+                    connection = url.openConnection() as HttpURLConnection
                     connection.requestMethod = "GET"
                     connection.connectTimeout = 60_000
                     connection.readTimeout = 60_000
@@ -143,7 +153,7 @@ fun DashboardScreen(
             if (rawResult.startsWith("ERROR")) {
                 Log.e("DashboardScreen", "API call failed: $rawResult")
             } else {
-                val json = org.json.JSONObject(rawResult)
+                val json = JSONObject(rawResult)
                 val dataObj = json.optJSONObject("data")
                 val companiesArray = dataObj?.optJSONArray("companies")
 
@@ -230,7 +240,7 @@ fun DashboardScreen(
             when (selectedBottomTab) {
                 0 -> {
                     // ── Stocks tab: collapsing header + sticky tabs ──
-                    @OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
+                    @OptIn(ExperimentalFoundationApi::class)
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()

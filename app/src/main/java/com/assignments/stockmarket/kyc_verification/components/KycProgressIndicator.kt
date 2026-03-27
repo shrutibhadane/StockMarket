@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.kyc_verification
+package com.assignments.stockmarket.kyc_verification.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

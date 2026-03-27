@@ -1,4 +1,4 @@
-package com.assignments.stockmarket.kyc_verification
+package com.assignments.stockmarket.kyc_verification.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,22 +24,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.kyc_verification.isValidPan
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 
 @Composable
-fun AadhaarStep(
-    aadhaar: String,
-    onChange: (String) -> Unit,
+fun PanStep(
+    pan: String,
+    onPanChange: (String) -> Unit,
     onNext: () -> Unit,
     onBack: () -> Unit
 ) {
 
-    val isValid = isValidAadhaar(aadhaar)
+    val isValid = isValidPan(pan)
 
     Column {
 
-        Text(
-            stringResource(R.string.action_verify_aadhaar),
+        Text(stringResource(R.string.label_pan_verification),
             fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
             fontFamily = PoppinsFamily,
@@ -48,15 +48,13 @@ fun AadhaarStep(
         Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = aadhaar,
+            value = pan,
             onValueChange = {
-                if (it.all { ch -> ch.isDigit() } && it.length <= 12) {
-                    onChange(it)
-                }
+                if (it.length <= 10) onPanChange(it.uppercase())
             },
             label = {
                 Text(
-                    stringResource(R.string.label_aadhaar_number),
+                    stringResource(R.string.label_pan),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -73,7 +71,9 @@ fun AadhaarStep(
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
 
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal
+            ),
 
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = colorResource(R.color.white),
@@ -120,7 +120,7 @@ fun AadhaarStep(
                 )
             ) {
                 Text(
-                    stringResource(R.string.label_verify_aadhaar),
+                    stringResource(R.string.action_verify_pan),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,

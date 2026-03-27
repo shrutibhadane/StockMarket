@@ -16,6 +16,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.kyc_verification.components.AadhaarStep
+import com.assignments.stockmarket.kyc_verification.components.KycProgressIndicator
+import com.assignments.stockmarket.kyc_verification.components.KycStep
+import com.assignments.stockmarket.kyc_verification.components.PanStep
+import com.assignments.stockmarket.kyc_verification.components.PersonalDetailsStep
+import com.assignments.stockmarket.kyc_verification.components.ReviewStep
 
 @Composable
 fun KYCScreen(navController: NavController) {
@@ -41,7 +47,8 @@ fun KYCScreen(navController: NavController) {
         when (step) {
 
             KycStep.PERSONAL -> {
-                PersonalDetailsStep(fullName, dob,
+                PersonalDetailsStep(
+                    fullName, dob,
                     onNameChange = { fullName = it },
                     onDobChange = { dob = it },
                     onNext = { step = KycStep.PAN }
@@ -49,7 +56,8 @@ fun KYCScreen(navController: NavController) {
             }
 
             KycStep.PAN -> {
-                PanStep(pan,
+                PanStep(
+                    pan,
                     onPanChange = { pan = it },
                     onNext = { step = KycStep.AADHAAR },
                     onBack = { step = KycStep.PERSONAL }
@@ -57,7 +65,8 @@ fun KYCScreen(navController: NavController) {
             }
 
             KycStep.AADHAAR -> {
-                AadhaarStep(aadhaar,
+                AadhaarStep(
+                    aadhaar,
                     onChange = { aadhaar = it },
                     onNext = { step = KycStep.REVIEW },
                     onBack = { step = KycStep.PAN }
@@ -65,7 +74,8 @@ fun KYCScreen(navController: NavController) {
             }
 
             KycStep.REVIEW -> {
-                ReviewStep(fullName, dob, pan, aadhaar,
+                ReviewStep(
+                    fullName, dob, pan, aadhaar,
                     onSubmit = { /* API call */ },
                     onBack = { step = KycStep.AADHAAR }
                 )

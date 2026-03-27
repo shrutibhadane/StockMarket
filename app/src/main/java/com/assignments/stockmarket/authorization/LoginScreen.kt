@@ -1,0 +1,236 @@
+package com.assignments.stockmarket.authorization
+
+import android.net.Uri
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.assignments.stockmarket.R
+import com.assignments.stockmarket.authenticateUser
+import com.assignments.stockmarket.reusables.CustomTextField
+import com.assignments.stockmarket.sendOtpApi
+import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import kotlinx.coroutines.launch
+
+@Composable
+fun LoginScreen(
+    navController: NavController,
+    onLoginClick: () -> Unit = {}
+) {
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var usernameError by remember { mutableStateOf<String?>(null) }
+    var passwordError by remember { mutableStateOf<String?>(null) }
+    var authError by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    val invalidCredentialsMessage = stringResource(R.string.error_invalid_credentials)
+    val otpSentFailedMessage = stringResource(R.string.error_signup_failed)
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorResource(R.color.bg_primary))
+            .padding(horizontal = 24.dp)
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            // Logo
+            Image(
+                painter = painterResource(id = R.drawable.ic_stock_logo),
+                contentDescription = stringResource(R.string.app_name),
+                modifier = Modifier
+                    .padding(top = 100.dp)
+            )
+
+            // Login Title
+            Text(
+                text = stringResource(R.string.action_login),
+                color = colorResource(R.color.white),
+                fontFamily = PoppinsFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(60.dp))
+
+            // Username Field
+            CustomTextField(
+                placeholder = stringResource(R.string.label_username),
+                value = username,
+                onValueChange = {
+                    username = it
+                    if (it.isNotEmpty()) usernameError = null
+                    authError = null
+                },
+                errorMessage = usernameError
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Password Field
+            CustomTextField(
+                placeholder = stringResource(R.string.label_password),
+                value = password,
+                onValueChange = {
+                    password = it
+                    if (it.isNotEmpty()) passwordError = null
+                    authError = null
+                },
+                isPassword = true,
+                errorMessage = passwordError
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // Forget Password
+            Text(
+                text = stringResource(R.string.label_forgot_password),
+                color = colorResource(R.color.text_primary),
+                fontSize = 15.sp,
+                fontFamily = PoppinsFamily,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .clickable {
+                        navController.navigate("forgot_password")
+                    }
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            // Circular Arrow Button
+            Box(
+                modifier = Modifier
+                    .size(86.dp)
+                    .clip(CircleShape)
+                    .background(colorResource(R.color.bg_button_primary))
+                    .border(2.dp, colorResource(R.color.white), CircleShape)
+                    .clickable {
+                        if (isLoading) return@clickable
+
+                        var valid = true
+                        if (username.isEmpty()) {
+                            usernameError = "Username should not be empty"
+                            valid = false
+                        }
+                        if (password.isEmpty()) {
+                            passwordError = "Password should not be empty"
+                            valid = false
+                        }
+
+                        if (!valid) return@clickable
+
+                         authError = null
+                         isLoading = true
+                         coroutineScope.launch {
+                             val success = authenticateUser(username.trim(), password.trim())
+                             if (success) {
+                                // Generate a 4-digit OTP and send it
+                                val otp = (1000..9999).random().toString()
+                                val otpSent = sendOtpApi(username.trim(), otp)
+                                isLoading = false
+                                if (otpSent) {
+                                    onLoginClick()
+                                    val encodedEmail = Uri.encode(username.trim())
+                                    navController.navigate("otp/$encodedEmail/$otp") {
+                                        popUpTo("login") { inclusive = true }
+                                    }
+                                } else {
+                                    authError = otpSentFailedMessage
+                                }
+                            } else {
+                                isLoading = false
+                                 authError = invalidCredentialsMessage
+                             }
+                         }
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(32.dp),
+                        color = colorResource(R.color.white),
+                        strokeWidth = 3.dp
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.ArrowForward,
+                        contentDescription = stringResource(R.string.action_login),
+                        tint = colorResource(R.color.white),
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
+
+            if (authError != null) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = authError.orEmpty(),
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontFamily = PoppinsFamily,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            // Bottom Text
+            Text(
+                text = stringResource(R.string.msg_no_account),
+                color = colorResource(R.color.white),
+                fontSize = 12.sp,
+                fontFamily = PoppinsFamily,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .clickable {
+                        navController.navigate("sign_up")
+                    }
+            )
+        }
+    }
+}
+
