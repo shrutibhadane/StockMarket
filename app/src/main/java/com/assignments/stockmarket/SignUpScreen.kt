@@ -87,8 +87,8 @@ fun SignUpScreen(
     var signupEmail by remember { mutableStateOf("") }
 
     val coroutineScope = rememberCoroutineScope()
-    val signupFailedMessage = stringResource(R.string.signup_failed)
-    val otpSentFailedMessage = stringResource(R.string.otp_sent_failed)
+    val signupFailedMessage = stringResource(R.string.error_signup_failed)
+    val otpSentFailedMessage = stringResource(R.string.error_otp_send_failed)
 
     // Password criteria checks
     val hasMinLength = password.length >= 8
@@ -112,16 +112,16 @@ fun SignUpScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // 🔹 Logo
+            // Logo
             Image(
                 painter = painterResource(id = R.drawable.ic_stock_logo),
                 contentDescription = stringResource(R.string.app_name),
                 modifier = Modifier.padding(top = 80.dp)
             )
 
-            // 🔹 Sign up Title
+            // Sign up Title
             Text(
-                text = stringResource(R.string.sign_up),
+                text = stringResource(R.string.label_sign_up),
                 color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -132,9 +132,9 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // 🔹 First Name
+            // First Name
             CustomTextField(
-                placeholder = stringResource(R.string.first_name),
+                placeholder = stringResource(R.string.label_first_name),
                 value = firstName,
                 onValueChange = {
                     firstName = it
@@ -148,9 +148,9 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 Last Name
+            // Last Name
             CustomTextField(
-                placeholder = stringResource(R.string.last_name),
+                placeholder = stringResource(R.string.label_last_name),
                 value = lastName,
                 onValueChange = {
                     lastName = it
@@ -164,9 +164,9 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 Username
+            // Username
             CustomTextField(
-                placeholder = stringResource(R.string.username),
+                placeholder = stringResource(R.string.label_username),
                 value = username,
                 onValueChange = {
                     username = it
@@ -185,9 +185,9 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 Email
+            // Email
             CustomTextField(
-                placeholder = stringResource(R.string.email),
+                placeholder = stringResource(R.string.label_email),
                 value = email,
                 onValueChange = {
                     email = it
@@ -199,9 +199,9 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 Phone Number
+            // Phone Number
             CustomTextField(
-                placeholder = stringResource(R.string.phone_number),
+                placeholder = stringResource(R.string.label_phone_number),
                 value = phoneNumber,
                 onValueChange = { input ->
                     // Allow only digits
@@ -217,14 +217,14 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 Password
+            // Password
             Box(
                 modifier = Modifier.onFocusChanged {
                     isPasswordFocused = it.isFocused || it.hasFocus
                 }
             ) {
                 CustomTextField(
-                    placeholder = stringResource(R.string.password),
+                    placeholder = stringResource(R.string.label_password),
                     value = password,
                     onValueChange = {
                         password = it
@@ -241,7 +241,7 @@ fun SignUpScreen(
                 )
             }
 
-            // 🔹 Password Criteria List
+            // Password Criteria List
             if (showPasswordCriteria) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Column(modifier = Modifier.fillMaxWidth().padding(start = 4.dp)) {
@@ -255,14 +255,14 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 Confirm Password
+            // Confirm Password
             Box(
                 modifier = Modifier.onFocusChanged {
                     isConfirmPasswordFocused = it.isFocused || it.hasFocus
                 }
             ) {
                 CustomTextField(
-                    placeholder = stringResource(R.string.confirm_password),
+                    placeholder = stringResource(R.string.label_confirm_password),
                     value = confirmPassword,
                     onValueChange = {
                         confirmPassword = it
@@ -280,7 +280,7 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            // 🔹 Circular Arrow Button with Loader
+            // Circular Arrow Button with Loader
             Box(
                 modifier = Modifier
                     .size(86.dp)
@@ -388,14 +388,14 @@ fun SignUpScreen(
                 } else {
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
-                        contentDescription = stringResource(R.string.sign_up),
+                        contentDescription = stringResource(R.string.label_sign_up),
                         tint = if (allCriteriaMet) colorResource(R.color.white) else colorResource(R.color.white).copy(alpha = 0.4f),
                         modifier = Modifier.size(32.dp)
                     )
                 }
             }
 
-            // 🔹 API Error Message
+            // API Error Message
             if (apiError != null) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
@@ -412,9 +412,9 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            // 🔹 Bottom Text
+            // Bottom Text
             Text(
-                text = stringResource(R.string.already_have_an_account_click_to_login),
+                text = stringResource(R.string.msg_already_have_account),
                 color = colorResource(R.color.white),
                 fontSize = 12.sp,
                 fontFamily = PoppinsFamily,
@@ -426,7 +426,7 @@ fun SignUpScreen(
         }
     }
 
-    // 🔹 Success Dialog — navigate to OTP screen on Ok
+    // Success Dialog — navigate to OTP screen on Ok
     if (showSuccessDialog) {
         AlertDialog(
             onDismissRequest = { /* Prevent dismiss by tapping outside */ },

@@ -45,8 +45,8 @@ fun InvestmentScreen(navController: NavController) {
         topBar = {
             AppBarBackArrow(
                 navController,
-                stringResource(R.string.one_time),
-                stringResource(R.string.franklin_india_opportunities_direct_fund_growth)
+                stringResource(R.string.label_one_time),
+                stringResource(R.string.fund_name_sample)
             )
         },
         bottomBar = {
@@ -56,10 +56,10 @@ fun InvestmentScreen(navController: NavController) {
                     .padding(16.dp)
             ) {
                 BottomBarButtons(
-                    stringResource(R.string.add_to_wallet),
-                    stringResource(R.string.invest_now),
-                    { navController.navigate(R.string.login) },
-                    { navController.navigate(R.string.search) },
+                    stringResource(R.string.action_add_to_wallet),
+                    stringResource(R.string.action_invest_now),
+                    { navController.navigate("login") },
+                    { navController.navigate("search") },
                 )
             }
         }
@@ -76,7 +76,7 @@ fun InvestmentScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = stringResource(R.string.investment_amount),
+                text = stringResource(R.string.label_investment_amount),
                 color = colorResource(R.color.white),
                 fontSize = 10.sp,
                 lineHeight = 10.sp,
@@ -88,7 +88,7 @@ fun InvestmentScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = stringResource(R.string.rs_symbol, amount),
+                text = stringResource(R.string.label_rs_symbol, amount),
                 color = colorResource(R.color.white),
                 fontSize = 30.sp,
                 lineHeight = 30.sp,
@@ -133,7 +133,7 @@ fun InvestmentScreen(navController: NavController) {
 
                 Column {
                     Text(
-                        text = stringResource(R.string.selected_upi_source_app_name),
+                        text = stringResource(R.string.label_selected_upi),
                         color = colorResource(R.color.white),
                         fontSize = 14.sp,
                         lineHeight = 14.sp,
@@ -145,7 +145,7 @@ fun InvestmentScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
-                        text = stringResource(R.string.selected_bank_name),
+                        text = stringResource(R.string.label_selected_bank),
                         color = colorResource(R.color.white),
                         fontSize = 10.sp,
                         lineHeight = 10.sp,

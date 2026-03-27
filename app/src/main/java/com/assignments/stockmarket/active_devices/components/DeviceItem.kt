@@ -28,7 +28,7 @@ fun DeviceItem(device: Device) {
     if (showLogoutDialog) {
         LogoutDialog(
             showDialog = true,
-            message = stringResource(R.string.do_you_want_to_logout_from_your_account),
+            message = stringResource(R.string.msg_logout_confirm),
             onConfirm = {
                 showLogoutDialog = false
             },
@@ -107,7 +107,7 @@ fun DeviceItem(device: Device) {
                         )
                     ) {
                         Text(
-                            text = stringResource(R.string.logout),
+                            text = stringResource(R.string.action_logout),
                             fontFamily = PoppinsFamily,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,

@@ -45,7 +45,7 @@ fun ChangePasswordScreen(navController: NavController) {
         topBar = {
             AppBarBackArrow(
                 navController = navController,
-                title = stringResource(R.string.change_password)
+                title = stringResource(R.string.action_change_password)
             )
         }
     ) { innerPadding ->
@@ -61,7 +61,7 @@ fun ChangePasswordScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(30.dp))
 
             PasswordField(
-                label = stringResource(R.string.current_password),
+                label = stringResource(R.string.label_current_password),
                 value = currentPassword,
                 onValueChange = { currentPassword = it }
             )
@@ -69,7 +69,7 @@ fun ChangePasswordScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             PasswordField(
-                label = stringResource(R.string.new_password),
+                label = stringResource(R.string.label_new_password),
                 value = newPassword,
                 onValueChange = { newPassword = it }
             )
@@ -77,7 +77,7 @@ fun ChangePasswordScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             PasswordField(
-                label = stringResource(R.string.confirm_password),
+                label = stringResource(R.string.label_confirm_password),
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it }
             )
@@ -92,7 +92,7 @@ fun ChangePasswordScreen(navController: NavController) {
                                     confirmPassword.isEmpty() -> {
                                 Toast.makeText(
                                     context,
-                                    context.getString(R.string.fill_all_fields),
+                                    context.getString(R.string.error_fill_all_fields),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -100,7 +100,7 @@ fun ChangePasswordScreen(navController: NavController) {
                             newPassword.length < 8 -> {
                                 Toast.makeText(
                                     context,
-                                    context.getString(R.string.password_must_be_at_least_8_characters),
+                                    context.getString(R.string.error_password_length),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -108,7 +108,7 @@ fun ChangePasswordScreen(navController: NavController) {
                             newPassword != confirmPassword -> {
                                 Toast.makeText(
                                     context,
-                                    context.getString(R.string.passwords_do_not_match),
+                                    context.getString(R.string.error_password_mismatch),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -116,7 +116,7 @@ fun ChangePasswordScreen(navController: NavController) {
                             newPassword == currentPassword -> {
                                 Toast.makeText(
                                     context,
-                                    context.getString(R.string.new_password_must_be_different),
+                                    context.getString(R.string.error_password_same),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -125,7 +125,7 @@ fun ChangePasswordScreen(navController: NavController) {
                                 // Call API or ViewModel
                                 Toast.makeText(
                                     context,
-                                    context.getString(R.string.password_updated_successfully),
+                                    context.getString(R.string.msg_password_updated),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -141,7 +141,7 @@ fun ChangePasswordScreen(navController: NavController) {
                 )
             ) {
                 Text(
-                    text = stringResource(R.string.update_password),
+                    text = stringResource(R.string.action_update_password),
                     color = colorResource(R.color.bg_primary),
                     fontSize = 14.sp,
                     fontFamily = PoppinsFamily,

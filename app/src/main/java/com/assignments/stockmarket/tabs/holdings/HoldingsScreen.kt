@@ -100,7 +100,7 @@ fun HoldingsScreen(navController: NavController) {
                         ) {
                             Icon(
                                 imageVector = Icons.Default.RemoveRedEye,
-                                contentDescription = stringResource(R.string.forget_password),
+                                contentDescription = stringResource(R.string.label_forgot_password),
                                 tint = colorResource(R.color.icon_tint_light),
                                 modifier = Modifier.size(12.dp)
                             )
@@ -120,7 +120,7 @@ fun HoldingsScreen(navController: NavController) {
                         ) {
                             Icon(
                                 imageVector = Icons.Default.BarChart,
-                                contentDescription = stringResource(R.string.forget_password),
+                                contentDescription = stringResource(R.string.label_forgot_password),
                                 tint = colorResource(R.color.icon_tint_light),
                                 modifier = Modifier.size(12.dp)
                             )
@@ -140,7 +140,7 @@ fun HoldingsScreen(navController: NavController) {
                         ) {
                             Icon(
                                 imageVector = Icons.Default.MoreVert,
-                                contentDescription = stringResource(R.string.forget_password),
+                                contentDescription = stringResource(R.string.label_forgot_password),
                                 tint = colorResource(R.color.icon_tint_light),
                                 modifier = Modifier.size(12.dp)
                             )

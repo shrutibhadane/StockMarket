@@ -39,7 +39,7 @@ fun AboutScreen(navController: NavController) {
         topBar = {
             AppBarBackArrow(
                 navController = navController,
-                title = stringResource(R.string.about_us)
+                title = stringResource(R.string.label_about_us)
             )
         }
     ) { innerPadding ->
@@ -72,7 +72,7 @@ fun AboutScreen(navController: NavController) {
             )
 
             Text(
-                text = stringResource(R.string.version, version),
+                text = stringResource(R.string.label_version, version),
                 fontFamily = PoppinsFamily,
                 fontSize = 12.sp,
                 color = colorResource(R.color.white).copy(alpha = 0.7f)
@@ -81,7 +81,7 @@ fun AboutScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = stringResource(R.string.stock_market_is_a_modern_investment_platform_designed_to_help_users_track_markets_manage_investments_and_trade_with_confidence),
+                text = stringResource(R.string.msg_about_app),
                 fontFamily = PoppinsFamily,
                 fontSize = 13.sp,
                 color = colorResource(R.color.white),
@@ -95,18 +95,18 @@ fun AboutScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
             AboutItem(
-                title = stringResource(R.string.privacy_policy),
-                url = stringResource(R.string.trial_link),
+                title = stringResource(R.string.action_privacy_policy),
+                url = stringResource(R.string.link_website),
             )
 
             AboutItem(
-                title = stringResource(R.string.terms_conditions),
-                url = stringResource(R.string.trial_link),
+                title = stringResource(R.string.action_terms_conditions),
+                url = stringResource(R.string.link_website),
             )
 
             AboutItem(
-                title = stringResource(R.string.visit_website),
-                url = stringResource(R.string.trial_link),
+                title = stringResource(R.string.action_visit_website),
+                url = stringResource(R.string.link_website),
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -116,7 +116,7 @@ fun AboutScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = stringResource(R.string._2025_stock_market_app),
+                text = stringResource(R.string.label_copyright),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 12.sp,

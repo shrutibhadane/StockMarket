@@ -39,7 +39,7 @@ fun PanStep(
 
     Column {
 
-        Text(stringResource(R.string.pan_verification),
+        Text(stringResource(R.string.label_pan_verification),
             fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
             fontFamily = PoppinsFamily,
@@ -54,7 +54,7 @@ fun PanStep(
             },
             label = {
                 Text(
-                    stringResource(R.string.pan),
+                    stringResource(R.string.label_pan),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -99,7 +99,7 @@ fun PanStep(
                 )
             ) {
                 Text(
-                    stringResource(R.string.back),
+                    stringResource(R.string.action_back),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -120,7 +120,7 @@ fun PanStep(
                 )
             ) {
                 Text(
-                    stringResource(R.string.verify_pan),
+                    stringResource(R.string.action_verify_pan),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,

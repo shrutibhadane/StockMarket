@@ -64,7 +64,7 @@ fun MFImageBar() {
             ) {
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = stringResource(R.string.forget_password),
+                    contentDescription = stringResource(R.string.label_forgot_password),
                     tint = colorResource(R.color.icon_tint_light),
                     modifier = Modifier.size(20.dp)
                 )
@@ -83,7 +83,7 @@ fun MFImageBar() {
             ) {
                 Icon(
                     imageVector = Icons.Default.BookmarkBorder,
-                    contentDescription = stringResource(R.string.forget_password),
+                    contentDescription = stringResource(R.string.label_forgot_password),
                     tint = colorResource(R.color.icon_tint_light),
                     modifier = Modifier.size(20.dp)
                 )
@@ -102,7 +102,7 @@ fun MFImageBar() {
             ) {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = stringResource(R.string.forget_password),
+                    contentDescription = stringResource(R.string.label_forgot_password),
                     tint = colorResource(R.color.icon_tint_light),
                     modifier = Modifier.size(20.dp)
                 )

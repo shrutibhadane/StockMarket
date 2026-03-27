@@ -46,7 +46,7 @@ fun MPINFingerPrintScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // 🔹 Logo
+            // Logo
             Image(
                 painter = painterResource(id = R.drawable.ic_stock_logo),
                 contentDescription = stringResource(R.string.app_name),
@@ -54,9 +54,9 @@ fun MPINFingerPrintScreen(
                     .padding(top = 100.dp)
             )
 
-            // 🔹 MPIN
+            // MPIN
             Text(
-                text = stringResource(R.string.mpin),
+                text = stringResource(R.string.label_mpin),
                 color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,

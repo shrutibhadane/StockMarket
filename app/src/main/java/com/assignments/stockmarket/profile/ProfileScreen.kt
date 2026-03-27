@@ -68,18 +68,18 @@ fun ProfileScreen(navController: NavController) {
 
             HorizontalDivider(color = colorResource(R.color.white).copy(alpha = 0.3f))
 
-            ProfileMenuItem(Icons.Default.Receipt, stringResource(R.string.orders))
-            ProfileMenuItem(Icons.Default.Person, stringResource(R.string.account_details))
-            ProfileMenuItem(Icons.Default.AccountBalance, stringResource(R.string.banks_autopay))
+            ProfileMenuItem(Icons.Default.Receipt, stringResource(R.string.label_orders))
+            ProfileMenuItem(Icons.Default.Person, stringResource(R.string.label_account_details))
+            ProfileMenuItem(Icons.Default.AccountBalance, stringResource(R.string.label_banks_autopay))
 
-            ProfileMenuItem(icon = Icons.Default.Star, title = stringResource(R.string.refer),
+            ProfileMenuItem(icon = Icons.Default.Star, title = stringResource(R.string.action_refer),
                 actionText = stringResource(
-                    R.string.invite
+                    R.string.action_invite
                 )
             )
 
-            ProfileMenuItem(Icons.Default.SupportAgent, stringResource(R.string.customer_support_24x7))
-            ProfileMenuItem(Icons.Default.Report, stringResource(R.string.reports))
+            ProfileMenuItem(Icons.Default.SupportAgent, stringResource(R.string.label_support_24x7))
+            ProfileMenuItem(Icons.Default.Report, stringResource(R.string.action_reports))
 
             Spacer(modifier = Modifier.weight(1f))
 

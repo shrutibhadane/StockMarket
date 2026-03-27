@@ -65,7 +65,7 @@ fun ForgotPasswordScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // 🔹 Logo
+            // Logo
             Image(
                 painter = painterResource(id = R.drawable.ic_stock_logo),
                 contentDescription = stringResource(R.string.app_name),
@@ -74,7 +74,7 @@ fun ForgotPasswordScreen(
             )
 
             Text(
-                text = stringResource(R.string.forgot_password),
+                text = stringResource(R.string.label_forgot_password),
                 color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -86,9 +86,9 @@ fun ForgotPasswordScreen(
 
             Spacer(modifier = Modifier.height(60.dp))
 
-            // 🔹 Email / Phone Input
+            // Email / Phone Input
             CustomTextField(
-                placeholder = stringResource(R.string.enter_your_email_phone),
+                placeholder = stringResource(R.string.hint_email_or_phone),
                 value = emailOrPhone,
                 onValueChange = {
                     emailOrPhone = it
@@ -100,7 +100,7 @@ fun ForgotPasswordScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // 🔹 Circular Arrow Button with loading animation
+            // Circular Arrow Button with loading animation
             Box(
                 modifier = Modifier
                     .size(86.dp)
@@ -157,14 +157,14 @@ fun ForgotPasswordScreen(
                 } else {
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
-                        contentDescription = stringResource(R.string.forget_password),
+                        contentDescription = stringResource(R.string.label_forgot_password),
                         tint = colorResource(R.color.white),
                         modifier = Modifier.size(32.dp)
                     )
                 }
             }
 
-            // 🔹 API Error Message
+            // API Error Message
             if (apiError != null) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(

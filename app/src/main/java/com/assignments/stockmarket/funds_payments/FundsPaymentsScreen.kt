@@ -35,7 +35,7 @@ fun FundsPaymentsScreen(navController: NavController) {
         topBar = {
             AppBarBackArrow(
                 navController = navController,
-                title = stringResource(R.string.funds_payments)
+                title = stringResource(R.string.section_funds)
             )
         }
     ) { innerPadding ->
@@ -71,7 +71,7 @@ fun FundsPaymentsScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = stringResource(R.string.linked_bank_accounts),
+                text = stringResource(R.string.label_linked_bank_accounts),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
@@ -81,13 +81,13 @@ fun FundsPaymentsScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(10.dp))
 
             BankAccountItem(
-                bankName = stringResource(R.string.hdfc_bank),
-                accountNumber = stringResource(R.string._4321)
+                bankName = stringResource(R.string.label_hdfc_bank),
+                accountNumber = stringResource(R.string.label__4321)
             )
 
             BankAccountItem(
-                bankName = stringResource(R.string.icici_bank),
-                accountNumber = stringResource(R.string._1298)
+                bankName = stringResource(R.string.label_icici_bank),
+                accountNumber = stringResource(R.string.label__1298)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -97,7 +97,7 @@ fun FundsPaymentsScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = stringResource(R.string.recent_transactions),
+                text = stringResource(R.string.label_recent_transactions),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
@@ -105,12 +105,12 @@ fun FundsPaymentsScreen(navController: NavController) {
             )
 
             TransactionItem(
-                stringResource(R.string.added_money), stringResource(R.string.rs_5_000),
-                stringResource(R.string.today)
+                stringResource(R.string.transaction_added), stringResource(R.string.rs_5_000),
+                stringResource(R.string.label_today)
             )
             TransactionItem(
-                stringResource(R.string.withdrawn),
-                stringResource(R.string.rs_2_000), stringResource(R.string.yesterday)
+                stringResource(R.string.transaction_withdrawn),
+                stringResource(R.string.rs_2_000), stringResource(R.string.label_yesterday)
             )
         }
     }

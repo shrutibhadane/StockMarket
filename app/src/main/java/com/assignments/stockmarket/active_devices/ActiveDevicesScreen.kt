@@ -22,7 +22,7 @@ fun ActiveDevicesScreen(navController: NavController) {
         topBar = {
             AppBarBackArrow(
                 navController = navController,
-                title = stringResource(R.string.active_devices)
+                title = stringResource(R.string.label_active_devices)
             )
         }
     ) { innerPadding ->

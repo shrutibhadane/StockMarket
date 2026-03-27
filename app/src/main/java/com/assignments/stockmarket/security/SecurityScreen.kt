@@ -35,7 +35,7 @@ fun SecurityScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            AppBarBackArrow(navController, title = stringResource(R.string.security_login))
+            AppBarBackArrow(navController, title = stringResource(R.string.section_security))
         }
     ) { innerPadding ->
 
@@ -46,12 +46,12 @@ fun SecurityScreen(navController: NavController) {
                 .padding(innerPadding)
         ) {
 
-            item { SecuritySectionTitle(stringResource(R.string.authentication)) }
+            item { SecuritySectionTitle(stringResource(R.string.label_authentication)) }
 
             item {
                 SecurityItem(
                     icon = Icons.Default.Lock,
-                    title = stringResource(R.string.change_password),
+                    title = stringResource(R.string.action_change_password),
                     onClick = {
                         navController.navigate("change_password")
                     }
@@ -59,15 +59,15 @@ fun SecurityScreen(navController: NavController) {
             }
 
             item {
-                BiometricSwitchItem(stringResource(R.string.enable_fingerprint_login))
+                BiometricSwitchItem(stringResource(R.string.action_enable_fingerprint))
             }
 
-            item { SecuritySectionTitle(stringResource(R.string.session)) }
+            item { SecuritySectionTitle(stringResource(R.string.label_session)) }
 
             item {
                 SecurityItem(
                     icon = Icons.Default.Devices,
-                    title = stringResource(R.string.active_devices),
+                    title = stringResource(R.string.label_active_devices),
                     onClick = { navController.navigate("active_devices") }
                 )
             }
@@ -75,7 +75,7 @@ fun SecurityScreen(navController: NavController) {
             item {
                 SecurityItem(
                     icon = Icons.Default.Logout,
-                    title = stringResource(R.string.logout_from_all_devices),
+                    title = stringResource(R.string.action_logout_all_devices),
                     onClick = {
                         showLogoutAllDialog = true
                     }
@@ -88,7 +88,7 @@ fun SecurityScreen(navController: NavController) {
     if (showLogoutAllDialog) {
         LogoutDialog(
             showDialog = true,
-            message = stringResource(R.string.do_you_want_to_logout_from_all_devices),
+            message = stringResource(R.string.msg_logout_all_devices),
             onConfirm = {
                 showLogoutAllDialog = false
 

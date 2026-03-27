@@ -34,7 +34,7 @@ fun HelpSupportScreen(navController: NavController) {
         topBar = {
             AppBarBackArrow(
                 navController = navController,
-                title = stringResource(R.string.help_support)
+                title = stringResource(R.string.section_help)
             )
         }
     ) { innerPadding ->
@@ -50,20 +50,20 @@ fun HelpSupportScreen(navController: NavController) {
 
             SupportItem(
                 icon = Icons.Default.HelpOutline,
-                title = stringResource(R.string.faqs),
-                subtitle = stringResource(R.string.find_answers_to_common_questions),
+                title = stringResource(R.string.label_faqs),
+                subtitle = stringResource(R.string.msg_faq_desc),
                 onClick = { }
             )
 
             SupportItem(
                 icon = Icons.Default.Email,
-                title = stringResource(R.string.email_support),
-                subtitle = stringResource(R.string.support_stockmarket_com),
+                title = stringResource(R.string.action_email_support),
+                subtitle = stringResource(R.string.label_support_email),
                 onClick = {
 
                     val intent = Intent(Intent.ACTION_SENDTO).apply {
-                        data = Uri.parse(context.getString(R.string.mailto_support_stockmarket_com))
-                        putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.support_request))
+                        data = Uri.parse(context.getString(R.string.label_support_email))
+                        putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.label_support_request))
                     }
 
                     context.startActivity(intent)
@@ -72,12 +72,12 @@ fun HelpSupportScreen(navController: NavController) {
 
             SupportItem(
                 icon = Icons.Default.Call,
-                title = context.getString(R.string.call_support),
-                subtitle = context.getString(R.string.support_request),
+                title = context.getString(R.string.action_call_support),
+                subtitle = context.getString(R.string.label_support_request),
                 onClick = {
 
                     val intent = Intent(Intent.ACTION_DIAL).apply {
-                        data = Uri.parse(context.getString(R.string.contact_number))
+                        data = Uri.parse(context.getString(R.string.label_contact_number))
                     }
 
                     context.startActivity(intent)
@@ -86,8 +86,8 @@ fun HelpSupportScreen(navController: NavController) {
 
             SupportItem(
                 icon = Icons.Default.ReportProblem,
-                title = context.getString(R.string.report_an_issue),
-                subtitle = context.getString(R.string.let_us_know_if_something_is_not_working),
+                title = context.getString(R.string.action_report_issue),
+                subtitle = context.getString(R.string.msg_report_issue),
                 onClick = { }
             )
 

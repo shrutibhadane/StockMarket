@@ -125,7 +125,7 @@ fun WelcomeScreen(navController: NavController) {
             )
         }
 
-        // 🔹 Centered text content
+        // Centered text content
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally

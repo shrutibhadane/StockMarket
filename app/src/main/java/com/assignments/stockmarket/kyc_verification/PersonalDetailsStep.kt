@@ -47,7 +47,7 @@ fun PersonalDetailsStep(
 
     Column {
 
-        Text(stringResource(R.string.personal_details),
+        Text(stringResource(R.string.label_personal_details),
             fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
             fontFamily = PoppinsFamily,
@@ -62,7 +62,7 @@ fun PersonalDetailsStep(
             },
             label = {
                 Text(
-                    stringResource(R.string.full_name),
+                    stringResource(R.string.label_full_name),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -135,7 +135,7 @@ fun PersonalDetailsStep(
             onValueChange = {},
             label = {
                 Text(
-                    stringResource(R.string.dob_dd_mm_yyyy),
+                    stringResource(R.string.label_dob),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -185,7 +185,7 @@ fun PersonalDetailsStep(
             )
         ) {
             Text(
-                text = stringResource(R.string.continue_),
+                text = stringResource(R.string.action_continue),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = PoppinsFamily,

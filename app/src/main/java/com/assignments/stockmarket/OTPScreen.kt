@@ -108,16 +108,16 @@ private fun OtpVerificationContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // 🔹 Logo
+            // Logo
             Image(
                 painter = painterResource(id = R.drawable.ic_stock_logo),
                 contentDescription = stringResource(R.string.app_name),
                 modifier = Modifier.padding(top = 100.dp)
             )
 
-            // 🔹 OTP
+            // OTP
             Text(
-                text = stringResource(R.string.otp),
+                text = stringResource(R.string.label_otp),
                 color = Color.White,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -161,7 +161,7 @@ private fun OtpVerificationContent(
                 val seconds = timeLeft
                 val formatted = String.format("%02d:%02d", seconds / 60, seconds % 60)
                 Text(
-                    text = "$formatted ${stringResource(R.string.sec_left)}",
+                    text = "$formatted ${stringResource(R.string.label_seconds_left)}",
                     color = colorResource(R.color.text_primary),
                     fontSize = 15.sp,
                     fontFamily = PoppinsFamily,
@@ -170,7 +170,7 @@ private fun OtpVerificationContent(
 
                 // Resend button — active only when timer reaches 0
                 Text(
-                    text = stringResource(R.string.resend_now),
+                    text = stringResource(R.string.action_resend_now),
                     color = if (!timerRunning)
                         colorResource(R.color.text_primary)
                     else
@@ -223,7 +223,7 @@ private fun OtpVerificationContent(
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = stringResource(R.string.otp_expires_in_2_minutes_please_request_a_new_one_if_it_expires),
+                text = stringResource(R.string.msg_otp_expiry),
                 fontSize = 15.sp,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -234,7 +234,7 @@ private fun OtpVerificationContent(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // 🔹 Circular Arrow Button — verify OTP
+            // Circular Arrow Button — verify OTP
             Box(
                 modifier = Modifier
                     .size(86.dp)
@@ -300,14 +300,14 @@ private fun OtpVerificationContent(
                 } else {
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
-                        contentDescription = stringResource(R.string.otp),
+                        contentDescription = stringResource(R.string.label_otp),
                         tint = Color.White,
                         modifier = Modifier.size(32.dp)
                     )
                 }
             }
 
-            // 🔹 Error message
+            // Error message
             if (otpError != null) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(

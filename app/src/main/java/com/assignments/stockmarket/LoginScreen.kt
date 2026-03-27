@@ -53,8 +53,8 @@ fun LoginScreen(
     var authError by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
-    val invalidCredentialsMessage = stringResource(R.string.invalid_userid_or_password)
-    val otpSentFailedMessage = stringResource(R.string.otp_sent_failed)
+    val invalidCredentialsMessage = stringResource(R.string.error_invalid_credentials)
+    val otpSentFailedMessage = stringResource(R.string.error_signup_failed)
 
     Box(
         modifier = Modifier
@@ -69,7 +69,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // 🔹 Logo
+            // Logo
             Image(
                 painter = painterResource(id = R.drawable.ic_stock_logo),
                 contentDescription = stringResource(R.string.app_name),
@@ -77,9 +77,9 @@ fun LoginScreen(
                     .padding(top = 100.dp)
             )
 
-            // 🔹 Login Title
+            // Login Title
             Text(
-                text = stringResource(R.string.login),
+                text = stringResource(R.string.action_login),
                 color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -91,9 +91,9 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(60.dp))
 
-            // 🔹 Username Field
+            // Username Field
             CustomTextField(
-                placeholder = stringResource(R.string.username),
+                placeholder = stringResource(R.string.label_username),
                 value = username,
                 onValueChange = {
                     username = it
@@ -105,9 +105,9 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // 🔹 Password Field
+            // Password Field
             CustomTextField(
-                placeholder = stringResource(R.string.password),
+                placeholder = stringResource(R.string.label_password),
                 value = password,
                 onValueChange = {
                     password = it
@@ -120,9 +120,9 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // 🔹 Forget Password
+            // Forget Password
             Text(
-                text = stringResource(R.string.forget_password),
+                text = stringResource(R.string.label_forgot_password),
                 color = colorResource(R.color.text_primary),
                 fontSize = 15.sp,
                 fontFamily = PoppinsFamily,
@@ -136,7 +136,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // 🔹 Circular Arrow Button
+            // Circular Arrow Button
             Box(
                 modifier = Modifier
                     .size(86.dp)
@@ -193,7 +193,7 @@ fun LoginScreen(
                 } else {
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
-                        contentDescription = stringResource(R.string.login),
+                        contentDescription = stringResource(R.string.action_login),
                         tint = colorResource(R.color.white),
                         modifier = Modifier.size(32.dp)
                     )
@@ -214,9 +214,9 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // 🔹 Bottom Text
+            // Bottom Text
             Text(
-                text = stringResource(R.string.don_t_have_any_account_click_to_create),
+                text = stringResource(R.string.msg_no_account),
                 color = colorResource(R.color.white),
                 fontSize = 12.sp,
                 fontFamily = PoppinsFamily,

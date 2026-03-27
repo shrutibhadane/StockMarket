@@ -88,16 +88,16 @@ fun ResetPasswordScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // 🔹 Logo
+            // Logo
             Image(
                 painter = painterResource(id = R.drawable.ic_stock_logo),
                 contentDescription = stringResource(R.string.app_name),
                 modifier = Modifier.padding(top = 80.dp)
             )
 
-            // 🔹 Reset Password Title
+            // Reset Password Title
             Text(
-                text = stringResource(R.string.reset_password),
+                text = stringResource(R.string.action_reset_password),
                 color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -108,9 +108,9 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // 🔹 Frozen Email / Phone field (read-only)
+            // Frozen Email / Phone field (read-only)
             CustomTextField(
-                placeholder = stringResource(R.string.enter_your_email_phone),
+                placeholder = stringResource(R.string.hint_email_or_phone),
                 value = identifier,
                 onValueChange = { /* No-op: field is frozen */ },
                 readOnly = true,
@@ -119,14 +119,14 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 Password
+            // Password
             Box(
                 modifier = Modifier.onFocusChanged {
                     isPasswordFocused = it.isFocused || it.hasFocus
                 }
             ) {
                 CustomTextField(
-                    placeholder = stringResource(R.string.password),
+                    placeholder = stringResource(R.string.label_password),
                     value = password,
                     onValueChange = {
                         password = it
@@ -143,7 +143,7 @@ fun ResetPasswordScreen(
                 )
             }
 
-            // 🔹 Password Criteria List
+            // Password Criteria List
             if (showPasswordCriteria) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Column(modifier = Modifier.fillMaxWidth().padding(start = 4.dp)) {
@@ -157,14 +157,14 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 Confirm Password
+            // Confirm Password
             Box(
                 modifier = Modifier.onFocusChanged {
                     isConfirmPasswordFocused = it.isFocused || it.hasFocus
                 }
             ) {
                 CustomTextField(
-                    placeholder = stringResource(R.string.confirm_password),
+                    placeholder = stringResource(R.string.label_confirm_password),
                     value = confirmPassword,
                     onValueChange = {
                         confirmPassword = it
@@ -182,7 +182,7 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            // 🔹 Circular Arrow Button with Loader
+            // Circular Arrow Button with Loader
             Box(
                 modifier = Modifier
                     .size(86.dp)
@@ -250,14 +250,14 @@ fun ResetPasswordScreen(
                 } else {
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
-                        contentDescription = stringResource(R.string.reset_password),
+                        contentDescription = stringResource(R.string.action_reset_password),
                         tint = if (allCriteriaMet) colorResource(R.color.white) else colorResource(R.color.white).copy(alpha = 0.4f),
                         modifier = Modifier.size(32.dp)
                     )
                 }
             }
 
-            // 🔹 API Error Message
+            // API Error Message
             if (apiError != null) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
@@ -274,7 +274,7 @@ fun ResetPasswordScreen(
         }
     }
 
-    // 🔹 Success Dialog — navigate to login screen on Ok
+    // Success Dialog — navigate to login screen on Ok
     if (showSuccessDialog) {
         AlertDialog(
             onDismissRequest = { /* Prevent dismiss by tapping outside */ },

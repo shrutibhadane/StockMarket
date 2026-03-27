@@ -39,7 +39,7 @@ fun AadhaarStep(
     Column {
 
         Text(
-            stringResource(R.string.aadhaar_verification),
+            stringResource(R.string.action_verify_aadhaar),
             fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
             fontFamily = PoppinsFamily,
@@ -56,7 +56,7 @@ fun AadhaarStep(
             },
             label = {
                 Text(
-                    stringResource(R.string.aadhaar_number),
+                    stringResource(R.string.label_aadhaar_number),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -99,7 +99,7 @@ fun AadhaarStep(
                 )
             ) {
                 Text(
-                    stringResource(R.string.back),
+                    stringResource(R.string.action_back),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -120,7 +120,7 @@ fun AadhaarStep(
                 )
             ) {
                 Text(
-                    stringResource(R.string.verify_aadhaar),
+                    stringResource(R.string.label_verify_aadhaar),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,

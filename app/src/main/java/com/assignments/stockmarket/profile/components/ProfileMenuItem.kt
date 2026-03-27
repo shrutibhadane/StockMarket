@@ -75,7 +75,7 @@ fun ProfileMenuItem(
                             type = "text/plain"
                             putExtra(
                                 Intent.EXTRA_TEXT,
-                                context.getString(R.string.hey_i_m_using_this_amazing_stock_market_app_download_it_here_https_yourapp_link)
+                                context.getString(R.string.msg_invite)
                             )
                         }
 

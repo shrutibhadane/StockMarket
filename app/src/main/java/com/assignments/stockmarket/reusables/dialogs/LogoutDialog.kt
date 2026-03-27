@@ -46,7 +46,7 @@ fun LogoutDialog(
             title = {
                 Column {
                     Text(
-                        text = stringResource(R.string.logout),
+                        text = stringResource(R.string.action_logout),
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,

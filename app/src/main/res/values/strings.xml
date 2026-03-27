@@ -1,189 +1,196 @@
 <resources>
     <string name="app_name">TradeSphere</string>
 
-    <string name="title_activity_splash_screen">SplashScreen</string>
-    <string name="title_activity_login_screen">LoginScreen</string>
-    <string name="title_activity_forgot_password_screen">ForgotPasswordScreen</string>
-    <string name="title_activity_mpinscreen">MPINScreen</string>
-    <string name="title_activity_otpinput">OTPInput</string>
-    <string name="title_activity_dashboard_screen">DashboardScreen</string>
+    <string name="title_activity_splash">SplashScreen</string>
+    <string name="title_activity_login">LoginScreen</string>
+    <string name="title_activity_forgot_password">ForgotPasswordScreen</string>
+    <string name="title_activity_mpin">MPINScreen</string>
+    <string name="title_activity_otp_input">OTPInput</string>
+    <string name="title_activity_dashboard">DashboardScreen</string>
 
-    <string name="login">Login</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
-    <string name="forget_password">Forget Password</string>
-    <string name="don_t_have_any_account_click_to_create">Don\'t have any account? Click to create</string>
+    <string name="action_login">Login</string>
+    <string name="label_username">Username</string>
+    <string name="label_password">Password</string>
+    <string name="label_forgot_password">Forgot Password</string>
+    <string name="msg_no_account">Don\'t have any account? Sign up</string>
 
-    <string name="sign_up">Sign up</string>
-    <string name="fullname">Fullname</string>
-    <string name="confirm_password">Confirm Password</string>
-    <string name="already_have_an_account_click_to_login">Already have an account? Click to login</string>
+    <string name="label_sign_up">Sign up</string>
+    <string name="label_full_name">Full Name</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="msg_already_have_account">Already have an account? Login</string>
 
-    <string name="mpin">MPIN</string>
+    <string name="label_mpin">MPIN</string>
+    <string name="label_otp">OTP</string>
+    <string name="action_resend_now">Resend now</string>
+    <string name="label_time_left">00:50 sec left</string>
 
-    <string name="otp">OTP</string>
-    <string name="resend_now">Resend now</string>
-    <string name="time_left">00:50 sec left</string>
-    <string name="forgot_password">Forgot Password</string>
-    <string name="enter_your_email_phone">Enter your email/phone</string>
-    <string name="invalid_userid_or_password">Invalid userid or password</string>
-    <string name="authenticating">Authenticating</string>
+    <string name="hint_email_or_phone">Enter your email or phone</string>
+
+    <string name="error_invalid_credentials">Invalid userid or password</string>
+    <string name="msg_authenticating">Authenticating</string>
+
+    <!-- General -->
     <string name="my_sphere">My Sphere</string>
-    <string name="email">Email</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="signup_success">Account created successfully</string>
-    <string name="signup_failed">Sign up failed. Please try again.</string>
-    <string name="otp_sent_failed">Failed to send OTP. Please try again.</string>
-    <string name="otp_mismatch">Invalid OTP. Please try again.</string>
-    <string name="otp_verification_failed">OTP verification failed. Please try again.</string>
-    <string name="sec_left">sec left</string>
-    <string name="verifying">Verifying…</string>
-    <string name="otp_expires_in_2_minutes_please_request_a_new_one_if_it_expires">OTP expires in 2 minutes. Please request a new one if it expires.</string>
-    <string name="data_is_not_available">Data is not available</string>
-    <string name="reset_password">Reset Password</string>
+    <string name="label_email">Email</string>
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_phone_number">Phone Number</string>
+    <string name="action_reset_password">Reset Password</string>
+
+    <string name="msg_signup_success">Account created successfully</string>
+    <string name="error_signup_failed">Sign up failed. Please try again.</string>
+    <string name="error_otp_send_failed">Failed to send OTP. Please try again.</string>
+    <string name="error_otp_invalid">Invalid OTP. Please try again.</string>
+    <string name="error_otp_verification_failed">OTP verification failed. Please try again.</string>
+    <string name="label_seconds_left">sec left</string>
+    <string name="msg_verifying">Verifying…</string>
+    <string name="msg_otp_expiry">OTP expires in 2 minutes. Please request a new one if it expires.</string>
+    <string name="msg_data_not_available">Data is not available</string>
 
     <!-- Settings Screen -->
-    <string name="settings">Settings</string>
-    <string name="general">General</string>
-    <string name="profile">Profile</string>
-    <string name="notifications">Notifications</string>
-    <string name="security_login">Security &amp; Login</string>
-    <string name="trading">Trading</string>
-    <string name="funds_payments">Funds &amp; Payments</string>
-    <string name="reports_statements">Reports &amp; Statements</string>
-    <string name="app">App</string>
-    <string name="about">About</string>
-    <string name="help_support">Help &amp; Support</string>
+    <string name="screen_settings">Settings</string>
+    <string name="section_general">General</string>
+    <string name="section_profile">Profile</string>
+    <string name="section_notifications">Notifications</string>
+    <string name="section_security">Security &amp; Login</string>
+    <string name="section_trading">Trading</string>
+    <string name="section_funds">Funds &amp; Payments</string>
+    <string name="section_reports">Reports &amp; Statements</string>
+    <string name="section_app">App</string>
+    <string name="section_about">About</string>
+    <string name="section_help">Help &amp; Support</string>
 
     <!-- Investment Amount Screen -->
-    <string name="one_time">One Time</string>
-    <string name="franklin_india_opportunities_direct_fund_growth">Franklin India Opportunities Direct Fund Growth</string>
-    <string name="add_to_wallet">Add to Wallet</string>
-    <string name="invest_now">Invest Now</string>
-    <string name="investment_amount">Investment Amount</string>
-    <string name="rs_">Rs. %1$d</string>
-    <string name="selected_upi_source_app_name">Selected UPI Source/App name</string>
-    <string name="selected_bank_name">Selected Bank name</string>
+    <string name="label_one_time">One Time</string>
+    <string name="fund_name_sample">Franklin India Opportunities Direct Fund Growth</string>
+    <string name="action_add_to_wallet">Add to Wallet</string>
+    <string name="action_invest_now">Invest Now</string>
+    <string name="label_investment_amount">Investment Amount</string>
+    <string name="format_rupees">₹ %1$d</string>
+    <string name="label_selected_upi">Selected UPI App</string>
+    <string name="label_selected_bank">Selected Bank</string>
     <string name="_5_000">5,000</string>
     <string name="_10_000">10,000</string>
     <string name="_30_000">30,000</string>
 
-    <!-- Security Screen -->
-    <string name="enable_fingerprint_login">Enable Fingerprint Login</string>
-    <string name="session">Session</string>
-    <string name="active_devices">Active Devices</string>
-    <string name="logout_from_all_devices">Logout from all devices</string>
-    <string name="authentication">Authentication</string>
-    <string name="change_password">Change Password</string>
+    <!-- Security -->
+    <string name="action_enable_fingerprint">Enable Fingerprint Login</string>
+    <string name="label_session">Session</string>
+    <string name="label_active_devices">Active Devices</string>
+    <string name="action_logout_all_devices">Logout from all devices</string>
+    <string name="label_authentication">Authentication</string>
+    <string name="action_change_password">Change Password</string>
 
-    <!-- Profile Screen -->
-    <string name="version">Version 1.0</string>
-    <string name="charges">Charges</string>
-    <string name="trial_link">https://tradesphere.app</string>
-    <string name="hey_i_m_using_this_amazing_stock_market_app_download_it_here_https_yourapp_link">Hey! I\'m using this amazing stock market app. Download it here: https://yourapp.link</string>
-    <string name="wallet">Wallet</string>
-    <string name="_0_00">₹0.00</string>
-    <string name="stocks_f_o_balance">Stocks &amp; F&amp;O Balance</string>
-    <string name="add_money">Add Money</string>
-    <string name="about_us">About Us</string>
-    <string name="account_details">Account Details</string>
-    <string name="invite">Invite</string>
-    <string name="refer">Refer &amp; Earn</string>
+    <!-- Profile -->
+    <string name="label_version">Version 1.0</string>
+    <string name="label_charges">Charges</string>
+    <string name="link_website">https://tradesphere.app</string>
+    <string name="msg_invite">Hey! I\'m using this amazing stock market app. Download it here: https://yourapp.link</string>
+    <string name="label_wallet">Wallet</string>
+    <string name="label_balance_zero">₹0.00</string>
+    <string name="label_stocks_balance">Stocks &amp; F&amp;O Balance</string>
+    <string name="action_add_money">Add Money</string>
+    <string name="label_about_us">About Us</string>
+    <string name="label_account_details">Account Details</string>
+    <string name="action_invite">Invite</string>
+    <string name="action_refer">Refer &amp; Earn</string>
 
     <!-- Balance & Investment -->
-    <string name="banks_autopay">Banks &amp; Autopay</string>
-    <string name="add_to_cart">Add to Cart</string>
-    <string name="rs_symbol">₹</string>
+    <string name="label_banks_autopay">Banks &amp; Autopay</string>
+    <string name="label_rs_symbol">₹</string>
 
     <!-- Search -->
-    <string name="search">Search</string>
-
-    <!-- Orders -->
-    <string name="orders">Orders</string>
-    <string name="order_executed">Order Executed</string>
-    <string name="order_rejected">Order Rejected</string>
+    <string name="action_search">Search</string>
 
     <!-- Notifications -->
-    <string name="price_alerts">Price Alerts</string>
-    <string name="trading_alerts">Trading Alerts</string>
-    <string name="portfolio_updates">Portfolio Updates</string>
-    <string name="market_news">Market News</string>
-    <string name="dividend_updates">Dividend Updates</string>
-    <string name="app_updates">App Updates</string>
-    <string name="offers_promotions">Offers &amp; Promotions</string>
-    <string name="portfolio_performance">Portfolio Performance</string>
+    <string name="label_orders">Orders</string>
+    <string name="label_trading_alerts">Trading Alerts</string>
+    <string name="label_portfolio_updates">Portfolio Updates</string>
+
+    <string name="action_order_executed">Order Executed</string>
+    <string name="action_order_rejected">Order Rejected</string>
+    <string name="action_price_alerts">Price Alerts</string>
+    <string name="action_portfolio_performance">Portfolio Performance</string>
+    <string name="action_dividend_updates">Dividend Updates</string>
+    <string name="action_market_news">Market News</string>
+    <string name="action_offers_promotions">Offers &amp; Promotions</string>
+    <string name="action_app_updates">App Updates</string>
 
     <!-- Change Password -->
-    <string name="current_password">Current Password</string>
-    <string name="new_password">New Password</string>
-    <string name="update_password">Update Password</string>
-    <string name="passwords_do_not_match">Passwords do not match</string>
-    <string name="toggle_password">Toggle Password</string>
-    <string name="fill_all_fields">Fill all the fields</string>
-    <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters</string>
-    <string name="new_password_must_be_different">New password must be different</string>
-    <string name="password_updated_successfully">Password updated successfully</string>
+    <string name="label_current_password">Current Password</string>
+    <string name="label_new_password">New Password</string>
+    <string name="action_update_password">Update Password</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
+    <string name="action_toggle_password">Toggle Password</string>
+    <string name="error_fill_all_fields">Fill all fields</string>
+    <string name="error_password_length">Password must be at least 8 characters</string>
+    <string name="error_password_same">New password must be different</string>
+    <string name="msg_password_updated">Password updated successfully</string>
 
     <!-- Logout Dialog -->
-    <string name="logout">Logout</string>
-    <string name="do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again">Do you want to logout from your account? You will need to enter your MPIN to login again.</string>
-    <string name="do_you_want_to_logout_from_your_account">Do you want to logout from your account?</string>
-    <string name="do_you_want_to_logout_from_all_devices">Do you want to logout from all devices?</string>
+    <string name="action_logout">Logout</string>
+    <string name="msg_logout_confirm_mpin_login">Do you want to logout from your account? You will need to enter your MPIN to login again.</string>
+    <string name="msg_logout_confirm">Do you want to logout from your account?</string>
+    <string name="msg_logout_all_devices">Do you want to logout from all devices?</string>
+
 
     <!--About Screen-->
-    <string name="stock_market_is_a_modern_investment_platform_designed_to_help_users_track_markets_manage_investments_and_trade_with_confidence">Stock Market is a modern investment platform designed to help users track markets, manage investments, and trade with confidence.</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
-    <string name="visit_website">Visit Website</string>
-    <string name="_2025_stock_market_app">© 2025 Stock Market App</string>
+    <string name="msg_about_app">Stock Market is a modern investment platform designed to help users track markets, manage investments, and trade with confidence.</string>
+    <string name="action_privacy_policy">Privacy Policy</string>
+    <string name="action_terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="action_visit_website">Visit Website</string>
+    <string name="label_copyright">© 2025 Stock Market App</string>
 
     <!-- Help & Support Screen -->
-    <string name="faqs">FAQs</string>
-    <string name="find_answers_to_common_questions">Find answers to common questions</string>
-    <string name="email_support">Email Support</string>
-    <string name="mailto_support_stockmarket_com">support@stockmarket.com</string>
-    <string name="call_support">Call Support</string>
-    <string name="contact_number">+91 1800-XXX-XXXX</string>
-    <string name="report_an_issue">Report an Issue</string>
-    <string name="let_us_know_if_something_is_not_working">Let us know if something is not working</string>
-    <string name="support_request">Support Request</string>
-    <string name="support_stockmarket_com">support@stockmarket.com</string>
-    <string name="customer_support_24x7">Customer Support 24×7</string>
-    <string name="reports">Reports</string>
+    <string name="label_faqs">FAQs</string>
+    <string name="msg_faq_desc">Find answers to common questions</string>
+    <string name="action_email_support">Email Support</string>
+    <string name="label_support_email">support@stockmarket.com</string>
+    <string name="action_call_support">Call Support</string>
+    <string name="label_contact_number">+91 1800-XXX-XXXX</string>
+    <string name="action_report_issue">Report an Issue</string>
+    <string name="msg_report_issue">Let us know if something is not working</string>
+    <string name="label_support_request">Support Request</string>
+    <string name="label_support_24x7">Customer Support 24×7</string>
+    <string name="action_reports">Reports</string>
 
-    <!-- Funds & Payments Screen-->
-    <string name="linked_bank_accounts">Linked Bank Accounts</string>
-    <string name="hdfc_bank">HDFC Bank</string>
-    <string name="_4321">**** 4321</string>
-    <string name="icici_bank">ICICI Bank</string>
-    <string name="_1298">**** 1298</string>
-    <string name="recent_transactions">Recent Transactions</string>
-    <string name="added_money">Added Money</string>
-    <string name="withdrawn">Withdrawn</string>
+    <!-- Funds & Payments -->
+    <string name="label_linked_bank_accounts">Linked Bank Accounts</string>
+    <string name="label_recent_transactions">Recent Transactions</string>
+    <!-- Bank -->
+    <string name="label_bank_name">Bank Name</string>
+    <string name="label_account_mask">**** %1$s</string>
+    <!-- Transactions -->
+    <string name="transaction_added">Added Money</string>
+    <string name="transaction_withdrawn">Withdrawn</string>
+    <!-- Amount -->
+    <string name="format_amount_credit">+ ₹%1$s</string>
+    <string name="format_amount_debit">- ₹%1$s</string>
+    <!-- Date -->
+    <string name="label_today">Today</string>
+    <string name="label_yesterday">Yesterday</string>
     <string name="rs_5_000">+ ₹5,000</string>
     <string name="rs_2_000">- ₹2,000</string>
-    <string name="yesterday">Yesterday</string>
-    <string name="today">Today</string>
+    <string name="label_hdfc_bank">HDFC Bank</string>
+    <string name="label__4321">**** 4321</string>
+    <string name="label_icici_bank">ICICI Bank</string>
+    <string name="label__1298">**** 1298</string>
 
     <!-- KYC Screen -->
     <string name="personal">Personal</string>
-    <string name="pan">PAN</string>
-    <string name="aadhaar">Aadhaar</string>
-    <string name="review">Review</string>
-    <string name="personal_details">Personal Details</string>
-    <string name="full_name">Full Name</string>
-    <string name="dob_dd_mm_yyyy">DOB (DD/MM/YYYY)</string>
-    <string name="continue_">Continue</string>
-    <string name="pan_verification">PAN Verification</string>
-    <string name="back">Back</string>
-    <string name="verify_pan">Verify PAN</string>
-    <string name="aadhaar_verification">Aadhaar Verification</string>
-    <string name="aadhaar_number">Aadhaar Number</string>
-    <string name="verify_aadhaar">Verify Aadhaar</string>
-    <string name="review_details">Review Details</string>
-    <string name="submit_kyc">Submit KYC</string>
-
+    <string name="label_pan">PAN</string>
+    <string name="label_aadhaar">Aadhaar</string>
+    <string name="label_review">Review</string>
+    <string name="label_personal_details">Personal Details</string>
+    <string name="label_dob">DOB (DD/MM/YYYY)</string>
+    <string name="action_continue">Continue</string>
+    <string name="label_pan_verification">PAN Verification</string>
+    <string name="action_back">Back</string>
+    <string name="action_verify_pan">Verify PAN</string>
+    <string name="action_verify_aadhaar">Aadhaar Verification</string>
+    <string name="label_aadhaar_number">Aadhaar Number</string>
+    <string name="label_verify_aadhaar">Verify Aadhaar</string>
+    <string name="label_review_details">Review Details</string>
+    <string name="action_submit_kyc">Submit KYC</string>
 
 </resources>

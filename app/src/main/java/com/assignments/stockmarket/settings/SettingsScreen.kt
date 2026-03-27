@@ -43,7 +43,7 @@ fun SettingsScreen(navController: NavController) {
             topBar = {
                 AppBarBackArrow(
                     navController = navController,
-                    title = stringResource(R.string.settings)
+                    title = stringResource(R.string.screen_settings)
                 )
             }
         ) { innerPadding ->
@@ -55,12 +55,12 @@ fun SettingsScreen(navController: NavController) {
                     .padding(innerPadding)
             ) {
 
-                item { SettingsSectionTitle(stringResource(R.string.general)) }
+                item { SettingsSectionTitle(stringResource(R.string.section_general)) }
 
                 item {
                     SettingsItem(
                         icon = Icons.Default.Person,
-                        title = stringResource(R.string.profile),
+                        title = stringResource(R.string.section_profile),
                         onClick = {
                             navController.navigate("profile")
                         }
@@ -70,7 +70,7 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Notifications,
-                        title = stringResource(R.string.notifications),
+                        title = stringResource(R.string.section_notifications),
                         onClick = {
                             navController.navigate("notification_settings")
                         }
@@ -80,19 +80,19 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Security,
-                        title = stringResource(R.string.security_login),
+                        title = stringResource(R.string.section_security),
                         onClick = {
                             navController.navigate("security_and_login")
                         }
                     )
                 }
 
-                item { SettingsSectionTitle(stringResource(R.string.trading)) }
+                item { SettingsSectionTitle(stringResource(R.string.section_trading)) }
 
                 item {
                     SettingsItem(
                         icon = Icons.Default.AccountBalanceWallet,
-                        title = stringResource(R.string.funds_payments),
+                        title = stringResource(R.string.section_funds),
                         onClick = { }
                     )
                 }
@@ -100,17 +100,17 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Help,
-                        title = stringResource(R.string.reports_statements),
+                        title = stringResource(R.string.section_reports),
                         onClick = { }
                     )
                 }
 
-                item { SettingsSectionTitle(stringResource(R.string.app)) }
+                item { SettingsSectionTitle(stringResource(R.string.section_app)) }
 
                 item {
                     SettingsItem(
                         icon = Icons.Default.Help,
-                        title = stringResource(R.string.about),
+                        title = stringResource(R.string.section_about),
                         onClick = {
                             navController.navigate("about")
                         }
@@ -120,7 +120,7 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Help,
-                        title = stringResource(R.string.help_support),
+                        title = stringResource(R.string.section_help),
                         onClick = {
                             navController.navigate("help_support")
                         }
@@ -130,7 +130,7 @@ fun SettingsScreen(navController: NavController) {
                 item {
                     SettingsItem(
                         icon = Icons.Default.Logout,
-                        title = stringResource(R.string.logout),
+                        title = stringResource(R.string.action_logout),
                         onClick = { showLogoutDialog = true }
                     )
                 }
@@ -140,7 +140,7 @@ fun SettingsScreen(navController: NavController) {
 
     LogoutDialog(
         showDialog = showLogoutDialog,
-        message = stringResource(R.string.do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again),
+        message = stringResource(R.string.msg_logout_confirm_mpin_login),
         onConfirm = {
             showLogoutDialog = false
 

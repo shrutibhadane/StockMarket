@@ -25,7 +25,7 @@ fun ReportsList(filteredItems: List<SearchItem>) {
 
     if (filteredItems.isEmpty()) {
         Text(
-            text = stringResource(R.string.data_is_not_available),
+            text = stringResource(R.string.msg_data_not_available),
             fontFamily = PoppinsFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,

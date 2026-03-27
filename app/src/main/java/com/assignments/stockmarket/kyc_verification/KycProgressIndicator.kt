@@ -26,9 +26,9 @@ fun KycProgressIndicator(step: KycStep) {
 
     val steps = listOf(
         stringResource(R.string.personal),
-        stringResource(R.string.pan),
-        stringResource(R.string.aadhaar),
-        stringResource(R.string.review)
+        stringResource(R.string.label_pan),
+        stringResource(R.string.label_aadhaar),
+        stringResource(R.string.label_review)
     )
     val currentIndex = step.ordinal
 

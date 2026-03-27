@@ -46,7 +46,7 @@ fun BalanceCard(navController: NavController) {
 
        Icon(
            imageVector = Icons.Default.Wallet,
-           contentDescription = stringResource(R.string.wallet),
+           contentDescription = stringResource(R.string.label_wallet),
            tint = colorResource(R.color.white),
            modifier = Modifier.size(20.dp)
        )
@@ -56,7 +56,7 @@ fun BalanceCard(navController: NavController) {
         Column(modifier = Modifier.weight(1f)) {
 
             Text(
-                text = stringResource(R.string._0_00),
+                text = stringResource(R.string.label_balance_zero),
                 color =  colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontSize = 14.sp,
@@ -64,7 +64,7 @@ fun BalanceCard(navController: NavController) {
             )
 
             Text(
-                text = stringResource(R.string.stocks_f_o_balance),
+                text = stringResource(R.string.label_stocks_balance),
                 color =  colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontSize = 10.sp,
@@ -91,7 +91,7 @@ fun BalanceCard(navController: NavController) {
             ) {
                 Icon(
                     imageVector = Icons.Default.Money,
-                    contentDescription = stringResource(R.string.add_money),
+                    contentDescription = stringResource(R.string.action_add_money),
                     modifier = Modifier.size(16.dp),
                     tint = colorResource(R.color.bg_primary),
                 )
@@ -99,7 +99,7 @@ fun BalanceCard(navController: NavController) {
                 Spacer(modifier = Modifier.width(4.dp))
 
                 Text(
-                    text = stringResource(R.string.add_money),
+                    text = stringResource(R.string.action_add_money),
                     color = colorResource(R.color.bg_primary),
                     fontFamily = PoppinsFamily,
                     fontSize =  9.sp,

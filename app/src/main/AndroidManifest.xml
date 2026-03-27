@@ -20,32 +20,32 @@
         <activity
             android:name=".DashboardScreen"
             android:exported="false"
-            android:label="@string/title_activity_dashboard_screen"
+            android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.StockMarket" />
         <activity
             android:name=".OTPScreen"
             android:exported="false"
-            android:label="@string/title_activity_otpinput"
+            android:label="@string/title_activity_otp_input"
             android:theme="@style/Theme.StockMarket" />
         <activity
             android:name=".MPINScreen"
             android:exported="false"
-            android:label="@string/title_activity_mpinscreen"
+            android:label="@string/title_activity_mpin"
             android:theme="@style/Theme.StockMarket" />
         <activity
             android:name=".ForgotPasswordScreen"
             android:exported="false"
-            android:label="@string/title_activity_forgot_password_screen"
+            android:label="@string/title_activity_forgot_password"
             android:theme="@style/Theme.StockMarket" />
         <activity
             android:name=".LoginScreen"
             android:exported="false"
-            android:label="@string/title_activity_login_screen"
+            android:label="@string/title_activity_login"
             android:theme="@style/Theme.StockMarket" />
         <activity
             android:name=".SplashScreen"
             android:exported="false"
-            android:label="@string/title_activity_splash_screen"
+            android:label="@string/title_activity_splash"
             android:theme="@style/Theme.StockMarket" />
         <activity
             android:name=".MainActivity"

@@ -176,7 +176,7 @@ Technical Requirements:
     - coroutineScope.launch { authenticateUser(...) }
     - authenticateUser from DedicatedAPI.kt
     - val invalidCredentialsMessage = stringResource(
-      R.string.invalid_userid_or_password)
+      R.string.error_invalid_credentials)
     - authError = invalidCredentialsMessage on failure
 
 Acceptance Criteria:

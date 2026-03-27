@@ -41,7 +41,7 @@ fun BottomInfoRow() {
     ) {
 
         Text(
-            text = stringResource(R.string.about_us),
+            text = stringResource(R.string.label_about_us),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             color = colorResource(R.color.white),
@@ -49,7 +49,7 @@ fun BottomInfoRow() {
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.clickable {
                 val intent = Intent(
-                    Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.trial_link))
+                    Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.link_website))
                 )
                 context.startActivity(intent)
             }
@@ -67,7 +67,7 @@ fun BottomInfoRow() {
             Spacer(modifier = Modifier.width(8.dp))
 
             Text(
-                text = stringResource(R.string.version, version),
+                text = stringResource(R.string.label_version, version),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 color = colorResource(R.color.white),
@@ -76,7 +76,7 @@ fun BottomInfoRow() {
         }
 
         Text(
-            text = stringResource(R.string.charges),
+            text = stringResource(R.string.label_charges),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             color = colorResource(R.color.white),
@@ -84,7 +84,7 @@ fun BottomInfoRow() {
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.clickable {
                 val intent = Intent(
-                    Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.trial_link))
+                    Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.link_website))
                 )
                 context.startActivity(intent)
             }

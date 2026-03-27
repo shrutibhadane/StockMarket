@@ -75,7 +75,7 @@ fun MPINScreen (
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // 🔹 Logo
+            // Logo
             Image(
                 painter = painterResource(id = R.drawable.ic_stock_logo),
                 contentDescription = stringResource(R.string.app_name),
@@ -83,12 +83,12 @@ fun MPINScreen (
                     .padding(top = 100.dp)
             )
 
-            // 🔹 MPIN title — changes based on mode
+            // MPIN title — changes based on mode
             Text(
                 text = when {
                     isResetMode -> "Set New MPIN"
                     isVerifyMode -> "Enter MPIN"
-                    else -> stringResource(R.string.mpin)
+                    else -> stringResource(R.string.label_mpin)
                 },
                 color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
@@ -99,7 +99,7 @@ fun MPINScreen (
                     .fillMaxWidth()
             )
 
-            // 🔹 Subtitle for verify mode
+            // Subtitle for verify mode
             if (isVerifyMode) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -118,7 +118,7 @@ fun MPINScreen (
             Spacer(modifier = Modifier.height(60.dp))
 
             if (isSuspended) {
-                // 🔹 Suspended state — hide input boxes, show message + reset button
+                // Suspended state — hide input boxes, show message + reset button
                 Text(
                     text = "Due to multiple incorrect MPIN's, Your MPIN is suspended.",
                     color = Color(0xFFFF6B6B),
@@ -182,7 +182,7 @@ fun MPINScreen (
                     }
                 }
 
-                // 🔹 Error message for suspended state
+                // Error message for suspended state
                 if (mpinError != null) {
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
@@ -196,7 +196,7 @@ fun MPINScreen (
                 }
 
             } else {
-                // 🔹 Normal state — show OTP input + arrow button
+                // Normal state — show OTP input + arrow button
 
             Column(
                 modifier = Modifier
@@ -218,7 +218,7 @@ fun MPINScreen (
             Spacer(modifier = Modifier.height(40.dp))
 
 
-            // 🔹 Circular Arrow Button
+            // Circular Arrow Button
             Box(
                 modifier = Modifier
                     .size(86.dp)
@@ -284,13 +284,13 @@ fun MPINScreen (
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
-                    contentDescription = stringResource(R.string.mpin),
+                    contentDescription = stringResource(R.string.label_mpin),
                     tint = colorResource(R.color.white),
                     modifier = Modifier.size(32.dp)
                 )
             }
 
-            // 🔹 Error message
+            // Error message
             if (mpinError != null) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
@@ -307,7 +307,7 @@ fun MPINScreen (
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // 🔹 Finger print Button
+            // Finger print Button
             Box(
                 modifier = Modifier
                     .size(60.dp)

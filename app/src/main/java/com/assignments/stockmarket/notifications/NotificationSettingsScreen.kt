@@ -34,42 +34,42 @@ fun NotificationSettingsScreen(navController: NavController) {
                 .padding(innerPadding)
         ) {
 
-            item { NotificationSectionTitle(stringResource(R.string.trading_alerts)) }
+            item { NotificationSectionTitle(stringResource(R.string.label_trading_alerts)) }
 
             item {
-                NotificationSwitchItem(stringResource(R.string.order_executed))
+                NotificationSwitchItem(stringResource(R.string.action_order_executed))
             }
 
             item {
-                NotificationSwitchItem(stringResource(R.string.order_rejected))
+                NotificationSwitchItem(stringResource(R.string.action_order_rejected))
             }
 
             item {
-                NotificationSwitchItem(stringResource(R.string.price_alerts))
+                NotificationSwitchItem(stringResource(R.string.action_price_alerts))
             }
 
-            item { NotificationSectionTitle(stringResource(R.string.portfolio_updates)) }
+            item { NotificationSectionTitle(stringResource(R.string.label_portfolio_updates)) }
 
             item {
-                NotificationSwitchItem(stringResource(R.string.portfolio_performance))
-            }
-
-            item {
-                NotificationSwitchItem(stringResource(R.string.dividend_updates))
-            }
-
-            item { NotificationSectionTitle(stringResource(R.string.general)) }
-
-            item {
-                NotificationSwitchItem(stringResource(R.string.market_news))
+                NotificationSwitchItem(stringResource(R.string.action_portfolio_performance))
             }
 
             item {
-                NotificationSwitchItem(stringResource(R.string.offers_promotions))
+                NotificationSwitchItem(stringResource(R.string.action_dividend_updates))
+            }
+
+            item { NotificationSectionTitle(stringResource(R.string.section_general)) }
+
+            item {
+                NotificationSwitchItem(stringResource(R.string.action_market_news))
             }
 
             item {
-                NotificationSwitchItem(stringResource(R.string.app_updates))
+                NotificationSwitchItem(stringResource(R.string.action_offers_promotions))
+            }
+
+            item {
+                NotificationSwitchItem(stringResource(R.string.action_app_updates))
             }
         }
     }

@@ -31,7 +31,7 @@ fun ReviewStep(
     Column {
 
         Text(
-            stringResource(R.string.review_details),
+            stringResource(R.string.label_review_details),
             fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
             fontFamily = PoppinsFamily,
@@ -88,7 +88,7 @@ fun ReviewStep(
                 )
             ) {
                 Text(
-                    stringResource(R.string.back),
+                    stringResource(R.string.action_back),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -109,7 +109,7 @@ fun ReviewStep(
                 )
             ) {
                 Text(
-                    stringResource(R.string.submit_kyc),
+                    stringResource(R.string.action_submit_kyc),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
