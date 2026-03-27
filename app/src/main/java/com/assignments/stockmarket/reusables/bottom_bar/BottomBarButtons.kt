@@ -45,7 +45,7 @@ fun BottomBarButtons(
             onClick = onLeftClick,
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.light_blue_button_bg_color)
+                containerColor = colorResource(R.color.bg_button_secondary_light)
             ),
             modifier = Modifier.weight(1f)
         ) {
@@ -58,7 +58,7 @@ fun BottomBarButtons(
             }
             Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = leftButtonText, color = colorResource(R.color.blue_text_color),
+                text = leftButtonText, color = colorResource(R.color.text_link),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = PoppinsFamily,
@@ -70,7 +70,7 @@ fun BottomBarButtons(
             shape = RoundedCornerShape(8.dp),
             border = BorderStroke(1.dp, colorResource(R.color.white)),
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.dark_blue_button_bg_color)),
+                containerColor = colorResource(R.color.bg_button_secondary_dark)),
             modifier = Modifier.weight(1f)
         ) {
             rightIconRes?.let { icon ->

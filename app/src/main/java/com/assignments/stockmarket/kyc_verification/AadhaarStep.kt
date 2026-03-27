@@ -78,10 +78,10 @@ fun AadhaarStep(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = colorResource(R.color.white),
                 unfocusedTextColor = colorResource(R.color.white),
-                cursorColor = colorResource(R.color.light_blue_button_bg_color),
-                focusedBorderColor = colorResource(R.color.light_blue_button_bg_color),
+                cursorColor = colorResource(R.color.bg_button_secondary_light),
+                focusedBorderColor = colorResource(R.color.bg_button_secondary_light),
                 unfocusedBorderColor = colorResource(R.color.white),
-                focusedLabelColor = colorResource(R.color.light_blue_button_bg_color),
+                focusedLabelColor = colorResource(R.color.bg_button_secondary_light),
                 unfocusedLabelColor = colorResource(R.color.white)
             )
         )
@@ -92,9 +92,9 @@ fun AadhaarStep(
             Button(
                 onClick = onBack, modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.light_blue_button_bg_color),
+                    containerColor = colorResource(R.color.bg_button_secondary_light),
                     contentColor = colorResource(R.color.bg_primary),
-                    disabledContainerColor = colorResource(R.color.light_grey_text_color),
+                    disabledContainerColor = colorResource(R.color.text_secondary),
                     disabledContentColor = colorResource(R.color.bg_primary)
                 )
             ) {
@@ -113,9 +113,9 @@ fun AadhaarStep(
                 enabled = isValid,
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.light_blue_button_bg_color),
+                    containerColor = colorResource(R.color.bg_button_secondary_light),
                     contentColor = colorResource(R.color.bg_primary),
-                    disabledContainerColor = colorResource(R.color.light_grey_text_color),
+                    disabledContainerColor = colorResource(R.color.text_secondary),
                     disabledContentColor = colorResource(R.color.bg_primary)
                 )
             ) {

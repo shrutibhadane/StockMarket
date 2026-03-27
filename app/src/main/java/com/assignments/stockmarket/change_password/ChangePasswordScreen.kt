@@ -137,7 +137,7 @@ fun ChangePasswordScreen(navController: NavController) {
                     .height(50.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.light_blue_button_bg_color)
+                    containerColor = colorResource(R.color.bg_button_secondary_light)
                 )
             ) {
                 Text(

@@ -287,9 +287,9 @@ fun SignUpScreen(
                     .clip(CircleShape)
                     .background(
                         if (allCriteriaMet)
-                            colorResource(R.color.button_background_color)
+                            colorResource(R.color.bg_button_primary)
                         else
-                            colorResource(R.color.button_background_color).copy(alpha = 0.4f)
+                            colorResource(R.color.bg_button_primary).copy(alpha = 0.4f)
                     )
                     .border(2.dp, colorResource(R.color.white), CircleShape)
                     .clickable {

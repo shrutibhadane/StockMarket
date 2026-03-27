@@ -59,9 +59,9 @@ fun StockGridCard(
     val changeText = "${sign}${changeCardFormat.format(abs(priceDiff))} (${changeCardFormat.format(abs(percentChange))}%)"
 
     val changeColor = if (isPositive) {
-        colorResource(R.color.light_green_text_color)
+        colorResource(R.color.text_success_light)
     } else {
-        colorResource(R.color.red_text_color)
+        colorResource(R.color.text_error)
     }
 
     Card(
@@ -89,7 +89,7 @@ fun StockGridCard(
                     .size(32.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(
-                        color = colorResource(R.color.extra_light_blue_text_color),
+                        color = colorResource(R.color.text_accent_blue_light),
                         shape = RoundedCornerShape(8.dp)
                     )
             )
@@ -151,9 +151,9 @@ fun StockGridCard(
 fun StockGridCardLegacy(stock: GridStock) {
     val changeColor =
         if (stock.isPositive)
-            colorResource(R.color.light_green_text_color)
+            colorResource(R.color.text_success_light)
         else
-            colorResource(R.color.red_text_color)
+            colorResource(R.color.text_error)
 
     Card(
         shape = RoundedCornerShape(10.dp),

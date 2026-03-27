@@ -7,23 +7,28 @@
 
     <!-- Base Colors -->
     <color name="bg_primary">#FF001336</color>
+    <color name="bg_mpin">#559BEB</color>
+    <color name="bg_nav_bar">#FF000A1F</color>
+    <color name="bg_button_primary">#FF485773</color>
+    <color name="bg_button_secondary_light">#BBBAFF</color>
+    <color name="bg_button_secondary_dark">#1F00AB</color>
+    <color name="bg_text_field">#FF374560</color>
 
+    <!-- Text Colors -->
+    <color name="text_primary">#FFD0CECE</color>
+    <color name="text_secondary">#CFCDCD</color>
+    <color name="text_accent_blue">#84D8FB</color>
+    <color name="text_accent_blue_light">#FFDDF3FC</color>
+    <color name="text_success">#00FF00</color>
+    <color name="text_success_light">#01FF41</color>
+    <color name="text_error">#FF0105</color>
+    <color name="text_error_light">#FE7779</color>
+    <color name="text_link">#04007D</color>
 
-    <color name="text_field_color">#FF374560</color>
-    <color name="text_color">#FFD0CECE</color>
-    <color name="button_background_color">#FF485773</color>
-    <color name="mpin_screen_background">#559BEB</color>
-    <color name="light_blue_text_color">#84D8FB</color>
-    <color name="extra_light_blue_text_color">#FFDDF3FC</color>
-    <color name="light_green_text_color">#01FF41</color>
-    <color name="red_text_color">#FF0105</color>
-    <color name="green_text_color">#00FF00</color>
-    <color name="light_red_text_color">#FE7779</color>
-    <color name="light_grey_text_color">#CFCDCD</color>
-    <color name="light_grey_image_color">#C7C7C7</color>
-    <color name="blue_text_color">#04007D</color>
-    <color name="light_blue_button_bg_color">#BBBAFF</color>
-    <color name="dark_blue_button_bg_color">#1F00AB</color>
-    <color name="purple">#6B0CC4</color>
-    <color name="nav_bar_background">#FF000A1F</color>
+    <!-- Icon / Image -->
+    <color name="icon_tint_light">#C7C7C7</color>
+
+    <!-- Brand / Accent -->
+    <color name="accent_purple">#6B0CC4</color>
+
 </resources>

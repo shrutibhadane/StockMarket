@@ -26,7 +26,7 @@ fun BalanceCard() {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = colorResource(R.color.light_blue_button_bg_color),
+                color = colorResource(R.color.bg_button_secondary_light),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(16.dp),

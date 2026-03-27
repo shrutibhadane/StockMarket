@@ -43,7 +43,7 @@ fun DeviceItem(device: Device) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.light_blue_button_bg_color)
+            containerColor = colorResource(R.color.bg_button_secondary_light)
         )
     ) {
 
@@ -76,14 +76,14 @@ fun DeviceItem(device: Device) {
                         text = device.lastActive,
                         fontSize = 12.sp,
                         fontFamily = PoppinsFamily,
-                        color = colorResource(R.color.text_field_color)
+                        color = colorResource(R.color.bg_text_field)
                     )
                 }
 
                 if (device.isCurrent) {
                     Text(
                         text = "This Device",
-                        color = colorResource(R.color.light_blue_button_bg_color),
+                        color = colorResource(R.color.bg_button_secondary_light),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -103,7 +103,7 @@ fun DeviceItem(device: Device) {
                         modifier = Modifier.size(width = 120.dp, height = 35.dp),
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = colorResource(R.color.dark_blue_button_bg_color)
+                            containerColor = colorResource(R.color.bg_button_secondary_dark)
                         )
                     ) {
                         Text(

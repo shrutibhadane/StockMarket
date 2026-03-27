@@ -22,7 +22,7 @@ fun LetterCircle(letter: String) {
         modifier = Modifier
             .size(40.dp)
             .background(
-                color = colorResource(R.color.purple),
+                color = colorResource(R.color.icon_tint_light),
                 shape = CircleShape
             ),
         contentAlignment = Alignment.Center

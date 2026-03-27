@@ -32,7 +32,7 @@ fun ReportCard(title: String) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.text_field_color)
+            containerColor = colorResource(R.color.bg_text_field)
         ),
         border = BorderStroke(
             1.dp,

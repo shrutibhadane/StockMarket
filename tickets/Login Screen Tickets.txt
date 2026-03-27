@@ -98,7 +98,7 @@ Details of the task:
 
 Technical Requirements:
     - Text with stringResource(R.string.forget_password)
-    - colorResource(R.color.text_color), 15.sp, PoppinsFamily, Bold
+    - colorResource(R.color.text_primary), 15.sp, PoppinsFamily, Bold
     - Modifier.align(Alignment.End)
     - .clickable { navController.navigate("forgot_password") }
 
@@ -116,13 +116,13 @@ Task Name:
 
 Details of the task:
     Create an 86dp circular button with CircleShape, white border,
-    button_background_color, and ArrowForward icon (white, 32dp). Replace
+    bg_button_primary, and ArrowForward icon (white, 32dp). Replace
     icon with CircularProgressIndicator (white, 32dp, 3dp stroke) when
     isLoading is true. 40dp spacing above the button from Forget Password.
 
 Technical Requirements:
     - Box .size(86.dp).clip(CircleShape)
-    - .background(colorResource(R.color.button_background_color))
+    - .background(colorResource(R.color.bg_button_primary))
     - .border(2.dp, Color.White, CircleShape)
     - if (isLoading) CircularProgressIndicator else Icon
     - isLoading state variable (mutableStateOf(false))

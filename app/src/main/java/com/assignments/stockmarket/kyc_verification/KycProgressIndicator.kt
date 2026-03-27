@@ -42,9 +42,9 @@ fun KycProgressIndicator(step: KycStep) {
                         .size(30.dp)
                         .background(
                             if (index <= currentIndex)
-                                colorResource(R.color.light_blue_button_bg_color)
+                                colorResource(R.color.bg_button_secondary_light)
                             else
-                                colorResource(R.color.light_grey_text_color),
+                                colorResource(R.color.text_secondary),
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center

@@ -99,7 +99,7 @@ fun AllStocksScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     text = "End of List",
-                    color = colorResource(R.color.light_grey_text_color),
+                    color = colorResource(R.color.text_secondary),
                     fontSize = 13.sp,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Normal,
@@ -131,9 +131,9 @@ fun AllStockListItem(
     val sign = if (isPositive) "+" else "-"
     val changeText = "${sign}${allStocksChangeFormat.format(abs(priceDiff))} (${allStocksChangeFormat.format(abs(percentChange))}%)"
     val changeColor = if (isPositive) {
-        colorResource(R.color.light_green_text_color)
+        colorResource(R.color.text_success_light)
     } else {
-        colorResource(R.color.red_text_color)
+        colorResource(R.color.text_error)
     }
 
     Card(
@@ -159,7 +159,7 @@ fun AllStockListItem(
                     .size(42.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .background(
-                        color = colorResource(R.color.extra_light_blue_text_color),
+                        color = colorResource(R.color.text_accent_blue_light),
                         shape = RoundedCornerShape(10.dp)
                     )
             )
@@ -179,7 +179,7 @@ fun AllStockListItem(
                 )
                 Text(
                     text = company.symbol,
-                    color = colorResource(R.color.light_grey_text_color),
+                    color = colorResource(R.color.text_secondary),
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 11.sp,

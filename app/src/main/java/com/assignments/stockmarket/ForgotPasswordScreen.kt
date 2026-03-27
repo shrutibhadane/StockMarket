@@ -105,7 +105,7 @@ fun ForgotPasswordScreen(
                 modifier = Modifier
                     .size(86.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.button_background_color))
+                    .background(colorResource(R.color.bg_button_primary))
                     .border(2.dp, colorResource(R.color.white), CircleShape)
                     .clickable {
                         if (isLoading) return@clickable

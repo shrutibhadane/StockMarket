@@ -30,7 +30,7 @@ fun AmountBox(amount: String, onClick: () -> Unit) {
             modifier = Modifier
                 .border(
                     width = 1.dp,
-                    color = colorResource(R.color.light_grey_text_color),
+                    color = colorResource(R.color.text_secondary),
                     shape = RoundedCornerShape(12.dp)
                 )
                 .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -42,7 +42,7 @@ fun AmountBox(amount: String, onClick: () -> Unit) {
 
             Text(
                 text = "+ Rs. $amount",
-                color = colorResource(R.color.light_grey_text_color),
+                color = colorResource(R.color.text_secondary),
                 fontSize = 10.sp,
                 lineHeight = 10.sp,
                 fontFamily = PoppinsFamily,

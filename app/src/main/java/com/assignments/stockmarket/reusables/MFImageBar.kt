@@ -38,7 +38,7 @@ fun MFImageBar() {
             modifier = Modifier
                 .size(28.dp)
                 .background(
-                    colorResource(R.color.extra_light_blue_text_color),
+                    colorResource(R.color.text_accent_blue_light),
                     RoundedCornerShape(8.dp)
                 ),
             contentAlignment = Alignment.Center
@@ -57,7 +57,7 @@ fun MFImageBar() {
                 modifier = Modifier
                     .size(28.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.text_field_color))
+                    .background(colorResource(R.color.bg_text_field))
                     .clickable {
                     },
                 contentAlignment = Alignment.Center
@@ -65,7 +65,7 @@ fun MFImageBar() {
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = stringResource(R.string.forget_password),
-                    tint = colorResource(R.color.light_grey_image_color),
+                    tint = colorResource(R.color.icon_tint_light),
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -76,7 +76,7 @@ fun MFImageBar() {
                 modifier = Modifier
                     .size(28.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.text_field_color))
+                    .background(colorResource(R.color.bg_text_field))
                     .clickable {
                     },
                 contentAlignment = Alignment.Center
@@ -84,7 +84,7 @@ fun MFImageBar() {
                 Icon(
                     imageVector = Icons.Default.BookmarkBorder,
                     contentDescription = stringResource(R.string.forget_password),
-                    tint = colorResource(R.color.light_grey_image_color),
+                    tint = colorResource(R.color.icon_tint_light),
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -95,7 +95,7 @@ fun MFImageBar() {
                 modifier = Modifier
                     .size(28.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.text_field_color))
+                    .background(colorResource(R.color.bg_text_field))
                     .clickable {
                     },
                 contentAlignment = Alignment.Center
@@ -103,7 +103,7 @@ fun MFImageBar() {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = stringResource(R.string.forget_password),
-                    tint = colorResource(R.color.light_grey_image_color),
+                    tint = colorResource(R.color.icon_tint_light),
                     modifier = Modifier.size(20.dp)
                 )
             }

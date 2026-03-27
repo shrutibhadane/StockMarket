@@ -123,7 +123,7 @@ fun LoginScreen(
             // 🔹 Forget Password
             Text(
                 text = stringResource(R.string.forget_password),
-                color = colorResource(R.color.text_color),
+                color = colorResource(R.color.text_primary),
                 fontSize = 15.sp,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -141,7 +141,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .size(86.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.button_background_color))
+                    .background(colorResource(R.color.bg_button_primary))
                     .border(2.dp, colorResource(R.color.white), CircleShape)
                     .clickable {
                         if (isLoading) return@clickable

@@ -107,10 +107,10 @@ fun UPIScreen(navController: NavController) {
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = colorResource(R.color.white),
                 unfocusedTextColor = colorResource(R.color.white),
-                cursorColor = colorResource(R.color.light_blue_button_bg_color),
-                focusedBorderColor = colorResource(R.color.light_blue_button_bg_color),
+                cursorColor = colorResource(R.color.bg_button_secondary_light),
+                focusedBorderColor = colorResource(R.color.bg_button_secondary_light),
                 unfocusedBorderColor = colorResource(R.color.white),
-                focusedLabelColor = colorResource(R.color.light_blue_button_bg_color),
+                focusedLabelColor = colorResource(R.color.bg_button_secondary_light),
                 unfocusedLabelColor = colorResource(R.color.white)
             )
         )
@@ -153,12 +153,12 @@ fun UPIScreen(navController: NavController) {
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = colorResource(R.color.white),
                 unfocusedTextColor = colorResource(R.color.white),
-                cursorColor = colorResource(R.color.light_blue_button_bg_color),
+                cursorColor = colorResource(R.color.bg_button_secondary_light),
 
-                focusedBorderColor = colorResource(R.color.light_blue_button_bg_color),
+                focusedBorderColor = colorResource(R.color.bg_button_secondary_light),
                 unfocusedBorderColor = colorResource(R.color.white),
 
-                focusedLabelColor = colorResource(R.color.light_blue_button_bg_color),
+                focusedLabelColor = colorResource(R.color.bg_button_secondary_light),
                 unfocusedLabelColor = colorResource(R.color.white)
             )
         )
@@ -230,7 +230,7 @@ fun UPIScreen(navController: NavController) {
                 .height(50.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.light_blue_button_bg_color)
+                containerColor = colorResource(R.color.bg_button_secondary_light)
             )
         ) {
             Text(

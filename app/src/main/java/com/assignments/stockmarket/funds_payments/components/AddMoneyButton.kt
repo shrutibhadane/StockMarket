@@ -41,7 +41,7 @@ fun AddMoneyButton() {
                 imageVector = Icons.Default.Add,
                 contentDescription = "Add Money",
                 modifier = Modifier.size(14.dp),
-                tint = colorResource(R.color.light_blue_button_bg_color)
+                tint = colorResource(R.color.bg_button_secondary_light)
             )
 
             Spacer(modifier = Modifier.width(4.dp))
@@ -51,7 +51,7 @@ fun AddMoneyButton() {
                 fontFamily = PoppinsFamily,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.light_blue_button_bg_color)
+                color = colorResource(R.color.bg_button_secondary_light)
             )
         }
     }

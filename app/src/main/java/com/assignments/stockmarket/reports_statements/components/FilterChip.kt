@@ -17,7 +17,7 @@ import com.assignments.stockmarket.ui.theme.PoppinsFamily
 fun FilterChip(label: String) {
     Surface(
         shape = RoundedCornerShape(20.dp),
-        color = colorResource(R.color.light_blue_button_bg_color)
+        color = colorResource(R.color.bg_button_secondary_light)
     ) {
         Text(
             text = label,

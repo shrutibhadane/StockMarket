@@ -11,7 +11,7 @@ Estimated Time: 135 min | Inter-task Dependencies: NONE
 
 ## T1.2 - Color Resources
 - File: app/src/main/res/values/colors.xml
-- Scope: Define 20 colors: bg_primary(FF001336), text_field_color(FF374560), text_color(FFD0CECE), button_background_color(FF485773), white, black, light_green_text_color(01FF41), red_text_color(FF0105), green_text_color(00FF00), light_red_text_color(FE7779), light_grey_text_color(CFCDCD), light_grey_image_color(C7C7C7), blue_text_color(04007D), light_blue_text_color(84D8FB), extra_light_blue_text_color(FFDDF3FC), light_blue_button_bg_color(BBBAFF), dark_blue_button_bg_color(1F00AB), mpin_screen_background(559BEB), nav_bar_background(FF000A1F), purple(6B0CC4).
+- Scope: Define 20 colors: bg_primary(FF001336), bg_text_field(FF374560), text_primary(FFD0CECE), bg_button_primary(FF485773), white, black, text_success_light(01FF41), text_error(FF0105), text_success(00FF00), text_error_light(FE7779), text_secondary(CFCDCD), icon_tint_light(C7C7C7), text_link(04007D), text_accent_blue(84D8FB), text_accent_blue_light(FFDDF3FC), bg_button_secondary_light(BBBAFF), bg_button_secondary_dark(1F00AB), bg_mpin(559BEB), bg_nav_bar(FF000A1F), icon_tint_light(6B0CC4).
 - Expected Output: All colorResource(R.color.xxx) references resolve.
 - Time: 10 min
 

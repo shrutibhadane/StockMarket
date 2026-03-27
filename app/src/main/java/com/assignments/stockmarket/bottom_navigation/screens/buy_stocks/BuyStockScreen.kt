@@ -208,8 +208,8 @@ fun BuyStockScreen(
     val isPositive = priceDiff >= 0
     val pctChange = if (displayPrevPrice != 0f) (priceDiff / displayPrevPrice) * 100f else 0f
     val sign = if (isPositive) "+" else "-"
-    val changeColor = if (isPositive) colorResource(R.color.light_green_text_color)
-    else colorResource(R.color.red_text_color)
+    val changeColor = if (isPositive) colorResource(R.color.text_success_light)
+    else colorResource(R.color.text_error)
 
     // ── Slider overlay state ──
     var showSlider by remember { mutableStateOf(false) }
@@ -278,7 +278,7 @@ fun BuyStockScreen(
                                 .size(44.dp)
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(
-                                    color = colorResource(R.color.extra_light_blue_text_color),
+                                    color = colorResource(R.color.text_accent_blue_light),
                                     shape = RoundedCornerShape(10.dp)
                                 )
                         )
@@ -296,7 +296,7 @@ fun BuyStockScreen(
                         if (company != null) {
                             Text(
                                 text = company!!.symbol,
-                                color = colorResource(R.color.light_grey_text_color),
+                                color = colorResource(R.color.text_secondary),
                                 fontSize = 12.sp,
                                 fontFamily = PoppinsFamily,
                                 fontWeight = FontWeight.Medium
@@ -320,35 +320,35 @@ fun BuyStockScreen(
                     ) {
                         Text(
                             text = stock.risk,
-                            color = colorResource(R.color.light_grey_text_color),
+                            color = colorResource(R.color.text_secondary),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFamily,
                         )
                         Text(
                             text = " • ",
-                            color = colorResource(R.color.light_grey_text_color),
+                            color = colorResource(R.color.text_secondary),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFamily,
                         )
                         Text(
                             text = stock.category,
-                            color = colorResource(R.color.light_grey_text_color),
+                            color = colorResource(R.color.text_secondary),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFamily,
                         )
                         Text(
                             text = " • ",
-                            color = colorResource(R.color.light_grey_text_color),
+                            color = colorResource(R.color.text_secondary),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFamily,
                         )
                         Text(
                             text = stock.theme,
-                            color = colorResource(R.color.light_grey_text_color),
+                            color = colorResource(R.color.text_secondary),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFamily,
@@ -385,7 +385,7 @@ fun BuyStockScreen(
                         ) {
                             Text(
                                 text = it.annualReturn.toString(),
-                                color = colorResource(R.color.light_green_text_color),
+                                color = colorResource(R.color.text_success_light),
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = PoppinsFamily,
@@ -393,7 +393,7 @@ fun BuyStockScreen(
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
                                 text = it.annualReturnPeriod,
-                                color = colorResource(R.color.light_grey_text_color),
+                                color = colorResource(R.color.text_secondary),
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = PoppinsFamily,
@@ -402,7 +402,7 @@ fun BuyStockScreen(
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = it.dayChange.toString(),
-                            color = colorResource(R.color.light_red_text_color),
+                            color = colorResource(R.color.text_error_light),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFamily,

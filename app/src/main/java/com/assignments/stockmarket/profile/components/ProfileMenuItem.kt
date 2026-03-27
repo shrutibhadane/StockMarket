@@ -85,7 +85,7 @@ fun ProfileMenuItem(
                     },
                     shape = RoundedCornerShape(20.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(R.color.light_blue_button_bg_color)
+                        containerColor = colorResource(R.color.bg_button_secondary_light)
                     ),
                     contentPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
                     elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),

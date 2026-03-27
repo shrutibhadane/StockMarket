@@ -54,7 +54,7 @@ fun HoldingsScreen(navController: NavController) {
         Card(
             shape = RoundedCornerShape(18.dp),
             colors = CardDefaults.cardColors(
-                containerColor = colorResource(R.color.text_field_color)
+                containerColor = colorResource(R.color.bg_text_field)
             ),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -92,8 +92,8 @@ fun HoldingsScreen(navController: NavController) {
                             modifier = Modifier
                                 .size(14.dp)
                                 .clip(CircleShape)
-                                .background(colorResource(R.color.text_field_color))
-                                .border(1.dp, colorResource(R.color.light_grey_image_color), CircleShape)
+                                .background(colorResource(R.color.bg_text_field))
+                                .border(1.dp, colorResource(R.color.icon_tint_light), CircleShape)
                                 .clickable {
                                 },
                             contentAlignment = Alignment.Center
@@ -101,7 +101,7 @@ fun HoldingsScreen(navController: NavController) {
                             Icon(
                                 imageVector = Icons.Default.RemoveRedEye,
                                 contentDescription = stringResource(R.string.forget_password),
-                                tint = colorResource(R.color.light_grey_image_color),
+                                tint = colorResource(R.color.icon_tint_light),
                                 modifier = Modifier.size(12.dp)
                             )
                         }
@@ -112,8 +112,8 @@ fun HoldingsScreen(navController: NavController) {
                             modifier = Modifier
                                 .size(14.dp)
                                 .clip(CircleShape)
-                                .background(colorResource(R.color.text_field_color))
-                                .border(1.dp, colorResource(R.color.light_grey_image_color), CircleShape)
+                                .background(colorResource(R.color.bg_text_field))
+                                .border(1.dp, colorResource(R.color.icon_tint_light), CircleShape)
                                 .clickable {
                                 },
                             contentAlignment = Alignment.Center
@@ -121,7 +121,7 @@ fun HoldingsScreen(navController: NavController) {
                             Icon(
                                 imageVector = Icons.Default.BarChart,
                                 contentDescription = stringResource(R.string.forget_password),
-                                tint = colorResource(R.color.light_grey_image_color),
+                                tint = colorResource(R.color.icon_tint_light),
                                 modifier = Modifier.size(12.dp)
                             )
                         }
@@ -132,8 +132,8 @@ fun HoldingsScreen(navController: NavController) {
                             modifier = Modifier
                                 .size(14.dp)
                                 .clip(CircleShape)
-                                .background(colorResource(R.color.text_field_color))
-                                .border(1.dp, colorResource(R.color.light_grey_image_color), CircleShape)
+                                .background(colorResource(R.color.bg_text_field))
+                                .border(1.dp, colorResource(R.color.icon_tint_light), CircleShape)
                                 .clickable {
                                 },
                             contentAlignment = Alignment.Center
@@ -141,7 +141,7 @@ fun HoldingsScreen(navController: NavController) {
                             Icon(
                                 imageVector = Icons.Default.MoreVert,
                                 contentDescription = stringResource(R.string.forget_password),
-                                tint = colorResource(R.color.light_grey_image_color),
+                                tint = colorResource(R.color.icon_tint_light),
                                 modifier = Modifier.size(12.dp)
                             )
                         }
@@ -169,7 +169,7 @@ fun HoldingsScreen(navController: NavController) {
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            color = colorResource(R.color.light_grey_text_color),
+                            color = colorResource(R.color.text_secondary),
                             textAlign = TextAlign.Left
                         )
 
@@ -178,7 +178,7 @@ fun HoldingsScreen(navController: NavController) {
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            color = colorResource(R.color.light_red_text_color),
+                            color = colorResource(R.color.text_error_light),
                             textAlign = TextAlign.Right
                         )
                     }
@@ -195,7 +195,7 @@ fun HoldingsScreen(navController: NavController) {
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            color = colorResource(R.color.light_grey_text_color),
+                            color = colorResource(R.color.text_secondary),
                             textAlign = TextAlign.Left
                         )
 
@@ -204,7 +204,7 @@ fun HoldingsScreen(navController: NavController) {
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            color = colorResource(R.color.light_red_text_color),
+                            color = colorResource(R.color.text_error_light),
                             textAlign = TextAlign.Right
                         )
                     }
@@ -223,7 +223,7 @@ fun HoldingsScreen(navController: NavController) {
                         fontFamily = PoppinsFamily,
                         fontWeight = FontWeight.Bold,
                         fontSize = 8.sp,
-                        color = colorResource(R.color.light_grey_text_color),
+                        color = colorResource(R.color.text_secondary),
                         textAlign = TextAlign.Left
                     )
 

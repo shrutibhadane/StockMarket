@@ -97,7 +97,7 @@ Technical Requirements:
     - LaunchedEffect(timerRunning, resendKey) with delay(1000L) loop
     - String.format("%02d:%02d", seconds / 60, seconds % 60)
     - Row with SpaceBetween arrangement, 20dp horizontal padding
-    - Text: colorResource(R.color.text_color), 15.sp, PoppinsFamily, Bold
+    - Text: colorResource(R.color.text_primary), 15.sp, PoppinsFamily, Bold
 
 Acceptance Criteria:
     - Timer starts at 02:00 and counts to 00:00
@@ -145,12 +145,12 @@ Task Name:
 
 Details of the task:
     Below the timer/resend Row (with 10dp spacing), add an informational
-    text explaining OTP expires in 2 minutes. Use text_color, 15sp,
+    text explaining OTP expires in 2 minutes. Use text_primary, 15sp,
     PoppinsFamily Bold, centered, with 20dp horizontal padding.
 
 Technical Requirements:
     - Text: stringResource(R.string.otp_expires_in_2_minutes_...)
-    - colorResource(R.color.text_color), 15.sp, PoppinsFamily, Bold
+    - colorResource(R.color.text_primary), 15.sp, PoppinsFamily, Bold
     - padding(horizontal = 20.dp), TextAlign.Center
     - 10dp spacer above
 
@@ -168,13 +168,13 @@ Task Name:
 
 Details of the task:
     Create an 86dp circular button with CircleShape, white border,
-    button_background_color, and ArrowForward icon (white, 32dp). Replace
+    bg_button_primary, and ArrowForward icon (white, 32dp). Replace
     icon with CircularProgressIndicator (white, 32dp, 3dp stroke) when
     isLoading is true.
 
 Technical Requirements:
     - Box .size(86.dp).clip(CircleShape)
-    - .background(colorResource(R.color.button_background_color))
+    - .background(colorResource(R.color.bg_button_primary))
     - .border(2.dp, Color.White, CircleShape)
     - if (isLoading) CircularProgressIndicator else Icon
     - 40dp spacer above the button

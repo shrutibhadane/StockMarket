@@ -104,7 +104,7 @@ fun MPINScreen (
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Your session has expired. Please re-enter your MPIN to continue.",
-                    color = colorResource(R.color.text_color),
+                    color = colorResource(R.color.text_primary),
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 13.sp,
@@ -162,7 +162,7 @@ fun MPINScreen (
                         .padding(horizontal = 32.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(R.color.button_background_color)
+                        containerColor = colorResource(R.color.bg_button_primary)
                     )
                 ) {
                     if (isLoading) {
@@ -223,7 +223,7 @@ fun MPINScreen (
                 modifier = Modifier
                     .size(86.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.button_background_color))
+                    .background(colorResource(R.color.bg_button_primary))
                     .border(2.dp, colorResource(R.color.white), CircleShape)
                     .clickable {
                         if (enteredMpin.length < 4) {

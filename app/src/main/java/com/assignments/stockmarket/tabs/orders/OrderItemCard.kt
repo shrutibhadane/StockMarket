@@ -31,7 +31,7 @@ fun OrderItemCard(orders: Orders) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.text_field_color)
+            containerColor = colorResource(R.color.bg_text_field)
         ),
         border = BorderStroke(
             1.dp,
@@ -56,7 +56,7 @@ fun OrderItemCard(orders: Orders) {
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
-                    color = colorResource(R.color.light_grey_text_color)
+                    color = colorResource(R.color.text_secondary)
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -66,7 +66,7 @@ fun OrderItemCard(orders: Orders) {
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
-                    color = colorResource(R.color.green_text_color)
+                    color = colorResource(R.color.text_success)
                 )
             }
 
@@ -106,7 +106,7 @@ fun OrderItemCard(orders: Orders) {
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
-                    color = colorResource(R.color.light_grey_text_color)
+                    color = colorResource(R.color.text_secondary)
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -116,7 +116,7 @@ fun OrderItemCard(orders: Orders) {
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
-                    color = colorResource(R.color.light_grey_text_color)
+                    color = colorResource(R.color.text_secondary)
                 )
             }
         }

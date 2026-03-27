@@ -81,9 +81,9 @@ fun ReviewStep(
             Button(
                 onClick = onBack, modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.light_blue_button_bg_color),
+                    containerColor = colorResource(R.color.bg_button_secondary_light),
                     contentColor = colorResource(R.color.bg_primary),
-                    disabledContainerColor = colorResource(R.color.light_grey_text_color),
+                    disabledContainerColor = colorResource(R.color.text_secondary),
                     disabledContentColor = colorResource(R.color.bg_primary)
                 )
             ) {
@@ -102,9 +102,9 @@ fun ReviewStep(
                 onClick = onSubmit,
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.light_blue_button_bg_color),
+                    containerColor = colorResource(R.color.bg_button_secondary_light),
                     contentColor = colorResource(R.color.bg_primary),
-                    disabledContainerColor = colorResource(R.color.light_grey_text_color),
+                    disabledContainerColor = colorResource(R.color.text_secondary),
                     disabledContentColor = colorResource(R.color.bg_primary)
                 )
             ) {

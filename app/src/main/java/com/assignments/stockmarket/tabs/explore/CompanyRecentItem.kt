@@ -48,9 +48,9 @@ fun CompanyRecentItem(
     }
     val isPositive = (change ?: 0.0) >= 0.0
     val changeColor = if (isPositive) {
-        colorResource(R.color.light_green_text_color)
+        colorResource(R.color.text_success_light)
     } else {
-        colorResource(R.color.red_text_color)
+        colorResource(R.color.text_error)
     }
 
     Column(
@@ -69,7 +69,7 @@ fun CompanyRecentItem(
                 .size(50.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(
-                    color = colorResource(R.color.extra_light_blue_text_color),
+                    color = colorResource(R.color.text_accent_blue_light),
                     shape = RoundedCornerShape(10.dp)
                 )
         )

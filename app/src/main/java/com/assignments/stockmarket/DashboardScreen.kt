@@ -447,8 +447,8 @@ fun MarketCard(
     modifier: Modifier = Modifier,
     borderColor: Color = Color.White,
 ) {
-    val changeColor = if (isPositive) colorResource(R.color.light_green_text_color)
-    else colorResource(R.color.red_text_color)
+    val changeColor = if (isPositive) colorResource(R.color.text_success_light)
+    else colorResource(R.color.text_error)
 
     Card(
         modifier = modifier.height(80.dp),

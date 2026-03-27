@@ -79,7 +79,7 @@ fun MutualFundsScreen(navController: NavController) {
                 ) {
                     Text(
                         text = "Very High Risk",
-                        color = colorResource(R.color.light_grey_text_color),
+                        color = colorResource(R.color.text_secondary),
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily,
@@ -87,7 +87,7 @@ fun MutualFundsScreen(navController: NavController) {
 
                     Text(
                         text = " • ",
-                        color = colorResource(R.color.light_grey_text_color),
+                        color = colorResource(R.color.text_secondary),
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily,
@@ -95,7 +95,7 @@ fun MutualFundsScreen(navController: NavController) {
 
                     Text(
                         text = "Equity",
-                        color = colorResource(R.color.light_grey_text_color),
+                        color = colorResource(R.color.text_secondary),
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily,
@@ -103,7 +103,7 @@ fun MutualFundsScreen(navController: NavController) {
 
                     Text(
                         text = " • ",
-                        color = colorResource(R.color.light_grey_text_color),
+                        color = colorResource(R.color.text_secondary),
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily,
@@ -111,7 +111,7 @@ fun MutualFundsScreen(navController: NavController) {
 
                     Text(
                         text = "Thematic",
-                        color = colorResource(R.color.light_grey_text_color),
+                        color = colorResource(R.color.text_secondary),
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily,
@@ -128,7 +128,7 @@ fun MutualFundsScreen(navController: NavController) {
 
                 Text(
                     text = "28.24%",
-                    color = colorResource(R.color.light_green_text_color),
+                    color = colorResource(R.color.text_success_light),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -138,7 +138,7 @@ fun MutualFundsScreen(navController: NavController) {
 
                 Text(
                     text = "3Y annualised",
-                    color = colorResource(R.color.light_grey_text_color),
+                    color = colorResource(R.color.text_secondary),
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily,
@@ -149,7 +149,7 @@ fun MutualFundsScreen(navController: NavController) {
 
             Text(
                 text = "-2.07%",
-                color = colorResource(R.color.light_red_text_color),
+                color = colorResource(R.color.text_error_light),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = PoppinsFamily,

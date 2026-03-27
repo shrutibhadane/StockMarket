@@ -74,13 +74,13 @@ Task Name:
 Details of the task:
     When isVerifyMode is true, show a subtitle text below the title
     (8dp spacing) explaining "Your session has expired. Please re-enter
-    your MPIN to continue." in text_color, 13sp, centered.
+    your MPIN to continue." in text_primary, 13sp, centered.
 
 Technical Requirements:
     - if (isVerifyMode): Spacer(8.dp) + Text
     - Text: "Your session has expired. Please re-enter your MPIN
       to continue."
-    - colorResource(R.color.text_color), PoppinsFamily, Normal, 13.sp
+    - colorResource(R.color.text_primary), PoppinsFamily, Normal, 13.sp
     - TextAlign.Center, fillMaxWidth(), padding(horizontal = 12.dp)
     - 60dp spacer between subtitle area and next content
 
@@ -141,7 +141,7 @@ Technical Requirements:
             "otp/$email/$otp?isResetMpin=true")
         - else → mpinError = "Failed to send OTP. Please try again."
     - Button: fillMaxWidth(), height(50.dp), padding(horizontal = 32.dp)
-    - RoundedCornerShape(12.dp), button_background_color
+    - RoundedCornerShape(12.dp), bg_button_primary
     - if (isLoading) CircularProgressIndicator(24dp, white, 2dp stroke)
       else Text("Reset MPIN", white, Bold, 16sp)
 
@@ -231,7 +231,7 @@ Details of the task:
 
 Technical Requirements:
     - Box .size(86.dp).clip(CircleShape)
-    - .background(colorResource(R.color.button_background_color))
+    - .background(colorResource(R.color.bg_button_primary))
     - .border(2.dp, colorResource(R.color.white), CircleShape)
     - Icon: Icons.Default.ArrowForward, 32dp, white tint
     - if (enteredMpin.length < 4) { mpinError = "..."; return }

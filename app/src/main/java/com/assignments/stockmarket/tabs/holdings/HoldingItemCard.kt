@@ -30,7 +30,7 @@ fun HoldingItemCard(holding: Holding) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.text_field_color)
+            containerColor = colorResource(R.color.bg_text_field)
         ),
         border = BorderStroke(
             1.dp,
@@ -65,7 +65,7 @@ fun HoldingItemCard(holding: Holding) {
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    color = colorResource(R.color.light_red_text_color)
+                    color = colorResource(R.color.text_error_light)
                 )
             }
 
@@ -80,7 +80,7 @@ fun HoldingItemCard(holding: Holding) {
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
-                    color = colorResource(R.color.light_grey_text_color)
+                    color = colorResource(R.color.text_secondary)
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -90,7 +90,7 @@ fun HoldingItemCard(holding: Holding) {
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
-                    color = colorResource(R.color.light_grey_text_color)
+                    color = colorResource(R.color.text_secondary)
                 )
             }
         }

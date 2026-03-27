@@ -80,15 +80,15 @@ fun CustomTextField(
                     RoundedCornerShape(10.dp)
                 ),
             colors = OutlinedTextFieldDefaults.colors(
-                unfocusedContainerColor = colorResource(R.color.text_field_color),
-                focusedContainerColor = colorResource(R.color.text_field_color),
+                unfocusedContainerColor = colorResource(R.color.bg_text_field),
+                focusedContainerColor = colorResource(R.color.bg_text_field),
                 unfocusedBorderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,
                 cursorColor = Color.White,
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
                 errorBorderColor = Color.Transparent,
-                errorContainerColor = colorResource(R.color.text_field_color),
+                errorContainerColor = colorResource(R.color.bg_text_field),
                 errorCursorColor = Color.White,
                 errorTextColor = Color.White,
             )

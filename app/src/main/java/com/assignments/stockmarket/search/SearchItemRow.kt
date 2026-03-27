@@ -38,7 +38,7 @@ fun SearchItemRow(item: SearchItem) {
         Icon(
             imageVector = Icons.Default.AccessTime,
             contentDescription = "History",
-            tint = colorResource(R.color.light_grey_image_color)
+            tint = colorResource(R.color.icon_tint_light)
         )
 
         Spacer(modifier = Modifier.width(14.dp))
@@ -48,7 +48,7 @@ fun SearchItemRow(item: SearchItem) {
             fontFamily = PoppinsFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
-            color = colorResource(R.color.light_grey_text_color)
+            color = colorResource(R.color.text_secondary)
         )
     }
 }

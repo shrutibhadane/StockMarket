@@ -56,7 +56,7 @@ fun LogoutDialog(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     HorizontalDivider(
-                        color = colorResource(R.color.light_blue_button_bg_color).copy(alpha = 0.3f)
+                        color = colorResource(R.color.bg_button_secondary_light).copy(alpha = 0.3f)
                     )
                 }
             },
@@ -89,7 +89,7 @@ fun LogoutDialog(
                 TextButton(onClick = { onDismiss() }) {
                     Text(
                         text = "No",
-                        color = colorResource(R.color.light_blue_button_bg_color),
+                        color = colorResource(R.color.bg_button_secondary_light),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily

@@ -59,7 +59,7 @@ fun SearchTextField(
                     Icon(
                         painter = painterResource(id = icon),
                         contentDescription = null,
-                        tint = colorResource(R.color.light_grey_text_color),
+                        tint = colorResource(R.color.text_secondary),
                         modifier = Modifier
                             .size(18.dp)
                             .clickable {

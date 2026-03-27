@@ -74,7 +74,7 @@ fun MPINFingerPrintScreen(
                 .fillMaxWidth()
                 .padding(bottom = 40.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(colorResource(R.color.mpin_screen_background))
+                .background(colorResource(R.color.bg_mpin))
                 .align(Alignment.BottomCenter)
                 .padding(vertical = 20.dp, horizontal = 20.dp)
         ) {
@@ -109,7 +109,7 @@ fun MPINFingerPrintScreen(
                 // Title
                 Text(
                     text = "Fingerprint Verification",
-                    color = colorResource(R.color.light_blue_text_color),
+                    color = colorResource(R.color.text_accent_blue),
                     fontSize = 24.sp,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.ExtraBold
@@ -148,7 +148,7 @@ fun MPINFingerPrintScreen(
 
                 Text(
                     text = "Enter TradeSphere PIN",
-                    color = colorResource(R.color.extra_light_blue_text_color),
+                    color = colorResource(R.color.text_accent_blue_light),
                     fontSize = 20.sp,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.ExtraBold

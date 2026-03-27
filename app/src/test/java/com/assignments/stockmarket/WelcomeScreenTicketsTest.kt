@@ -207,7 +207,7 @@ class WelcomeScreenTicketsTest {
 
     @Test
     fun ticket6_TC10_intoTextStyling() {
-        // into: Normal weight, 20sp, text_color
+        // into: Normal weight, 20sp, text_primary
         val fontSizeSp = 20
         val isNormal = true
         assertEquals(20, fontSizeSp)

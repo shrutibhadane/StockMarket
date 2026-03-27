@@ -88,7 +88,7 @@ fun InvestmentsCard(
 
                     Text(
                         text = totalReturns,
-                        color = colorResource(R.color.light_red_text_color),
+                        color = colorResource(R.color.text_error_light),
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily

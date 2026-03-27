@@ -61,7 +61,7 @@ fun SeeAllCard(onClick: () -> Unit = {}) {
             Icon(
                 imageVector = Icons.Default.GridView,
                 contentDescription = "View All",
-                tint = colorResource(R.color.extra_light_blue_text_color),
+                tint = colorResource(R.color.text_accent_blue_light),
                 modifier = Modifier.size(36.dp)
             )
 
@@ -81,7 +81,7 @@ fun SeeAllCard(onClick: () -> Unit = {}) {
 
             Text(
                 text = ">",
-                color = colorResource(R.color.light_grey_text_color),
+                color = colorResource(R.color.text_secondary),
                 fontSize = 16.sp,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -99,7 +99,7 @@ fun SmallBlackSquare() {
     Box(
         modifier = Modifier
             .size(28.dp)
-            .background(colorResource(R.color.extra_light_blue_text_color), RoundedCornerShape(8.dp)),
+            .background(colorResource(R.color.text_accent_blue_light), RoundedCornerShape(8.dp)),
         contentAlignment = Alignment.Center
     ) {
         Box(

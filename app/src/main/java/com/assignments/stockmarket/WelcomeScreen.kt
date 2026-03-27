@@ -162,7 +162,7 @@ fun WelcomeScreen(navController: NavController) {
             ) {
                 Text(
                     text = "into",
-                    color = colorResource(R.color.text_color),
+                    color = colorResource(R.color.text_primary),
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 20.sp,

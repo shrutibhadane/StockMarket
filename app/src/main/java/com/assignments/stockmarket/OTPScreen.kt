@@ -162,7 +162,7 @@ private fun OtpVerificationContent(
                 val formatted = String.format("%02d:%02d", seconds / 60, seconds % 60)
                 Text(
                     text = "$formatted ${stringResource(R.string.sec_left)}",
-                    color = colorResource(R.color.text_color),
+                    color = colorResource(R.color.text_primary),
                     fontSize = 15.sp,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold
@@ -172,9 +172,9 @@ private fun OtpVerificationContent(
                 Text(
                     text = stringResource(R.string.resend_now),
                     color = if (!timerRunning)
-                        colorResource(R.color.text_color)
+                        colorResource(R.color.text_primary)
                     else
-                        colorResource(R.color.text_color).copy(alpha = 0.4f),
+                        colorResource(R.color.text_primary).copy(alpha = 0.4f),
                     fontSize = 15.sp,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
@@ -227,7 +227,7 @@ private fun OtpVerificationContent(
                 fontSize = 15.sp,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.text_color),
+                color = colorResource(R.color.text_primary),
                 modifier = Modifier.padding(horizontal = 20.dp),
                 textAlign = TextAlign.Center
             )
@@ -239,7 +239,7 @@ private fun OtpVerificationContent(
                 modifier = Modifier
                     .size(86.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.button_background_color))
+                    .background(colorResource(R.color.bg_button_primary))
                     .border(2.dp, Color.White, CircleShape)
                     .clickable {
                         if (isLoading) return@clickable

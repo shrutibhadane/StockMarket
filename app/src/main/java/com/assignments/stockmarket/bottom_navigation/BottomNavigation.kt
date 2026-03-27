@@ -25,7 +25,7 @@ fun BottomNavBar(
     onItemSelected: (Int) -> Unit
 ) {
     NavigationBar(
-        containerColor = colorResource(R.color.nav_bar_background),
+        containerColor = colorResource(R.color.bg_nav_bar),
     ) {
         items.forEachIndexed { index, item ->
             val isSelected = selectedIndex == index
@@ -44,11 +44,11 @@ fun BottomNavBar(
                 selected = isSelected,
                 onClick = { onItemSelected(index) },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = colorResource(R.color.light_blue_text_color),
-                    selectedTextColor = colorResource(R.color.light_blue_text_color),
-                    unselectedIconColor = colorResource(R.color.light_grey_text_color),
-                    unselectedTextColor = colorResource(R.color.light_grey_text_color),
-                    indicatorColor = colorResource(R.color.nav_bar_background)
+                    selectedIconColor = colorResource(R.color.text_accent_blue),
+                    selectedTextColor = colorResource(R.color.text_accent_blue),
+                    unselectedIconColor = colorResource(R.color.text_secondary),
+                    unselectedTextColor = colorResource(R.color.text_secondary),
+                    indicatorColor = colorResource(R.color.bg_nav_bar)
                 )
             )
         }

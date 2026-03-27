@@ -30,7 +30,7 @@ fun UpiAppItem(name: String, onClick: () -> Unit) {
             .clickable { onClick() },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.mpin_screen_background)
+            containerColor = colorResource(R.color.bg_mpin)
         )
     ) {
         Box(

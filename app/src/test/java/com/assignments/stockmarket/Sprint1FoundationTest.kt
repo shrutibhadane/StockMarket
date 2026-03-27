@@ -80,49 +80,49 @@ class Sprint1FoundationTest {
 
     @Test
     fun T1_2_TC02_textFieldColorExists() {
-        val resId = context.resources.getIdentifier("text_field_color", "color", context.packageName)
-        assertTrue("text_field_color should exist", resId != 0)
+        val resId = context.resources.getIdentifier("bg_text_field", "color", context.packageName)
+        assertTrue("bg_text_field should exist", resId != 0)
     }
 
     @Test
     fun T1_2_TC03_textColorExists() {
-        val resId = context.resources.getIdentifier("text_color", "color", context.packageName)
-        assertTrue("text_color should exist", resId != 0)
+        val resId = context.resources.getIdentifier("text_primary", "color", context.packageName)
+        assertTrue("text_primary should exist", resId != 0)
     }
 
     @Test
     fun T1_2_TC04_buttonBackgroundColorExists() {
-        val resId = context.resources.getIdentifier("button_background_color", "color", context.packageName)
-        assertTrue("button_background_color should exist", resId != 0)
+        val resId = context.resources.getIdentifier("bg_button_primary", "color", context.packageName)
+        assertTrue("bg_button_primary should exist", resId != 0)
     }
 
     @Test
     fun T1_2_TC05_lightGreenTextColorExists() {
-        val resId = context.resources.getIdentifier("light_green_text_color", "color", context.packageName)
-        assertTrue("light_green_text_color should exist", resId != 0)
+        val resId = context.resources.getIdentifier("text_success_light", "color", context.packageName)
+        assertTrue("text_success_light should exist", resId != 0)
     }
 
     @Test
     fun T1_2_TC06_redTextColorExists() {
-        val resId = context.resources.getIdentifier("red_text_color", "color", context.packageName)
-        assertTrue("red_text_color should exist", resId != 0)
+        val resId = context.resources.getIdentifier("text_error", "color", context.packageName)
+        assertTrue("text_error should exist", resId != 0)
     }
 
     @Test
     fun T1_2_TC07_navBarBackgroundColorExists() {
-        val resId = context.resources.getIdentifier("nav_bar_background", "color", context.packageName)
-        assertTrue("nav_bar_background color should exist", resId != 0)
+        val resId = context.resources.getIdentifier("bg_nav_bar", "color", context.packageName)
+        assertTrue("bg_nav_bar color should exist", resId != 0)
     }
 
     @Test
     fun T1_2_TC08_allTwentyColorsExist() {
         val colorNames = listOf(
-            "bg_primary", "text_field_color", "text_color", "button_background_color",
-            "white", "black", "light_green_text_color", "red_text_color", "green_text_color",
-            "light_red_text_color", "light_grey_text_color", "light_grey_image_color",
-            "blue_text_color", "light_blue_text_color", "extra_light_blue_text_color",
-            "light_blue_button_bg_color", "dark_blue_button_bg_color", "mpin_screen_background",
-            "nav_bar_background", "purple"
+            "bg_primary", "bg_text_field", "text_primary", "bg_button_primary",
+            "white", "black", "text_success_light", "text_error", "text_success",
+            "text_error_light", "text_secondary", "icon_tint_light",
+            "text_link", "text_accent_blue", "text_accent_blue_light",
+            "bg_button_secondary_light", "bg_button_secondary_dark", "bg_mpin",
+            "bg_nav_bar", "icon_tint_light"
         )
         colorNames.forEach { name ->
             val resId = context.resources.getIdentifier(name, "color", context.packageName)

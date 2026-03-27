@@ -34,7 +34,7 @@ Task Name:
 Details of the task:
     Create a res/raw/ directory and add a confetti.json Lottie animation
     file. The animation should contain colorful confetti particles (gold,
-    red, blue, green, orange, purple, yellow, teal) that burst outward
+    red, blue, green, orange, icon_tint_light, yellow, teal) that burst outward
     with rotation and fade-out effects.
 
 Technical Requirements:
@@ -150,7 +150,7 @@ Technical Requirements:
     - showTradeSphere = true after delay(700)
     - delay(2000) then navigate("dashboard")
     - "Welcome": Color.White, PoppinsFamily, Bold, 40.sp, Center
-    - "into": colorResource(R.color.text_color), Normal, 20.sp, Center
+    - "into": colorResource(R.color.text_primary), Normal, 20.sp, Center
     - "Trade Sphere": Color.White, Bold, 36.sp, Center
     - Each AnimatedVisibility: fadeIn(tween(500-600ms)) +
       slideInVertically(tween(500-600ms), initialOffsetY = it/2)
