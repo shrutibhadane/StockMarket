@@ -1,7 +1,6 @@
 package com.assignments.stockmarket.reusables
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -99,7 +98,7 @@ fun InvestmentsCard(
 
                 // Icon at the far right
                 Icon(
-                    painter = painterResource(id = R.drawable.right_arrow), // your right arrow icon
+                    painter = painterResource(id = R.drawable.ic_right_arrow), // your right arrow icon
                     contentDescription = "Go",
                     tint = Color.White,
                     modifier = Modifier.size(24.dp)

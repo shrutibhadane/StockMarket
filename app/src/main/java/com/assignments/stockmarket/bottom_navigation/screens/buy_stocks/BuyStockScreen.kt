@@ -245,8 +245,8 @@ fun BuyStockScreen(
                             showSlider = true
                         }
                     },
-                    R.drawable.red_dot,
-                    R.drawable.green_dot,
+                    R.drawable.ic_red_dot,
+                    R.drawable.ic_green_dot,
                 )
             }
         ) { innerPadding ->

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -69,7 +68,7 @@ fun AppBarBackArrow(
                 }
             }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.back_arrow), // Use your back arrow icon
+                    painter = painterResource(id = R.drawable.ic_back_arrow), // Use your back arrow icon
                     contentDescription = "Back",
                     tint = colorResource(R.color.white),
                     modifier = Modifier.size(24.dp)
