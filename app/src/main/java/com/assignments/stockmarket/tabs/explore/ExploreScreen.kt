@@ -36,6 +36,7 @@ import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.MarketTick
 import com.assignments.stockmarket.db.CompanyEntity
+import com.assignments.stockmarket.navigation.Routes.ALL_STOCKS
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import java.net.URLEncoder
 
@@ -184,7 +185,7 @@ fun ExploreScreen(
                             itemIndex == displayCompanies.size -> {
                                 SeeAllCard(
                                     onClick = {
-                                        navController.navigate("all_stocks")
+                                        navController.navigate(ALL_STOCKS)
                                     }
                                 )
                             }

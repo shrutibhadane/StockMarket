@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.INVESTMENT_AMOUNT
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 
 @Composable
@@ -74,7 +75,7 @@ fun BalanceCard(navController: NavController) {
 
         Button(
             onClick = {
-                navController.navigate("investment_amount")
+                navController.navigate(INVESTMENT_AMOUNT)
             },
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(

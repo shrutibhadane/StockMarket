@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.LOGIN
 import com.assignments.stockmarket.resetPasswordApi
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
@@ -299,7 +300,7 @@ fun ResetPasswordScreen(
                 TextButton(
                     onClick = {
                         showSuccessDialog = false
-                        navController.navigate("login") {
+                        navController.navigate(LOGIN) {
                             popUpTo(0) { inclusive = true }
                         }
                     }

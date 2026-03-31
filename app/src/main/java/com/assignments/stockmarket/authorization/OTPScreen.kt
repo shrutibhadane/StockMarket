@@ -44,6 +44,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.forgotPasswordApi
+import com.assignments.stockmarket.navigation.Routes.MPIN
+import com.assignments.stockmarket.navigation.Routes.MPIN_RESET
 import com.assignments.stockmarket.reusables.OTPInput
 import com.assignments.stockmarket.sendOtpApi
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
@@ -272,7 +274,7 @@ private fun OtpVerificationContent(
                             } else if (isResetMpin) {
                                 // Reset MPIN flow — skip updateStatusApi, navigate to set new MPIN
                                 isLoading = false
-                                navController.navigate("mpin_reset") {
+                                navController.navigate(MPIN_RESET) {
                                     popUpTo("otp/{email}/{otp}") { inclusive = true }
                                 }
                             } else {
@@ -284,7 +286,7 @@ private fun OtpVerificationContent(
                                     withContext(Dispatchers.IO) {
                                         Paper.book().write("user_email", email)
                                     }
-                                    navController.navigate("mpin") {
+                                    navController.navigate(MPIN) {
                                         popUpTo("otp/{email}/{otp}") { inclusive = true }
                                     }
                                 } else {

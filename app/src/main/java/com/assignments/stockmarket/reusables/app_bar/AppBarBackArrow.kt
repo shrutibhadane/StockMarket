@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.DASHBOARD
+import com.assignments.stockmarket.navigation.Routes.SETTINGS
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -60,8 +62,8 @@ fun AppBarBackArrow(
         navigationIcon = {
             IconButton(onClick = {
                 if (navController.previousBackStackEntry == null) {
-                    navController.navigate("dashboard") {
-                        popUpTo("dashboard") { inclusive = true }
+                    navController.navigate(DASHBOARD) {
+                        popUpTo(DASHBOARD) { inclusive = true }
                     }
                 } else {
                     navController.popBackStack()
@@ -112,7 +114,7 @@ fun AppBarBackArrow(
         actions = {
             if (showSettings) {
                 IconButton(onClick = {
-                    navController.navigate("settings")
+                    navController.navigate(SETTINGS)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Settings,

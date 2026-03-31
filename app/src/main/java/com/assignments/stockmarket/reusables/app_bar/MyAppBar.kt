@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.PROFILE
+import com.assignments.stockmarket.navigation.Routes.SEARCH
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -74,20 +76,20 @@ fun MyAppBar(
 
         actions = {
             IconButton(onClick = {
-                navController.navigate("search")
+                navController.navigate(SEARCH)
             }) {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = "Search",
+                    contentDescription = SEARCH,
                     tint = colorResource(R.color.white),
 
                 )
             }
 
-            IconButton(onClick = { navController.navigate("profile") }) {
+            IconButton(onClick = { navController.navigate(PROFILE) }) {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "Profile",
+                    contentDescription = stringResource(R.string.section_profile),
                     tint = colorResource(R.color.white),
                 )
             }

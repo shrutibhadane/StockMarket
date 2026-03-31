@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.LOGIN
+import com.assignments.stockmarket.navigation.Routes.SIGN_UP
 import com.assignments.stockmarket.registerUser
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.sendOtpApi
@@ -424,7 +426,7 @@ fun SignUpScreen(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(bottom = 20.dp)
-                    .clickable { navController.navigate("login") }
+                    .clickable { navController.navigate(LOGIN) }
             )
         }
     }
@@ -454,7 +456,7 @@ fun SignUpScreen(
                         showSuccessDialog = false
                         val encodedEmail = Uri.encode(signupEmail)
                         navController.navigate("otp/$encodedEmail/$generatedOtp") {
-                            popUpTo("sign_up") { inclusive = true }
+                            popUpTo(SIGN_UP) { inclusive = true }
                         }
                     }
                 ) {

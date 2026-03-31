@@ -38,6 +38,8 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.DASHBOARD
+import com.assignments.stockmarket.navigation.Routes.WELCOME
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import kotlinx.coroutines.delay
 
@@ -103,8 +105,8 @@ fun WelcomeScreen(navController: NavController) {
 
         // Wait remaining time then navigate to dashboard (total ~4s)
         delay(2000)
-        navController.navigate("dashboard") {
-            popUpTo("welcome") { inclusive = true }
+        navController.navigate(DASHBOARD) {
+            popUpTo(WELCOME) { inclusive = true }
         }
     }
 

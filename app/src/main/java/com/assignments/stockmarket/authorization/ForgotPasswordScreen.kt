@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.forgotPasswordApi
+import com.assignments.stockmarket.navigation.Routes.FORGOT_PASSWORD
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import kotlinx.coroutines.launch
@@ -140,7 +141,7 @@ fun ForgotPasswordScreen(
                                 navController.navigate(
                                     "otp/$encodedIdentifier/${result.otp}?isForgotPassword=true"
                                 ) {
-                                    popUpTo("forgot_password") { inclusive = true }
+                                    popUpTo(FORGOT_PASSWORD) { inclusive = true }
                                 }
                             } else {
                                 apiError = result.message

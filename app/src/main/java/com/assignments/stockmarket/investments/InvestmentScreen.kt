@@ -32,6 +32,8 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.investments.components.AmountBox
 import com.assignments.stockmarket.investments.components.LetterCircle
 import com.assignments.stockmarket.investments.components.NumberKeypad
+import com.assignments.stockmarket.navigation.Routes.LOGIN
+import com.assignments.stockmarket.navigation.Routes.SEARCH
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
@@ -58,8 +60,8 @@ fun InvestmentScreen(navController: NavController) {
                 BottomBarButtons(
                     stringResource(R.string.action_add_to_wallet),
                     stringResource(R.string.action_invest_now),
-                    { navController.navigate("login") },
-                    { navController.navigate("search") },
+                    { navController.navigate(LOGIN) },
+                    { navController.navigate(SEARCH) },
                 )
             }
         }

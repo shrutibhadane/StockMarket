@@ -29,6 +29,9 @@ import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.graph.ScrollableCandleChart
 import com.assignments.stockmarket.graph.candles
+import com.assignments.stockmarket.navigation.Routes.DASHBOARD
+import com.assignments.stockmarket.navigation.Routes.INVESTMENT_AMOUNT
+import com.assignments.stockmarket.navigation.Routes.SEARCH
 import com.assignments.stockmarket.reusables.InvestmentsCard
 import com.assignments.stockmarket.reusables.MFImageBar
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
@@ -44,8 +47,8 @@ fun MutualFundsScreen(navController: NavController) {
             BottomBarButtons(
                 "One-Time",
                 "Start SIP",
-                { navController.navigate("investment_amount") },
-                { navController.navigate("search") },
+                { navController.navigate(INVESTMENT_AMOUNT) },
+                { navController.navigate(SEARCH) },
             )
         }
 
@@ -188,7 +191,7 @@ fun MutualFundsScreen(navController: NavController) {
             InvestmentsCard(
                 investedValue = "Rs. 3,000",
                 totalReturns = "-3.12%",
-                arrowClick = { navController.navigate("dashboard") }
+                arrowClick = { navController.navigate(DASHBOARD) }
             )
         }
     }

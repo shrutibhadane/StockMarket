@@ -55,6 +55,7 @@ import com.assignments.stockmarket.db.CompanyRepository
 import com.assignments.stockmarket.graph.Candle
 import com.assignments.stockmarket.graph.LiveCandleManager
 import com.assignments.stockmarket.graph.ScrollableCandleChart
+import com.assignments.stockmarket.navigation.Routes.DASHBOARD
 import com.assignments.stockmarket.reusables.InvestmentsCard
 import com.assignments.stockmarket.reusables.MFImageBar
 import com.assignments.stockmarket.reusables.SliderOverlay
@@ -450,7 +451,7 @@ fun BuyStockScreen(
                 InvestmentsCard(
                     investedValue = stock?.investedAmount?.toString() ?: "—",
                     totalReturns = stock?.totalReturns?.toString() ?: "—",
-                    arrowClick = { navController.navigate("dashboard") }
+                    arrowClick = { navController.navigate(DASHBOARD) }
                 )
 
                 // ── Confirmed Qty Badge(s) below Invested section ──

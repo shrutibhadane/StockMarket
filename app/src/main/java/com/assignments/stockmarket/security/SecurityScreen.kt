@@ -21,6 +21,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.ACTIVE_DEVICES
+import com.assignments.stockmarket.navigation.Routes.CHANGE_PASSWORD
+import com.assignments.stockmarket.navigation.Routes.LOGIN
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.dialogs.LogoutDialog
 import com.assignments.stockmarket.security.components.BiometricSwitchItem
@@ -53,7 +56,7 @@ fun SecurityScreen(navController: NavController) {
                     icon = Icons.Default.Lock,
                     title = stringResource(R.string.action_change_password),
                     onClick = {
-                        navController.navigate("change_password")
+                        navController.navigate(CHANGE_PASSWORD)
                     }
                 )
             }
@@ -68,7 +71,7 @@ fun SecurityScreen(navController: NavController) {
                 SecurityItem(
                     icon = Icons.Default.Devices,
                     title = stringResource(R.string.label_active_devices),
-                    onClick = { navController.navigate("active_devices") }
+                    onClick = { navController.navigate(ACTIVE_DEVICES)}
                 )
             }
 
@@ -100,7 +103,7 @@ fun SecurityScreen(navController: NavController) {
                 ).show()
 
                 // 👉 Navigate to login screen
-                navController.navigate("login") {
+                navController.navigate(LOGIN) {
                     popUpTo(0)
                 }
             },

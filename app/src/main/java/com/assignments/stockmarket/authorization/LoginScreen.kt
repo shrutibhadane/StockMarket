@@ -39,6 +39,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.authenticateUser
+import com.assignments.stockmarket.navigation.Routes.FORGOT_PASSWORD
+import com.assignments.stockmarket.navigation.Routes.LOGIN
+import com.assignments.stockmarket.navigation.Routes.SIGN_UP
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.sendOtpApi
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
@@ -133,7 +136,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .align(Alignment.End)
                     .clickable {
-                        navController.navigate("forgot_password")
+                        navController.navigate(FORGOT_PASSWORD)
                     }
             )
 
@@ -174,7 +177,7 @@ fun LoginScreen(
                                     onLoginClick()
                                     val encodedEmail = Uri.encode(username.trim())
                                     navController.navigate("otp/$encodedEmail/$otp") {
-                                        popUpTo("login") { inclusive = true }
+                                        popUpTo(LOGIN) { inclusive = true }
                                     }
                                 } else {
                                     authError = otpSentFailedMessage
@@ -227,7 +230,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .padding(bottom = 20.dp)
                     .clickable {
-                        navController.navigate("sign_up")
+                        navController.navigate(SIGN_UP)
                     }
             )
         }

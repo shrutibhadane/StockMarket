@@ -25,6 +25,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.db.CompanyRepository
+import com.assignments.stockmarket.navigation.Routes.ABOUT
+import com.assignments.stockmarket.navigation.Routes.LOGIN
+import com.assignments.stockmarket.navigation.Routes.NOTIFICATIONS_SETTINGS
+import com.assignments.stockmarket.navigation.Routes.PROFILE
+import com.assignments.stockmarket.navigation.Routes.SECURITY_AND_LOGIN
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.dialogs.LogoutDialog
 import com.assignments.stockmarket.settings.components.SettingsItem
@@ -62,7 +67,7 @@ fun SettingsScreen(navController: NavController) {
                         icon = Icons.Default.Person,
                         title = stringResource(R.string.section_profile),
                         onClick = {
-                            navController.navigate("profile")
+                            navController.navigate(PROFILE)
                         }
                     )
                 }
@@ -72,7 +77,7 @@ fun SettingsScreen(navController: NavController) {
                         icon = Icons.Default.Notifications,
                         title = stringResource(R.string.section_notifications),
                         onClick = {
-                            navController.navigate("notification_settings")
+                            navController.navigate(NOTIFICATIONS_SETTINGS)
                         }
                     )
                 }
@@ -82,7 +87,7 @@ fun SettingsScreen(navController: NavController) {
                         icon = Icons.Default.Security,
                         title = stringResource(R.string.section_security),
                         onClick = {
-                            navController.navigate("security_and_login")
+                            navController.navigate(SECURITY_AND_LOGIN)
                         }
                     )
                 }
@@ -112,7 +117,7 @@ fun SettingsScreen(navController: NavController) {
                         icon = Icons.Default.Help,
                         title = stringResource(R.string.section_about),
                         onClick = {
-                            navController.navigate("about")
+                            navController.navigate(ABOUT)
                         }
                     )
                 }
@@ -142,7 +147,7 @@ fun SettingsScreen(navController: NavController) {
             // Clear Paper credentials
             Paper.book().destroy()
 
-            navController.navigate("login") {
+            navController.navigate(LOGIN) {
                 popUpTo(0) { inclusive = true }
             }
         },

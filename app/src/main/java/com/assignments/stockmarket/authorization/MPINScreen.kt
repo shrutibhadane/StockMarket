@@ -42,6 +42,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.DASHBOARD
+import com.assignments.stockmarket.navigation.Routes.MPIN
+import com.assignments.stockmarket.navigation.Routes.MPIN_FINGER_PRINT
+import com.assignments.stockmarket.navigation.Routes.MPIN_RESET
+import com.assignments.stockmarket.navigation.Routes.MPIN_VERIFY
+import com.assignments.stockmarket.navigation.Routes.WELCOME
 import com.assignments.stockmarket.reusables.OTPInput
 import com.assignments.stockmarket.sendOtpApi
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
@@ -245,8 +251,8 @@ fun MPINScreen (
                                     withContext(Dispatchers.IO) {
                                         Paper.book().write("last_login_time", System.currentTimeMillis())
                                     }
-                                    navController.navigate("dashboard") {
-                                        popUpTo("mpin_verify") { inclusive = true }
+                                    navController.navigate(DASHBOARD) {
+                                        popUpTo(MPIN_VERIFY) { inclusive = true }
                                     }
                                 } else {
                                     wrongAttempts++
@@ -265,8 +271,8 @@ fun MPINScreen (
                                     Paper.book().write("user_mpin", enteredMpin)
                                     Paper.book().write("last_login_time", System.currentTimeMillis())
                                 }
-                                navController.navigate("dashboard") {
-                                    popUpTo("mpin_reset") { inclusive = true }
+                                navController.navigate(DASHBOARD) {
+                                    popUpTo(MPIN_RESET) { inclusive = true }
                                 }
                             }
                         } else {
@@ -276,8 +282,8 @@ fun MPINScreen (
                                     Paper.book().write("user_mpin", enteredMpin)
                                     Paper.book().write("last_login_time", System.currentTimeMillis())
                                 }
-                                navController.navigate("welcome") {
-                                    popUpTo("mpin") { inclusive = true }
+                                navController.navigate(WELCOME) {
+                                    popUpTo(MPIN) { inclusive = true }
                                 }
                             }
                         }
@@ -334,7 +340,7 @@ fun MPINScreen (
                 modifier = Modifier
                     .padding(bottom = 24.dp)
                     .clickable {
-                        navController.navigate("mpin_finger_print")
+                        navController.navigate(MPIN_FINGER_PRINT)
                     }
             )
 

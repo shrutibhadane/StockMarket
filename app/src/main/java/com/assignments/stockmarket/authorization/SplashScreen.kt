@@ -20,6 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.DASHBOARD
+import com.assignments.stockmarket.navigation.Routes.LOGIN
+import com.assignments.stockmarket.navigation.Routes.MPIN
+import com.assignments.stockmarket.navigation.Routes.MPIN_VERIFY
+import com.assignments.stockmarket.navigation.Routes.SPLASH
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import io.paperdb.Paper
 import kotlinx.coroutines.Dispatchers
@@ -42,8 +47,8 @@ fun SplashScreen(navController: NavController) {
 
         if (storedEmail.isNullOrEmpty()) {
             // No stored email → user has not verified yet → go to login
-            navController.navigate("login") {
-                popUpTo("splash") { inclusive = true }
+            navController.navigate(LOGIN) {
+                popUpTo(SPLASH) { inclusive = true }
             }
         } else {
             // Email exists → user already verified via OTP, skip login/signup
@@ -60,19 +65,19 @@ fun SplashScreen(navController: NavController) {
 
                 if (hoursSinceLastLogin < 24 && lastLoginTime > 0L) {
                     // Last login within 24 hours → go directly to dashboard
-                    navController.navigate("dashboard") {
-                        popUpTo("splash") { inclusive = true }
+                    navController.navigate(DASHBOARD) {
+                        popUpTo(SPLASH) { inclusive = true }
                     }
                 } else {
                     // Last login expired (>24 hours) → re-authorize MPIN
-                    navController.navigate("mpin_verify") {
-                        popUpTo("splash") { inclusive = true }
+                    navController.navigate(MPIN_VERIFY) {
+                        popUpTo(SPLASH) { inclusive = true }
                     }
                 }
             } else {
                 // No MPIN set yet → go to MPIN setup screen
-                navController.navigate("mpin") {
-                    popUpTo("splash") { inclusive = true }
+                navController.navigate(MPIN) {
+                    popUpTo(SPLASH) { inclusive = true }
                 }
             }
         }

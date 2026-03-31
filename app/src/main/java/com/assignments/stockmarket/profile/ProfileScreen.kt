@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.navigation.Routes.HELP_AND_SUPPORT
+import com.assignments.stockmarket.navigation.Routes.REFER_AND_EARN
 import com.assignments.stockmarket.profile.components.BalanceCard
 import com.assignments.stockmarket.profile.components.BottomInfoRow
 import com.assignments.stockmarket.profile.components.ProfileHeader
@@ -75,12 +77,15 @@ fun ProfileScreen(navController: NavController) {
             ProfileMenuItem(icon = Icons.Default.Star, title = stringResource(R.string.action_refer),
                 actionText = stringResource(
                     R.string.action_invite
-                )
-            )
+                ),
+                onClick = {
+                    navController.navigate(REFER_AND_EARN)
+                })
+
 
             ProfileMenuItem(Icons.Default.SupportAgent, stringResource(R.string.section_help),
                 onClick = {
-                    navController.navigate("help_support")
+                    navController.navigate(HELP_AND_SUPPORT)
                 })
             ProfileMenuItem(Icons.Default.Report, stringResource(R.string.action_reports))
 
