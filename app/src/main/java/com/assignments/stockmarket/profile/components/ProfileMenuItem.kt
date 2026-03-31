@@ -1,6 +1,7 @@
 package com.assignments.stockmarket.profile.components
 
 import android.content.Intent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -34,7 +35,8 @@ import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 fun ProfileMenuItem(
     icon: ImageVector,
     title: String,
-    actionText: String? = null
+    actionText: String? = null,
+    onClick: (() -> Unit)? = null
 ) {
 
     val context = LocalContext.current
@@ -47,6 +49,7 @@ fun ProfileMenuItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { onClick?.invoke() }
                 .padding(vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

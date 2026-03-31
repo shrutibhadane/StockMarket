@@ -28,6 +28,41 @@ import com.assignments.stockmarket.funds_payments.FundsPaymentsScreen
 import com.assignments.stockmarket.help_support.HelpSupportScreen
 import com.assignments.stockmarket.investments.InvestmentScreen
 import com.assignments.stockmarket.kyc_verification.KYCScreen
+import com.assignments.stockmarket.navigation.Routes.ABOUT
+import com.assignments.stockmarket.navigation.Routes.ACTIVE_DEVICES
+import com.assignments.stockmarket.navigation.Routes.ALL_STOCKS
+import com.assignments.stockmarket.navigation.Routes.BUY_STOCK
+import com.assignments.stockmarket.navigation.Routes.BUY_STOCK_NAME
+import com.assignments.stockmarket.navigation.Routes.CHANGE_PASSWORD
+import com.assignments.stockmarket.navigation.Routes.DASHBOARD
+import com.assignments.stockmarket.navigation.Routes.EXPLORE
+import com.assignments.stockmarket.navigation.Routes.FAndQ
+import com.assignments.stockmarket.navigation.Routes.FORGOT_PASSWORD
+import com.assignments.stockmarket.navigation.Routes.FUNDS_AND_PAYMENTS
+import com.assignments.stockmarket.navigation.Routes.HELP_AND_SUPPORT
+import com.assignments.stockmarket.navigation.Routes.HOLDINGS
+import com.assignments.stockmarket.navigation.Routes.INVESTMENT_AMOUNT
+import com.assignments.stockmarket.navigation.Routes.KYC
+import com.assignments.stockmarket.navigation.Routes.LOANS
+import com.assignments.stockmarket.navigation.Routes.LOGIN
+import com.assignments.stockmarket.navigation.Routes.MPIN
+import com.assignments.stockmarket.navigation.Routes.MPIN_FINGER_PRINT
+import com.assignments.stockmarket.navigation.Routes.MPIN_RESET
+import com.assignments.stockmarket.navigation.Routes.MPIN_VERIFY
+import com.assignments.stockmarket.navigation.Routes.MUTUAL_FUNDS
+import com.assignments.stockmarket.navigation.Routes.NOTIFICATIONS_SETTINGS
+import com.assignments.stockmarket.navigation.Routes.ORDERS
+import com.assignments.stockmarket.navigation.Routes.POSITIONS
+import com.assignments.stockmarket.navigation.Routes.PROFILE
+import com.assignments.stockmarket.navigation.Routes.REPORTS
+import com.assignments.stockmarket.navigation.Routes.RESET_PASSWORD
+import com.assignments.stockmarket.navigation.Routes.SEARCH
+import com.assignments.stockmarket.navigation.Routes.SECURITY_AND_LOGIN
+import com.assignments.stockmarket.navigation.Routes.SETTINGS
+import com.assignments.stockmarket.navigation.Routes.SIGN_UP
+import com.assignments.stockmarket.navigation.Routes.SPLASH
+import com.assignments.stockmarket.navigation.Routes.UPI
+import com.assignments.stockmarket.navigation.Routes.WELCOME
 import com.assignments.stockmarket.notifications.NotificationSettingsScreen
 import com.assignments.stockmarket.profile.ProfileScreen
 import com.assignments.stockmarket.reports_statements.ReportsScreen
@@ -46,37 +81,37 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = "splash"
+        startDestination = SPLASH
     ) {
-        composable("splash") {
+        composable(SPLASH) {
             SplashScreen(navController)
         }
 
-        composable("login") {
+        composable(LOGIN) {
             LoginScreen(navController)
         }
 
-        composable("forgot_password") {
+        composable(FORGOT_PASSWORD) {
             ForgotPasswordScreen(navController)
         }
 
-        composable("sign_up") {
+        composable(SIGN_UP) {
             SignUpScreen(navController)
         }
 
-        composable("mpin") {
+        composable(MPIN) {
             MPINScreen(navController)
         }
 
-        composable("mpin_verify") {
+        composable(MPIN_VERIFY) {
             MPINScreen(navController, isVerifyMode = true)
         }
 
-        composable("mpin_reset") {
+        composable(MPIN_RESET) {
             MPINScreen(navController, isResetMode = true)
         }
 
-        composable("welcome") {
+        composable(WELCOME) {
             WelcomeScreen(navController)
         }
 
@@ -108,12 +143,12 @@ fun AppNavigation() {
             )
         }
 
-        composable("mpin_finger_print") {
+        composable(MPIN_FINGER_PRINT) {
             MPINFingerPrintScreen(navController)
         }
 
         composable(
-            route = "reset_password/{identifier}",
+            route = RESET_PASSWORD,
             arguments = listOf(
                 navArgument("identifier") { type = NavType.StringType }
             )
@@ -125,32 +160,32 @@ fun AppNavigation() {
             )
         }
 
-        composable("dashboard") {
+        composable(DASHBOARD) {
             DashboardScreen(navController)
         }
 
-        composable("search") {
+        composable(SEARCH) {
             SearchScreen(navController)
         }
 
-        composable("f_and_o") {
+        composable(FAndQ) {
             FAndQScreen(navController)
         }
 
-        composable("mutual_funds") {
+        composable(MUTUAL_FUNDS) {
             MutualFundsScreen(navController)
         }
 
-        composable("upi") {
+        composable(UPI) {
             UPIScreen(navController)
         }
 
-        composable("loans") {
+        composable(LOANS) {
             LoansScreen(navController)
         }
 
         composable(
-            route = "buy_stock/{stockId}"
+            route = BUY_STOCK
         ) { backStackEntry ->
 
             val stockId = backStackEntry.arguments?.getString("stockId")?.toInt() ?: 0
@@ -162,7 +197,7 @@ fun AppNavigation() {
         }
 
         composable(
-            route = "buy_stock_name/{stockName}",
+            route = BUY_STOCK_NAME,
             arguments = listOf(
                 navArgument("stockName") { type = NavType.StringType }
             )
@@ -175,73 +210,74 @@ fun AppNavigation() {
             )
         }
 
-        composable("all_stocks") {
+        composable(ALL_STOCKS) {
             AllStocksScreen(navController)
         }
 
-        composable("explore") {
+        composable(EXPLORE) {
             ExploreScreen(navController)
         }
 
-        composable("holdings") {
+        composable(HOLDINGS) {
             HoldingsScreen(navController)
         }
 
-        composable("positions") {
+        composable(POSITIONS) {
             PositionsScreen(navController)
         }
 
-        composable("orders") {
+        composable(ORDERS) {
             OrdersScreen(navController)
         }
 
-        composable("investment_amount") {
+        composable(INVESTMENT_AMOUNT) {
             InvestmentScreen(navController)
         }
 
-        composable("profile") {
+        composable(PROFILE) {
             ProfileScreen(navController)
         }
 
-        composable("settings") {
+        composable(SETTINGS) {
             SettingsScreen(navController)
         }
 
-        composable("notification_settings") {
+        composable(NOTIFICATIONS_SETTINGS) {
             NotificationSettingsScreen(navController)
         }
 
-        composable("security_and_login") {
+        composable(SECURITY_AND_LOGIN) {
             SecurityScreen(navController)
         }
 
-        composable("change_password") {
+        composable(CHANGE_PASSWORD) {
             ChangePasswordScreen(navController)
         }
 
-        composable("about") {
+        composable(ABOUT) {
             AboutScreen(navController)
         }
 
-        composable("help_support") {
+        composable(HELP_AND_SUPPORT) {
             HelpSupportScreen(navController)
         }
 
-        composable("funds_payments") {
+        composable(FUNDS_AND_PAYMENTS) {
             FundsPaymentsScreen(navController)
         }
 
-        composable("reports") {
+        composable(REPORTS) {
             ReportsScreen(navController)
         }
 
-        composable("active_devices") {
+        composable(ACTIVE_DEVICES) {
             ActiveDevicesScreen(navController)
         }
 
-        composable("kyc") {
+        composable(KYC) {
             KYCScreen(navController)
         }
+
 
     }
 }

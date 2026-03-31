@@ -78,7 +78,10 @@ fun ProfileScreen(navController: NavController) {
                 )
             )
 
-            ProfileMenuItem(Icons.Default.SupportAgent, stringResource(R.string.label_support_24x7))
+            ProfileMenuItem(Icons.Default.SupportAgent, stringResource(R.string.section_help),
+                onClick = {
+                    navController.navigate("help_support")
+                })
             ProfileMenuItem(Icons.Default.Report, stringResource(R.string.action_reports))
 
             Spacer(modifier = Modifier.weight(1f))

@@ -119,16 +119,6 @@ fun SettingsScreen(navController: NavController) {
 
                 item {
                     SettingsItem(
-                        icon = Icons.Default.Help,
-                        title = stringResource(R.string.section_help),
-                        onClick = {
-                            navController.navigate("help_support")
-                        }
-                    )
-                }
-
-                item {
-                    SettingsItem(
                         icon = Icons.Default.Logout,
                         title = stringResource(R.string.action_logout),
                         onClick = { showLogoutDialog = true }
