@@ -47,6 +47,7 @@ fun ReferAndEarnScreen(navController: NavController) {
         topBar = {
             AppBarBackArrow(
                 navController,
+                title = stringResource(R.string.action_refer)
             )
         },
     ) { innerPadding ->

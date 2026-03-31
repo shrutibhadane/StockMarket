@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Report
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -26,9 +27,11 @@ import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.db.CompanyRepository
 import com.assignments.stockmarket.navigation.Routes.ABOUT
+import com.assignments.stockmarket.navigation.Routes.FUNDS_AND_PAYMENTS
 import com.assignments.stockmarket.navigation.Routes.LOGIN
 import com.assignments.stockmarket.navigation.Routes.NOTIFICATIONS_SETTINGS
 import com.assignments.stockmarket.navigation.Routes.PROFILE
+import com.assignments.stockmarket.navigation.Routes.REPORTS
 import com.assignments.stockmarket.navigation.Routes.SECURITY_AND_LOGIN
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.dialogs.LogoutDialog
@@ -98,15 +101,19 @@ fun SettingsScreen(navController: NavController) {
                     SettingsItem(
                         icon = Icons.Default.AccountBalanceWallet,
                         title = stringResource(R.string.section_funds),
-                        onClick = { }
+                        onClick = {
+                            navController.navigate(FUNDS_AND_PAYMENTS)
+                        }
                     )
                 }
 
                 item {
                     SettingsItem(
-                        icon = Icons.Default.Help,
+                        icon = Icons.Default.Report,
                         title = stringResource(R.string.section_reports),
-                        onClick = { }
+                        onClick = {
+                            navController.navigate(REPORTS)
+                        }
                     )
                 }
 

@@ -39,6 +39,7 @@ fun ProfileScreen(navController: NavController) {
         topBar = {
             AppBarBackArrow(
                 navController,
+                title = stringResource(R.string.section_profile),
                 showSettings = true,
             )
         },
@@ -87,7 +88,6 @@ fun ProfileScreen(navController: NavController) {
                 onClick = {
                     navController.navigate(HELP_AND_SUPPORT)
                 })
-            ProfileMenuItem(Icons.Default.Report, stringResource(R.string.action_reports))
 
             Spacer(modifier = Modifier.weight(1f))
 
