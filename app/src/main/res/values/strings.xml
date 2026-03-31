@@ -193,4 +193,19 @@
     <string name="label_review_details">Review Details</string>
     <string name="action_submit_kyc">Submit KYC</string>
 
+    <!-- Refer And Earn Screen-->
+    <string name="refer_earn_500"><![CDATA[Refer & Earn ₹500]]></string>
+    <string name="shruti123">SHRUTI123</string>
+    <string name="invite_your_friends_and_earn_rewards_when_they_start_investing">Invite your friends and earn rewards when they start investing.</string>
+    <string name="your_earnings">Your Earnings</string>
+    <string name="_1200_earned">₹1200 earned</string>
+    <string name="copy">Copy</string>
+    <string name="referral_code">Referral Code</string>
+    <string name="share_your_referral_code_with_friends">Share your referral code with friends</string>
+    <string name="friend_signs_up_using_your_code">Friend signs up using your code</string>
+    <string name="you_both_earn_rewards">You both earn rewards</string>
+    <string name="how_it_works">How it works</string>
+    <string name="invite_friends">Invite Friends</string>
+    <string name="share_via">Share via</string>
+
 </resources>

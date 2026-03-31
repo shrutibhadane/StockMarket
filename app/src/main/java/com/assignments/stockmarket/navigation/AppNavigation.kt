@@ -63,8 +63,10 @@ import com.assignments.stockmarket.navigation.Routes.SIGN_UP
 import com.assignments.stockmarket.navigation.Routes.SPLASH
 import com.assignments.stockmarket.navigation.Routes.UPI
 import com.assignments.stockmarket.navigation.Routes.WELCOME
+import com.assignments.stockmarket.navigation.Routes.REFER_AND_EARN
 import com.assignments.stockmarket.notifications.NotificationSettingsScreen
 import com.assignments.stockmarket.profile.ProfileScreen
+import com.assignments.stockmarket.refer_and_earn.ReferAndEarnScreen
 import com.assignments.stockmarket.reports_statements.ReportsScreen
 import com.assignments.stockmarket.search.SearchScreen
 import com.assignments.stockmarket.security.SecurityScreen
@@ -278,6 +280,9 @@ fun AppNavigation() {
             KYCScreen(navController)
         }
 
+        composable(REFER_AND_EARN) {
+            ReferAndEarnScreen(navController)
+        }
 
     }
 }
