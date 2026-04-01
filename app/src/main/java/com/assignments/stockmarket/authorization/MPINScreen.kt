@@ -176,13 +176,13 @@ fun MPINScreen (
                     if (isLoading) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(24.dp),
-                            color = Color.White,
+                            color = colorResource(R.color.white),
                             strokeWidth = 2.dp
                         )
                     } else {
                         Text(
                             text = "Reset MPIN",
-                            color = Color.White,
+                            color = colorResource(R.color.white),
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp

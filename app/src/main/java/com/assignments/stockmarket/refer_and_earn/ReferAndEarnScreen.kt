@@ -92,7 +92,7 @@ fun ReferAndEarnScreen(navController: NavController) {
             // 💰 Earnings
             Text(
                 text = stringResource(R.string.your_earnings),
-                color = Color.White,
+                color = colorResource(R.color.white),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )

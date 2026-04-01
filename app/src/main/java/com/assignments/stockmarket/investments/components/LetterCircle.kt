@@ -29,7 +29,7 @@ fun LetterCircle(letter: String) {
     ) {
         Text(
             text = letter,
-            color = Color.White,
+            color = colorResource(R.color.white),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             lineHeight = 20.sp,

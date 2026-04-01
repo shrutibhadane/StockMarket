@@ -60,7 +60,7 @@ fun SearchScreen(
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                color = Color.White,
+                color = colorResource(R.color.white),
                 modifier = Modifier
                     .padding(16.dp),
                 textAlign = TextAlign.Center

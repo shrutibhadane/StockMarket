@@ -146,7 +146,7 @@ fun WelcomeScreen(navController: NavController) {
             ) {
                 Text(
                     text = "Welcome",
-                    color = Color.White,
+                    color = colorResource(R.color.white),
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 40.sp,
@@ -188,7 +188,7 @@ fun WelcomeScreen(navController: NavController) {
             ) {
                 Text(
                     text = "Trade Sphere",
-                    color = Color.White,
+                    color = colorResource(R.color.white),
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 36.sp,

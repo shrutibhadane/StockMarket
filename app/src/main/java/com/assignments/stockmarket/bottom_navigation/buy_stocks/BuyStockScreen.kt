@@ -556,7 +556,7 @@ private fun ConfirmedQtyBadge(
             ) {
                 Text(
                     text = qty.toString(),
-                    color = Color.White,
+                    color = colorResource(R.color.white),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFamily

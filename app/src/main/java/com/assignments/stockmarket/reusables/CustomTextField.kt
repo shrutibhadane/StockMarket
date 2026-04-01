@@ -50,7 +50,7 @@ fun CustomTextField(
             placeholder = {
                 Text(
                     text = placeholder,
-                    color = Color.White,
+                    color = colorResource(R.color.white),
                     fontWeight = FontWeight.Bold,
                 )
             },
@@ -84,19 +84,19 @@ fun CustomTextField(
                 focusedContainerColor = colorResource(R.color.bg_text_field),
                 unfocusedBorderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,
-                cursorColor = Color.White,
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
+                cursorColor = colorResource(R.color.white),
+                focusedTextColor = colorResource(R.color.white),
+                unfocusedTextColor = colorResource(R.color.white),
                 errorBorderColor = Color.Transparent,
                 errorContainerColor = colorResource(R.color.bg_text_field),
-                errorCursorColor = Color.White,
-                errorTextColor = Color.White,
+                errorCursorColor = colorResource(R.color.white),
+                errorTextColor = colorResource(R.color.white),
             )
         )
         if (errorMessage != null) {
             Text(
                 text = errorMessage,
-                color = Color.White,
+                color = colorResource(R.color.white),
                 fontSize = 12.sp,
                 modifier = Modifier
             )

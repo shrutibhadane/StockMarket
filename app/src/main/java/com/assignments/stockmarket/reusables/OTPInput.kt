@@ -16,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.assignments.stockmarket.R
 
 @Composable
 fun OTPInput(
@@ -72,7 +74,7 @@ fun OTPInput(
                     keyboardType = KeyboardType.Number
                 ),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.White,
+                    focusedBorderColor = colorResource(R.color.white),
                     unfocusedBorderColor = Color.White.copy(alpha = 0.6f),
                     focusedContainerColor = Color(0xFF2C3A59),
                     unfocusedContainerColor = Color(0xFF2C3A59),

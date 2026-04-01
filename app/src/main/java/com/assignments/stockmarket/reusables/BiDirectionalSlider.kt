@@ -285,7 +285,7 @@ fun SliderOverlay(
                 // ── Qty label ──
                 Text(
                     text = "Qty: ${value.roundToInt()}",
-                    color = Color.White,
+                    color = colorResource(R.color.white),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = PoppinsFamily,
@@ -305,7 +305,7 @@ fun SliderOverlay(
                 ) {
                     Text(
                         text = "Confirm",
-                        color = Color.White,
+                        color = colorResource(R.color.white),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = PoppinsFamily

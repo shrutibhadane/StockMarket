@@ -124,7 +124,7 @@ private fun OtpVerificationContent(
             // OTP
             Text(
                 text = stringResource(R.string.label_otp),
-                color = Color.White,
+                color = colorResource(R.color.white),
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
@@ -246,7 +246,7 @@ private fun OtpVerificationContent(
                     .size(86.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.bg_button_primary))
-                    .border(2.dp, Color.White, CircleShape)
+                    .border(2.dp, colorResource(R.color.white), CircleShape)
                     .clickable {
                         if (isLoading) return@clickable
 
@@ -300,7 +300,7 @@ private fun OtpVerificationContent(
                 if (isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(32.dp),
-                        color = Color.White,
+                        color = colorResource(R.color.white),
                         strokeWidth = 3.dp
                     )
                 } else {

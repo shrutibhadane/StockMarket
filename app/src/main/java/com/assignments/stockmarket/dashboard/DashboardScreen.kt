@@ -278,7 +278,7 @@ fun DashboardScreen(
                                     TickConnectionState.FALLBACK -> {
                                         Text(
                                             text = "Live",
-                                            color = Color.White,
+                                            color = colorResource(R.color.white),
                                             fontSize = 11.sp,
                                             fontFamily = PoppinsFamily,
                                             fontWeight = FontWeight.SemiBold
@@ -455,7 +455,7 @@ fun MarketCard(
     change: String,
     isPositive: Boolean,
     modifier: Modifier = Modifier,
-    borderColor: Color = Color.White,
+    borderColor: Color = colorResource(R.color.white),
 ) {
     val changeColor = if (isPositive) colorResource(R.color.text_success_light)
     else colorResource(R.color.text_error)
