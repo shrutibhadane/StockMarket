@@ -67,7 +67,8 @@ fun PasswordField(
                 onClick = { passwordVisible = !passwordVisible }
             ) {
                 Icon(
-                    icon, contentDescription = stringResource(R.string.action_toggle_password),
+                    icon,
+                    contentDescription = stringResource(R.string.action_toggle_password),
                     tint = colorResource(R.color.white)
                 )
             }

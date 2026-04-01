@@ -68,7 +68,7 @@ fun CustomTextField(
                     val description = if (passwordVisible) "Hide password" else "Show password"
 
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, contentDescription = description, tint = Color.White)
+                        Icon(imageVector = image, contentDescription = description, tint = colorResource(R.color.white))
                     }
                 }
             },

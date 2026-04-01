@@ -100,7 +100,7 @@ fun InvestmentsCard(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_right_arrow), // your right arrow icon
                     contentDescription = "Go",
-                    tint = Color.White,
+                    tint = colorResource(R.color.white),
                     modifier = Modifier.size(24.dp)
                     .clickable { arrowClick() }, // dynamic click
 

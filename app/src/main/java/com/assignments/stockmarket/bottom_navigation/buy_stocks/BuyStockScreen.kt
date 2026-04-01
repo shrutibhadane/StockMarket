@@ -576,7 +576,7 @@ private fun ConfirmedQtyBadge(
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Remove",
-                    tint = Color.White,
+                    tint = colorResource(R.color.white),
                     modifier = Modifier.size(12.dp)
                 )
             }

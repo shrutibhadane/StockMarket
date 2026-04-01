@@ -307,7 +307,7 @@ private fun OtpVerificationContent(
                     Icon(
                         imageVector = Icons.Default.ArrowForward,
                         contentDescription = stringResource(R.string.label_otp),
-                        tint = Color.White,
+                        tint = colorResource(R.color.white),
                         modifier = Modifier.size(32.dp)
                     )
                 }

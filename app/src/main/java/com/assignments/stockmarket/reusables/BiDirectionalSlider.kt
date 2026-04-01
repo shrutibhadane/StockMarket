@@ -41,11 +41,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import kotlinx.coroutines.delay
 import kotlin.math.abs
@@ -250,7 +252,7 @@ fun SliderOverlay(
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Close",
-                    tint = Color.White,
+                    tint = colorResource(R.color.white),
                     modifier = Modifier.size(20.dp)
                 )
             }

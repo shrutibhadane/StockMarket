@@ -119,7 +119,7 @@ fun AppBarBackArrow(
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = "Settings",
-                        tint = Color.White,
+                        tint = colorResource(R.color.white),
                         modifier = Modifier.size(24.dp)
                     )
                 }
