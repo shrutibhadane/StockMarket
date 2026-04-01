@@ -45,6 +45,7 @@ import com.assignments.stockmarket.navigation.Routes.SIGN_UP
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.sendOtpApi
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import kotlinx.coroutines.launch
 
 @Composable
@@ -86,10 +87,7 @@ fun LoginScreen(
             // Login Title
             Text(
                 text = stringResource(R.string.action_login),
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = AppTextStyles.bold(24),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -129,10 +127,7 @@ fun LoginScreen(
             // Forget Password
             Text(
                 text = stringResource(R.string.label_forgot_password),
-                color = colorResource(R.color.text_primary),
-                fontSize = 15.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
+                style = AppTextStyles.bold(15, colorResource(R.color.text_primary)),
                 modifier = Modifier
                     .align(Alignment.End)
                     .clickable {
@@ -210,9 +205,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = authError.orEmpty(),
-                    color = Color.Red,
-                    fontSize = 14.sp,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.regular(14, colorResource(R.color.text_error)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -223,10 +216,7 @@ fun LoginScreen(
             // Bottom Text
             Text(
                 text = stringResource(R.string.msg_no_account),
-                color = colorResource(R.color.white),
-                fontSize = 12.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
+                style = AppTextStyles.bold(12),
                 modifier = Modifier
                     .padding(bottom = 20.dp)
                     .clickable {

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun SearchScreen(
@@ -57,10 +57,7 @@ fun SearchScreen(
         if (filteredItems.isEmpty()) {
             Text(
                 text = stringResource(R.string.msg_data_not_available),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                color = colorResource(R.color.white),
+                style = AppTextStyles.bold(16),
                 modifier = Modifier
                     .padding(16.dp),
                 textAlign = TextAlign.Center

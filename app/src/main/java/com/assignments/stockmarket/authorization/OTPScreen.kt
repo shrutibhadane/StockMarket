@@ -50,6 +50,7 @@ import com.assignments.stockmarket.reusables.OTPInput
 import com.assignments.stockmarket.sendOtpApi
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.assignments.stockmarket.updateStatusApi
+import com.assignments.stockmarket.utils.AppTextStyles
 import io.paperdb.Paper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -124,10 +125,7 @@ private fun OtpVerificationContent(
             // OTP
             Text(
                 text = stringResource(R.string.label_otp),
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = AppTextStyles.bold(24),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -168,22 +166,18 @@ private fun OtpVerificationContent(
                 val formatted = String.format("%02d:%02d", seconds / 60, seconds % 60)
                 Text(
                     text = "$formatted ${stringResource(R.string.label_seconds_left)}",
-                    color = colorResource(R.color.text_primary),
-                    fontSize = 15.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold
-                )
+                    style = AppTextStyles.bold(15, colorResource(R.color.text_primary)),
+                    )
 
                 // Resend button — active only when timer reaches 0
                 Text(
                     text = stringResource(R.string.action_resend_now),
+                    style = AppTextStyles.bold(15),
                     color = if (!timerRunning)
                         colorResource(R.color.text_primary)
                     else
                         colorResource(R.color.text_primary).copy(alpha = 0.4f),
-                    fontSize = 15.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
+
                     modifier = Modifier.clickable(enabled = !timerRunning && !isLoading) {
                         // Generate new OTP, call API, reset timer
                         isLoading = true
@@ -230,10 +224,7 @@ private fun OtpVerificationContent(
 
             Text(
                 text = stringResource(R.string.msg_otp_expiry),
-                fontSize = 15.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.text_primary),
+                style = AppTextStyles.bold(15, colorResource(R.color.text_primary)),
                 modifier = Modifier.padding(horizontal = 20.dp),
                 textAlign = TextAlign.Center
             )
@@ -318,9 +309,7 @@ private fun OtpVerificationContent(
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = otpError.orEmpty(),
-                    color = Color.Red,
-                    fontSize = 14.sp,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.regular(14, colorResource(R.color.text_error)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )

@@ -50,6 +50,7 @@ import com.assignments.stockmarket.navigation.Routes.LOGIN
 import com.assignments.stockmarket.resetPasswordApi
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import kotlinx.coroutines.launch
 
 @Composable
@@ -101,10 +102,7 @@ fun ResetPasswordScreen(
             // Reset Password Title
             Text(
                 text = stringResource(R.string.action_reset_password),
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = AppTextStyles.bold(24),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -265,9 +263,7 @@ fun ResetPasswordScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = apiError.orEmpty(),
-                    color = Color.Red,
-                    fontSize = 14.sp,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.regular(14, colorResource(R.color.text_error)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -284,17 +280,14 @@ fun ResetPasswordScreen(
             title = {
                 Text(
                     text = "Password Reset Successful! 🎉",
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
+                    style = AppTextStyles.bold(20, colorResource(R.color.text_success_light)),
+                    )
             },
             text = {
                 Text(
                     text = "Your password has been updated successfully. Please login with your new password.",
-                    fontFamily = PoppinsFamily,
-                    fontSize = 15.sp
-                )
+                    style = AppTextStyles.regular(14),
+                    )
             },
             confirmButton = {
                 TextButton(
@@ -307,10 +300,8 @@ fun ResetPasswordScreen(
                 ) {
                     Text(
                         text = "Ok",
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
-                    )
+                        style = AppTextStyles.bold(16),
+                        )
                 }
             }
         )
@@ -332,9 +323,8 @@ private fun ResetPasswordCriteriaRow(label: String, met: Boolean) {
         Spacer(modifier = Modifier.width(6.dp))
         Text(
             text = label,
+            style = AppTextStyles.regular(12),
             color = if (met) Color.Green else Color.Red,
-            fontSize = 12.sp,
-            fontFamily = PoppinsFamily
         )
     }
 }

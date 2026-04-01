@@ -19,6 +19,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.active_devices.Device
 import com.assignments.stockmarket.reusables.dialogs.LogoutDialog
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun DeviceItem(device: Device) {
@@ -57,35 +58,30 @@ fun DeviceItem(device: Device) {
                 Column {
                     Text(
                         text = device.name,
-                        fontSize = 14.sp,
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = colorResource(R.color.white)
-                    )
+                        style = AppTextStyles.bold(14)
+                        )
 
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = device.location,
-                        fontSize = 12.sp,
-                        fontFamily = PoppinsFamily,
-                        color = colorResource(R.color.white)
+                        style = AppTextStyles.regular(12)
                     )
 
                     Text(
                         text = device.lastActive,
-                        fontSize = 12.sp,
-                        fontFamily = PoppinsFamily,
-                        color = colorResource(R.color.bg_text_field)
+                        style = AppTextStyles.regular(12,
+                            colorResource(R.color.bg_text_field)
+                        )
                     )
                 }
 
                 if (device.isCurrent) {
                     Text(
-                        text = "This Device",
-                        color = colorResource(R.color.bg_button_secondary_light),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
+                        text = stringResource(R.string.this_device),
+                        style = AppTextStyles.bold(12,
+                            colorResource(R.color.bg_button_secondary_light)
+                        )
                     )
                 }
             }
@@ -108,10 +104,7 @@ fun DeviceItem(device: Device) {
                     ) {
                         Text(
                             text = stringResource(R.string.action_logout),
-                            fontFamily = PoppinsFamily,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = colorResource(R.color.white)
+                            style = AppTextStyles.bold(12)
                         )
                     }
                 }

@@ -208,4 +208,7 @@
     <string name="invite_friends">Invite Friends</string>
     <string name="share_via">Share via</string>
 
+    <!-- Active Devices -->
+    <string name="this_device">This Device</string>
+
 </resources>

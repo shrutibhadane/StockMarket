@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun MPINFingerPrintScreen(
@@ -58,10 +59,7 @@ fun MPINFingerPrintScreen(
             // MPIN
             Text(
                 text = stringResource(R.string.label_mpin),
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = AppTextStyles.bold(24),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -98,10 +96,7 @@ fun MPINFingerPrintScreen(
 
                     Text(
                         text = "Trade Sphere",
-                        color = colorResource(R.color.white),
-                        fontSize = 12.sp,
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold
+                        style = AppTextStyles.bold(12),
                     )
                 }
 
@@ -110,10 +105,7 @@ fun MPINFingerPrintScreen(
                 // Title
                 Text(
                     text = "Fingerprint Verification",
-                    color = colorResource(R.color.text_accent_blue),
-                    fontSize = 24.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.ExtraBold
+                    style = AppTextStyles.extraBold(24, colorResource(R.color.text_accent_blue))
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -121,10 +113,7 @@ fun MPINFingerPrintScreen(
                 // Subtitle
                 Text(
                     text = "Sign in using fingerprint",
-                    color = colorResource(R.color.white),
-                    fontSize = 12.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold
+                    style = AppTextStyles.bold(12)
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
@@ -139,20 +128,14 @@ fun MPINFingerPrintScreen(
 
                 Text(
                     text = "Scan your fingerprint",
-                    color = colorResource(R.color.white),
-                    fontSize = 12.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold
+                    style = AppTextStyles.bold(12)
                 )
 
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Text(
                     text = "Enter TradeSphere PIN",
-                    color = colorResource(R.color.text_accent_blue_light),
-                    fontSize = 20.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.ExtraBold
+                    style = AppTextStyles.extraBold(20, colorResource(R.color.text_accent_blue_light))
                 )
             }
         }

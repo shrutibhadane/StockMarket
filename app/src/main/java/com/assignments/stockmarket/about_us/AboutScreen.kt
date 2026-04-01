@@ -27,12 +27,12 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.about_us.components.AboutItem
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 
 @Composable
 fun AboutScreen(navController: NavController) {
 
-    val context = LocalContext.current
     val version = "1.1.1"
 
     Scaffold(
@@ -65,26 +65,20 @@ fun AboutScreen(navController: NavController) {
 
             Text(
                 text = stringResource(R.string.app_name),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = colorResource(R.color.white)
+                style = AppTextStyles.bold(18)
             )
 
             Text(
                 text = stringResource(R.string.label_version, version),
-                fontFamily = PoppinsFamily,
-                fontSize = 12.sp,
-                color = colorResource(R.color.white).copy(alpha = 0.7f)
+                style = AppTextStyles.regular(12,
+                        colorResource(R.color.white).copy(alpha = 0.7f))
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = stringResource(R.string.msg_about_app),
-                fontFamily = PoppinsFamily,
-                fontSize = 13.sp,
-                color = colorResource(R.color.white),
+                style = AppTextStyles.regular(13),
                 textAlign = TextAlign.Center
             )
 
@@ -117,10 +111,7 @@ fun AboutScreen(navController: NavController) {
 
             Text(
                 text = stringResource(R.string.label_copyright),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 12.sp,
-                color = colorResource(R.color.white).copy(alpha = 0.6f)
+                style = AppTextStyles.bold(12, colorResource(R.color.white).copy(alpha = 0.6f))
             )
         }
     }

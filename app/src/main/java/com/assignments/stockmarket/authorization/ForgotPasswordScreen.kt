@@ -42,6 +42,7 @@ import com.assignments.stockmarket.forgotPasswordApi
 import com.assignments.stockmarket.navigation.Routes.FORGOT_PASSWORD
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import kotlinx.coroutines.launch
 
 @Composable
@@ -78,10 +79,7 @@ fun ForgotPasswordScreen(
 
             Text(
                 text = stringResource(R.string.label_forgot_password),
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = AppTextStyles.bold(24),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -172,9 +170,7 @@ fun ForgotPasswordScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = apiError.orEmpty(),
-                    color = Color.Red,
-                    fontSize = 14.sp,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.regular(14, colorResource(R.color.text_error)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )

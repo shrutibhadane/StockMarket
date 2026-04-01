@@ -51,6 +51,7 @@ import com.assignments.stockmarket.navigation.Routes.WELCOME
 import com.assignments.stockmarket.reusables.OTPInput
 import com.assignments.stockmarket.sendOtpApi
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import io.paperdb.Paper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -98,10 +99,7 @@ fun MPINScreen (
                     isVerifyMode -> "Enter MPIN"
                     else -> stringResource(R.string.label_mpin)
                 },
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = AppTextStyles.bold(24),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -112,10 +110,7 @@ fun MPINScreen (
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Your session has expired. Please re-enter your MPIN to continue.",
-                    color = colorResource(R.color.text_primary),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 13.sp,
+                    style = AppTextStyles.regular(13, colorResource(R.color.text_primary)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -129,10 +124,7 @@ fun MPINScreen (
                 // Suspended state — hide input boxes, show message + reset button
                 Text(
                     text = "Due to multiple incorrect MPIN's, Your MPIN is suspended.",
-                    color = Color(0xFFFF6B6B),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 15.sp,
+                    style = AppTextStyles.semiBold(15, colorResource(R.color.text_error_light)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -182,11 +174,8 @@ fun MPINScreen (
                     } else {
                         Text(
                             text = "Reset MPIN",
-                            color = colorResource(R.color.white),
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
-                        )
+                            style = AppTextStyles.bold(16),
+                            )
                     }
                 }
 
@@ -195,9 +184,7 @@ fun MPINScreen (
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
                         text = mpinError.orEmpty(),
-                        color = Color.Red,
-                        fontSize = 14.sp,
-                        fontFamily = PoppinsFamily,
+                        style = AppTextStyles.regular(14, colorResource(R.color.text_error)),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -303,9 +290,7 @@ fun MPINScreen (
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = mpinError.orEmpty(),
-                    color = Color.Red,
-                    fontSize = 14.sp,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.regular(14, colorResource(R.color.text_error)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -335,8 +320,7 @@ fun MPINScreen (
 
             Text(
                 text = "Click here to enable biometric",
-                color = colorResource(R.color.white),
-                fontWeight = FontWeight.Bold,
+                style = AppTextStyles.bold(16),
                 modifier = Modifier
                     .padding(bottom = 24.dp)
                     .clickable {
