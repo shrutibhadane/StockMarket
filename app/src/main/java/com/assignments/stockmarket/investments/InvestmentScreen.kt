@@ -37,6 +37,7 @@ import com.assignments.stockmarket.navigation.Routes.SEARCH
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun InvestmentScreen(navController: NavController) {
@@ -79,11 +80,8 @@ fun InvestmentScreen(navController: NavController) {
         ) {
             Text(
                 text = stringResource(R.string.label_investment_amount),
-                color = colorResource(R.color.white),
-                fontSize = 10.sp,
                 lineHeight = 10.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
+                style = AppTextStyles.bold(10),
                 textAlign = TextAlign.Left,
             )
 
@@ -91,13 +89,10 @@ fun InvestmentScreen(navController: NavController) {
 
             Text(
                 text = stringResource(R.string.label_rs_symbol, amount),
-                color = colorResource(R.color.white),
-                fontSize = 30.sp,
                 lineHeight = 30.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Left,
-            )
+                style = AppTextStyles.bold(30),
+                )
 
             Spacer(modifier = Modifier.height(70.dp))
 
@@ -136,25 +131,19 @@ fun InvestmentScreen(navController: NavController) {
                 Column {
                     Text(
                         text = stringResource(R.string.label_selected_upi),
-                        color = colorResource(R.color.white),
-                        fontSize = 14.sp,
                         lineHeight = 14.sp,
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Left,
-                    )
+                        style = AppTextStyles.bold(14),
+                        )
 
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = stringResource(R.string.label_selected_bank),
-                        color = colorResource(R.color.white),
-                        fontSize = 10.sp,
                         lineHeight = 10.sp,
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Left,
-                    )
+                        style = AppTextStyles.bold(14),
+                        )
                 }
             }
 

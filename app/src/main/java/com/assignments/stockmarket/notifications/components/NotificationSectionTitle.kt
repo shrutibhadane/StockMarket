@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun NotificationSectionTitle(title: String) {
@@ -20,10 +21,9 @@ fun NotificationSectionTitle(title: String) {
 
     Text(
         text = title,
-        color = colorResource(R.color.bg_button_secondary_light),
-        fontFamily = PoppinsFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 14.sp,
+        style = AppTextStyles.bold(14,
+           colorResource(R.color.bg_button_secondary_light)
+        ),
         modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
     )
 }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import com.assignments.stockmarket.reports_statements.components.SearchAndFilter
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.search.SearchItem
 import com.assignments.stockmarket.search.SearchTextField
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun ReportsScreen(
@@ -55,7 +57,7 @@ fun ReportsScreen(
         topBar = {
             AppBarBackArrow(
                 navController = navController,
-                title = "Reports & Statements"
+                title = stringResource(R.string.section_reports)
             )
         }
     ) { innerPadding ->
@@ -114,19 +116,13 @@ fun ReportTabs(navController: NavController) {
                     text = {
                         Text(
                             title,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
+                            style = AppTextStyles.medium(14
+                            ),
                         )
                     }
 
                 )
             }
         }
-
-        /*when (selectedTabIndex) {
-            0 -> ExploreScreen(navController)
-            1 -> HoldingsScreen(navController)
-            2 -> PositionsScreen(navController)
-        }*/
     }
 }

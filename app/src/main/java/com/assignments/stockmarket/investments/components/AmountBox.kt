@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun AmountBox(amount: String, onClick: () -> Unit) {
@@ -42,11 +43,8 @@ fun AmountBox(amount: String, onClick: () -> Unit) {
 
             Text(
                 text = "+ Rs. $amount",
-                color = colorResource(R.color.text_secondary),
-                fontSize = 10.sp,
                 lineHeight = 10.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
+                style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
                 textAlign = TextAlign.Left,
             )
         }

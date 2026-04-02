@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun HoldingItemCard(holding: Holding) {
@@ -52,20 +53,16 @@ fun HoldingItemCard(holding: Holding) {
 
                 Text(
                     text = holding.name,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                    color = colorResource(R.color.white)
+                    style = AppTextStyles.bold(12),
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = holding.pnl,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
-                    color = colorResource(R.color.text_error_light)
+                    style = AppTextStyles.bold(10,
+                    colorResource(R.color.text_error_light)
+                    )
                 )
             }
 
@@ -77,20 +74,14 @@ fun HoldingItemCard(holding: Holding) {
 
                 Text(
                     text = holding.shares,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    color = colorResource(R.color.text_secondary)
+                    style = AppTextStyles.bold(8, colorResource(R.color.text_secondary))
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = holding.value,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    color = colorResource(R.color.text_secondary)
+                    style = AppTextStyles.bold(8, colorResource(R.color.text_secondary))
                 )
             }
         }

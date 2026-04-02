@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.kyc_verification.isValidPan
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun PanStep(
@@ -55,11 +56,8 @@ fun PanStep(
             label = {
                 Text(
                     stringResource(R.string.label_pan),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.white)
-                )
+                    style = AppTextStyles.bold(12),
+                    )
             },
             leadingIcon = {
                 Icon(
@@ -100,10 +98,8 @@ fun PanStep(
             ) {
                 Text(
                     stringResource(R.string.action_back),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                )
+                    style = AppTextStyles.bold(14),
+                    )
             }
 
             Spacer(Modifier.width(10.dp))
@@ -121,10 +117,9 @@ fun PanStep(
             ) {
                 Text(
                     stringResource(R.string.action_verify_pan),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.bg_primary)
+                    style = AppTextStyles.bold(14,
+                    colorResource(R.color.bg_primary)
+                    )
                 )
             }
         }

@@ -27,6 +27,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun CustomTextField(
@@ -50,8 +51,7 @@ fun CustomTextField(
             placeholder = {
                 Text(
                     text = placeholder,
-                    color = colorResource(R.color.white),
-                    fontWeight = FontWeight.Bold,
+                    style = AppTextStyles.bold(14),
                 )
             },
             isError = errorMessage != null,
@@ -96,9 +96,7 @@ fun CustomTextField(
         if (errorMessage != null) {
             Text(
                 text = errorMessage,
-                color = colorResource(R.color.white),
-                fontSize = 12.sp,
-                modifier = Modifier
+                style = AppTextStyles.regular(12),
             )
         }
     }

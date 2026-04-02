@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun SettingsItem(
@@ -50,10 +51,7 @@ fun SettingsItem(
 
             Text(
                 text = title,
-                color = colorResource(R.color.white),
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = PoppinsFamily,
+                style = AppTextStyles.bold(12),
                 modifier = Modifier.weight(1f)
             )
 

@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.navigation.Routes.DASHBOARD
 import com.assignments.stockmarket.navigation.Routes.WELCOME
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import kotlinx.coroutines.delay
 
 @Composable
@@ -145,11 +147,8 @@ fun WelcomeScreen(navController: NavController) {
                 )
             ) {
                 Text(
-                    text = "Welcome",
-                    color = colorResource(R.color.white),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 40.sp,
+                    text = stringResource(R.string.welcome),
+                    style = AppTextStyles.bold(40),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -167,10 +166,7 @@ fun WelcomeScreen(navController: NavController) {
             ) {
                 Text(
                     text = "into",
-                    color = colorResource(R.color.text_primary),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 20.sp,
+                    style = AppTextStyles.regular(20, colorResource(R.color.text_primary)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -187,11 +183,8 @@ fun WelcomeScreen(navController: NavController) {
                 )
             ) {
                 Text(
-                    text = "Trade Sphere",
-                    color = colorResource(R.color.white),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 36.sp,
+                    text = stringResource(R.string.trade_sphere),
+                    style = AppTextStyles.bold(24),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )

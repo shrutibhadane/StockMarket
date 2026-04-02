@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun HowItWorksItem(text: String) {
@@ -21,17 +22,12 @@ fun HowItWorksItem(text: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text("• ",
-            color = colorResource(R.color.white),
-            fontSize = 12.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Normal)
+            style = AppTextStyles.regular(12)
+        )
 
         Text(
             text,
-            color = colorResource(R.color.white),
-            fontSize = 12.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Normal
+            style = AppTextStyles.regular(12)
         )
     }
 }

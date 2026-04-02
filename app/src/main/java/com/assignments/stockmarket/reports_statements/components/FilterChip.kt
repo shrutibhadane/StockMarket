@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun FilterChip(label: String) {
@@ -21,10 +22,9 @@ fun FilterChip(label: String) {
     ) {
         Text(
             text = label,
-            color = colorResource(R.color.bg_primary),
-            fontSize = 11.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.SemiBold,
+            style = AppTextStyles.semiBold(11,
+                colorResource(R.color.bg_primary)
+            ),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
         )
     }

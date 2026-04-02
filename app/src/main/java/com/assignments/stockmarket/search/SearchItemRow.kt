@@ -40,7 +40,8 @@ fun SearchItemRow(item: SearchItem) {
 
         Text(
             text = item.name,
-            style = AppTextStyles.bold(12, colorResource(R.color.text_secondary))
+            style = AppTextStyles.bold(12,
+                colorResource(R.color.text_secondary))
         )
     }
 }

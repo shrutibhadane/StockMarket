@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun NumberKeypad(
@@ -93,10 +94,7 @@ fun KeypadButton(
     ) {
         Text(
             text = text,
-            color = colorResource(R.color.white),
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = PoppinsFamily
-        )
+            style = AppTextStyles.bold(28),
+            )
     }
 }

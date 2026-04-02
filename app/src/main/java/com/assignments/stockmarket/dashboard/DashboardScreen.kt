@@ -70,6 +70,7 @@ import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import kotlinx.coroutines.delay
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.ui.res.stringResource
 import com.assignments.stockmarket.COMPANIES_API_URL
 import com.assignments.stockmarket.MarketTick
 import com.assignments.stockmarket.R
@@ -77,6 +78,7 @@ import com.assignments.stockmarket.TickConnectionState
 import com.assignments.stockmarket.WebSocketManager
 import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.db.CompanyRepository
+import com.assignments.stockmarket.utils.AppTextStyles
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -213,13 +215,17 @@ fun DashboardScreen(
     var selectedBottomTab by remember { mutableIntStateOf(0) }
     // Tab state shared between stickyHeader and tab content
     var selectedTabIndex by remember { mutableIntStateOf(0) }
-    val tabItems = listOf("Explore", "Holdings", "Positions", "Orders")
+    val tabItems = listOf(stringResource(R.string.explore),
+        stringResource(R.string.holdings),
+        stringResource(R.string.positions),
+        stringResource(R.string.orders)
+    )
 
     Scaffold(
         topBar = {
             when (selectedBottomTab) {
                 0 -> MyAppBar(navController)
-                3 -> AppBarBackArrow(navController, title = "Add Money")
+                3 -> AppBarBackArrow(navController, title = stringResource(R.string.action_add_money))
                 else -> AppBarBackArrow(navController)
             } },
         bottomBar = {
@@ -264,40 +270,31 @@ fun DashboardScreen(
                                             modifier = Modifier
                                                 .size(8.dp)
                                                 .clip(CircleShape)
-                                                .background(Color(0xFF01FF41))
+                                                .background(colorResource(R.color.text_success))
                                         )
                                         Spacer(modifier = Modifier.width(6.dp))
                                         Text(
-                                            text = "Live",
-                                            color = Color(0xFF01FF41),
-                                            fontSize = 11.sp,
-                                            fontFamily = PoppinsFamily,
-                                            fontWeight = FontWeight.SemiBold
-                                        )
+                                            text = stringResource(R.string.live),
+                                            style = AppTextStyles.semiBold(11, colorResource(R.color.text_success)),
+                                            )
                                     }
                                     TickConnectionState.FALLBACK -> {
                                         Text(
-                                            text = "Live",
-                                            color = colorResource(R.color.white),
-                                            fontSize = 11.sp,
-                                            fontFamily = PoppinsFamily,
-                                            fontWeight = FontWeight.SemiBold
-                                        )
+                                            text = stringResource(R.string.live),
+                                            style = AppTextStyles.semiBold(11),
+                                            )
                                     }
                                     TickConnectionState.CONNECTING -> {
                                         Box(
                                             modifier = Modifier
                                                 .size(8.dp)
                                                 .clip(CircleShape)
-                                                .background(Color(0xFFFF0105))
+                                                .background(colorResource(R.color.text_error))
                                         )
                                         Spacer(modifier = Modifier.width(6.dp))
                                         Text(
                                             text = "Connecting…",
-                                            color = Color(0xFFFF0105),
-                                            fontSize = 11.sp,
-                                            fontFamily = PoppinsFamily,
-                                            fontWeight = FontWeight.SemiBold
+                                            style = AppTextStyles.semiBold(11, colorResource(R.color.text_error)),
                                         )
                                     }
                                 }
@@ -355,8 +352,7 @@ fun DashboardScreen(
                                         text = {
                                             Text(
                                                 text = title,
-                                                fontSize = 13.sp,
-                                                fontWeight = FontWeight.Medium,
+                                                style = AppTextStyles.medium(13),
                                                 maxLines = 1,
                                                 overflow = TextOverflow.Ellipsis,
                                                 softWrap = false
@@ -367,7 +363,7 @@ fun DashboardScreen(
                             }
                         }
 
-                        // ── Tab Content (scrolls under the sticky tabs) ──
+                        // Tab Content (scrolls under the sticky tabs)
                         item {
                             Box(
                                 modifier = Modifier.fillParentMaxHeight()
@@ -474,29 +470,20 @@ fun MarketCard(
         ) {
             Text(
                 title,
-                fontWeight = FontWeight.Bold,
-                fontFamily = PoppinsFamily,
-                fontSize = 11.sp,
-                color = colorResource(R.color.white)
-            )
+                style = AppTextStyles.bold(11),
+                )
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 price,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 12.sp,
-                fontFamily = PoppinsFamily,
-                color = colorResource(id = R.color.white)
-            )
+                style = AppTextStyles.semiBold(12),
+                )
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 change,
-                fontWeight = FontWeight.Medium,
-                fontSize = 9.sp,
-                fontFamily = PoppinsFamily,
-                color = changeColor
-            )
+                style = AppTextStyles.medium(9, changeColor),
+                )
         }
     }
 }

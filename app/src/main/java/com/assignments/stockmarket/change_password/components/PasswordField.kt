@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun PasswordField(
@@ -40,19 +41,11 @@ fun PasswordField(
         label = {
             Text(
                 text = label,
-                fontSize = 12.sp,
-                fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
+                style = AppTextStyles.bold(14),
                 )
         },
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        textStyle = TextStyle(
-            fontSize = 14.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Bold,
-            color = colorResource(R.color.white)
-        ),
         visualTransformation = if (passwordVisible)
             VisualTransformation.None
         else

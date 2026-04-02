@@ -18,6 +18,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.tabs.holdings.Holding
 import com.assignments.stockmarket.tabs.holdings.HoldingItemCard
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun PositionsScreen(navController: NavController) {
@@ -32,10 +33,7 @@ fun PositionsScreen(navController: NavController) {
 
         Text(
             text = "Position in Market",
-            color = colorResource(R.color.white),
-            fontSize = 15.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Bold,
+            style = AppTextStyles.bold(15),
             textAlign = TextAlign.Left,
             modifier = Modifier.fillMaxWidth()
         )

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun RecentlyViewedItem(stockDetails: StockDetails, navController: NavController) {
@@ -60,18 +61,12 @@ fun RecentlyViewedItem(stockDetails: StockDetails, navController: NavController)
 
         Text(
             text = stockDetails.name,
-            fontSize = 13.sp,
-            color = colorResource(R.color.white),
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Medium
+            style = AppTextStyles.medium(13),
         )
 
         Text(
             text = stockDetails.annualReturn.toString(),
-            fontSize = 12.sp,
-            color = changeColor,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Medium
+            style = AppTextStyles.medium(12),
         )
     }
 }

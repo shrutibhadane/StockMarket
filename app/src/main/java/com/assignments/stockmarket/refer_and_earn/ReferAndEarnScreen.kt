@@ -36,6 +36,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.refer_and_earn.components.HowItWorksItem
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun ReferAndEarnScreen(navController: NavController) {
@@ -72,17 +73,14 @@ fun ReferAndEarnScreen(navController: NavController) {
 
                     Text(
                         text = stringResource(R.string.refer_earn_500),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        style = AppTextStyles.bold(18)
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
                         text = stringResource(R.string.invite_your_friends_and_earn_rewards_when_they_start_investing),
-                        fontSize = 12.sp,
-                        color = Color.White
+                        style = AppTextStyles.regular(12)
                     )
                 }
             }
@@ -92,18 +90,16 @@ fun ReferAndEarnScreen(navController: NavController) {
             // 💰 Earnings
             Text(
                 text = stringResource(R.string.your_earnings),
-                color = colorResource(R.color.white),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
+                style = AppTextStyles.bold(14)
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
                 text = stringResource(R.string._1200_earned),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.text_success_light)
+                style = AppTextStyles.bold(22,
+                    colorResource(R.color.text_success_light)
+                )
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -126,14 +122,14 @@ fun ReferAndEarnScreen(navController: NavController) {
 
                     Text(
                         text = referralCode,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        style = AppTextStyles.bold(16)
                     )
 
                     Text(
                         text = stringResource(R.string.copy),
-                        color = colorResource(R.color.bg_mpin),
+                        style = AppTextStyles.regular(12,
+                            colorResource(R.color.bg_mpin)
+                        ),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
                             val clipboard =
@@ -171,10 +167,9 @@ fun ReferAndEarnScreen(navController: NavController) {
             ) {
                 Text(
                     stringResource(R.string.invite_friends),
-                    color = colorResource(R.color.bg_primary),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.bold(14,
+                        colorResource(R.color.bg_primary)
+                    ),
                 )
             }
 
@@ -183,10 +178,8 @@ fun ReferAndEarnScreen(navController: NavController) {
             // How it works
             Text(
                 text = stringResource(R.string.how_it_works),
-                color = colorResource(R.color.white),
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                fontFamily = PoppinsFamily,
+                style = AppTextStyles.bold(14
+                ),
             )
 
             Spacer(modifier = Modifier.height(10.dp))

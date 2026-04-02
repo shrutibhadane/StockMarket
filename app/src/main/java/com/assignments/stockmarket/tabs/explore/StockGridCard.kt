@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import com.assignments.stockmarket.MarketTick
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import java.text.DecimalFormat
@@ -99,10 +101,7 @@ fun StockGridCard(
             // Company Name (single line, ellipsis if too long)
             Text(
                 text = company.name,
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
+                style = AppTextStyles.bold(14),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -113,10 +112,7 @@ fun StockGridCard(
             if (tick != null) {
                 Text(
                     text = "₹${priceCardFormat.format(currentPrice)}",
-                    color = colorResource(R.color.white),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp,
+                    style = AppTextStyles.semiBold(13),
                     maxLines = 1
                 )
 
@@ -125,19 +121,16 @@ fun StockGridCard(
                 // Price Change + Percentage
                 Text(
                     text = changeText,
-                    color = changeColor,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 11.sp,
+                    style = AppTextStyles.medium(11, changeColor),
                     maxLines = 1
                 )
             } else {
                 // No live data yet
                 Text(
-                    text = "—",
-                    color = colorResource(R.color.white).copy(alpha = 0.6f),
-                    fontFamily = PoppinsFamily,
-                    fontSize = 13.sp
+                    text = stringResource(R.string.dash),
+                    style = AppTextStyles.medium(13,
+                    colorResource(R.color.white).copy(alpha = 0.6f),
+                    )
                 )
             }
         }
@@ -169,26 +162,21 @@ fun StockGridCardLegacy(stock: GridStock) {
         ) {
             Text(
                 text = stock.name,
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
+                style = AppTextStyles.bold(14),
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
                 text = stock.price,
-                color = colorResource(R.color.white),
-                fontSize = 13.sp
+                style = AppTextStyles.bold(14),
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = stock.change,
-                color = changeColor,
-                fontSize = 11.sp
+                style = AppTextStyles.medium(11, changeColor),
             )
         }
     }

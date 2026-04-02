@@ -18,6 +18,18 @@ object AppTextStyles {
             fontSize = size.sp,
             fontFamily = PoppinsFamily,
             fontWeight = FontWeight.Normal,
+            color = color,
+            lineHeight = size.sp,
+        )
+    }
+
+    // -------- Semi Bold --------
+    @Composable
+    fun medium(size: Int, color: Color = colorResource(R.color.white)): TextStyle {
+        return TextStyle(
+            fontSize = size.sp,
+            fontFamily = PoppinsFamily,
+            fontWeight = FontWeight.Medium,
             color = color
         )
     }

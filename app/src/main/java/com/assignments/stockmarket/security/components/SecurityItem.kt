@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun SecurityItem(
@@ -47,10 +48,7 @@ fun SecurityItem(
 
             Text(
                 text = title,
-                color = colorResource(R.color.white),
-                fontSize = 12.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
+                style = AppTextStyles.bold(12),
                 modifier = Modifier.weight(1f)
             )
 

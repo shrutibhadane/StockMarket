@@ -95,7 +95,7 @@ fun MPINFingerPrintScreen(
                     )
 
                     Text(
-                        text = "Trade Sphere",
+                        text = stringResource(R.string.trade_sphere),
                         style = AppTextStyles.bold(12),
                     )
                 }

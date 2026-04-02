@@ -22,6 +22,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun BiometricSwitchItem(title: String) {
@@ -45,8 +46,7 @@ fun BiometricSwitchItem(title: String) {
 
         Text(
             text = title,
-            color = colorResource(R.color.white),
-            fontFamily = PoppinsFamily,
+            style = AppTextStyles.bold(14),
             modifier = Modifier.weight(1f)
         )
 

@@ -29,6 +29,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.navigation.Routes.PROFILE
 import com.assignments.stockmarket.navigation.Routes.SEARCH
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,10 +67,7 @@ fun MyAppBar(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = stringResource(R.string.my_sphere),
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorResource(R.color.white),
-                    fontFamily = PoppinsFamily
+                    style = AppTextStyles.bold(15),
                 )
             }
         },

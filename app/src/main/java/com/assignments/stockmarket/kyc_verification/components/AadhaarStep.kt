@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.kyc_verification.isValidAadhaar
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun AadhaarStep(
@@ -58,11 +59,8 @@ fun AadhaarStep(
             label = {
                 Text(
                     stringResource(R.string.label_aadhaar_number),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.white)
-                )
+                    style = AppTextStyles.bold(12),
+                    )
             },
             leadingIcon = {
                 Icon(
@@ -101,10 +99,8 @@ fun AadhaarStep(
             ) {
                 Text(
                     stringResource(R.string.action_back),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                )
+                    style = AppTextStyles.bold(14),
+                    )
             }
 
             Spacer(Modifier.width(10.dp))
@@ -122,10 +118,9 @@ fun AadhaarStep(
             ) {
                 Text(
                     stringResource(R.string.label_verify_aadhaar),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.bg_primary)
+                    style = AppTextStyles.bold(14,
+                    colorResource(R.color.bg_primary)
+                    )
                 )
             }
         }

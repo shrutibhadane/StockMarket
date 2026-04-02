@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun BottomBarButtons(
@@ -58,10 +59,10 @@ fun BottomBarButtons(
             }
             Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = leftButtonText, color = colorResource(R.color.text_link),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = PoppinsFamily,
+                text = leftButtonText,
+                style = AppTextStyles.bold(14,
+                    colorResource(R.color.text_link)
+                ),
             )
         }
 
@@ -83,10 +84,7 @@ fun BottomBarButtons(
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = rightButtonText,
-                color = colorResource(R.color.white),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = PoppinsFamily,
+                style = AppTextStyles.bold(14),
             )
         }
     }

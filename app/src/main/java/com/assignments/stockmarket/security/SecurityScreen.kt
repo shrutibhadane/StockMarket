@@ -98,7 +98,7 @@ fun SecurityScreen(navController: NavController) {
                 // 👉 Call logout logic
                 Toast.makeText(
                     context,
-                    "Logged out from all devices",
+                    context.getString(R.string.logged_out_from_all_devices),
                     Toast.LENGTH_SHORT
                 ).show()
 

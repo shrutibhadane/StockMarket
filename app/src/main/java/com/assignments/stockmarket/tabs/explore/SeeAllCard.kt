@@ -25,12 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun SeeAllCard(onClick: () -> Unit = {}) {
@@ -68,11 +70,8 @@ fun SeeAllCard(onClick: () -> Unit = {}) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "View All",
-                color = colorResource(R.color.white),
-                fontSize = 14.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
+                text = stringResource(R.string.view_all),
+                style = AppTextStyles.bold(14),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -80,11 +79,9 @@ fun SeeAllCard(onClick: () -> Unit = {}) {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = ">",
-                color = colorResource(R.color.text_secondary),
-                fontSize = 16.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
+                text = stringResource(R.string.left_arrow),
+                style = AppTextStyles.bold(16,
+                color = colorResource(R.color.text_secondary)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )

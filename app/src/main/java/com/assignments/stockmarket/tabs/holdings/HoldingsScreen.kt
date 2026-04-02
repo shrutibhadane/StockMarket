@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,13 +33,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.assignments.stockmarket.R
-import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun HoldingsScreen(navController: NavController) {
@@ -62,11 +59,8 @@ fun HoldingsScreen(navController: NavController) {
             Column(modifier = Modifier.padding(16.dp)) {
 
                 Text(
-                    text = "HOLDINGS (2)",
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
-                    color = Color.LightGray
+                    text = stringResource(R.string.holdings_2),
+                    style = AppTextStyles.bold(10, colorResource(R.color.text_primary))
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
@@ -78,10 +72,7 @@ fun HoldingsScreen(navController: NavController) {
                 ) {
                     Text(
                         text = "Rs. 3403.75",
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 15.sp,
-                        color = Color.White
+                        style = AppTextStyles.bold(15)
                     )
 
                     Row(
@@ -166,19 +157,13 @@ fun HoldingsScreen(navController: NavController) {
 
                         Text(
                             text = "1D Returns",
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 8.sp,
-                            color = colorResource(R.color.text_secondary),
+                            style = AppTextStyles.bold(8, colorResource(R.color.text_primary)),
                             textAlign = TextAlign.Left
                         )
 
                         Text(
                             text = "-Rs 63.67 (1.86%)",
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 8.sp,
-                            color = colorResource(R.color.text_error_light),
+                            style = AppTextStyles.bold(8, colorResource(R.color.text_error_light)),
                             textAlign = TextAlign.Right
                         )
                     }
@@ -191,20 +176,14 @@ fun HoldingsScreen(navController: NavController) {
                     ) {
 
                         Text(
-                            text = "Total Returns",
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 8.sp,
-                            color = colorResource(R.color.text_secondary),
+                            text = stringResource(R.string.total_returns),
+                            style = AppTextStyles.bold(8, colorResource(R.color.text_secondary)),
                             textAlign = TextAlign.Left
                         )
 
                         Text(
                             text = "-Rs 160.24 (4.54%)",
-                            fontFamily = PoppinsFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 8.sp,
-                            color = colorResource(R.color.text_error_light),
+                            style = AppTextStyles.bold(8, colorResource(R.color.text_error_light)),
                             textAlign = TextAlign.Right
                         )
                     }
@@ -219,20 +198,14 @@ fun HoldingsScreen(navController: NavController) {
                 ) {
 
                     Text(
-                        text = "Invested",
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 8.sp,
-                        color = colorResource(R.color.text_secondary),
+                        text = stringResource(R.string.invested),
+                        style = AppTextStyles.bold(8, colorResource(R.color.text_secondary)),
                         textAlign = TextAlign.Left
                     )
 
                     Text(
                         text = "Rs. 3,556.09",
-                        fontFamily = PoppinsFamily,
-                        fontSize = 8.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = colorResource(R.color.white),
+                        style = AppTextStyles.bold(8),
                         textAlign = TextAlign.Right
                     )
                 }
@@ -242,11 +215,8 @@ fun HoldingsScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Holding Sphere",
-            color = colorResource(R.color.white),
-            fontSize = 15.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Bold,
+            text = stringResource(R.string.holding_sphere),
+            style = AppTextStyles.bold(15),
             textAlign = TextAlign.Left,
             modifier = Modifier.fillMaxWidth()
         )

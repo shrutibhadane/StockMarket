@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,7 @@ import com.assignments.stockmarket.MarketTick
 import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.navigation.Routes.ALL_STOCKS
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import java.net.URLEncoder
 
 @Composable
@@ -87,11 +89,10 @@ fun ExploreScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = if (isLoadingCompanies) "Loading stocks…" else "Connecting to live data…",
-                    color = colorResource(R.color.white),
-                    fontSize = 13.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Medium,
+                    text = if (isLoadingCompanies) stringResource(R.string.loading_stocks) else stringResource(
+                        R.string.connecting_to_live_data
+                    ),
+                    style = AppTextStyles.medium(13),
                     modifier = Modifier.alpha(pulseAlpha)
                 )
             }
@@ -117,10 +118,7 @@ fun ExploreScreen(
         // ── Recently Viewed Section ──
         Text(
             text = "Recently Viewed",
-            color = colorResource(R.color.white),
-            fontSize = 15.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Bold,
+            style = AppTextStyles.bold(15),
             textAlign = TextAlign.Left,
             modifier = Modifier.fillMaxWidth()
         )
@@ -147,11 +145,8 @@ fun ExploreScreen(
 
         // ── Most Traded on Sphere Section ──
         Text(
-            text = "Most traded on Sphere",
-            color = colorResource(R.color.white),
-            fontSize = 15.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Bold,
+            text = stringResource(R.string.most_traded_on_sphere),
+            style = AppTextStyles.bold(15),
             textAlign = TextAlign.Left,
             modifier = Modifier.fillMaxWidth()
         )

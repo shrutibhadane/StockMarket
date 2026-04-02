@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun BankAccountItem(
@@ -46,17 +47,12 @@ fun BankAccountItem(
 
             Text(
                 text = bankName,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 13.sp,
-                color = colorResource(R.color.white)
-            )
+                style = AppTextStyles.bold(13),
+                )
 
             Text(
                 text = accountNumber,
-                fontFamily = PoppinsFamily,
-                fontSize = 11.sp,
-                color = colorResource(R.color.white).copy(alpha = 0.6f)
+                style = AppTextStyles.bold(11, colorResource(R.color.white).copy(alpha = 0.6f))
             )
         }
     }

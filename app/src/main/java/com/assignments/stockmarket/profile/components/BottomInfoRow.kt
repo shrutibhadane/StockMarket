@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun BottomInfoRow() {
@@ -42,10 +43,7 @@ fun BottomInfoRow() {
 
         Text(
             text = stringResource(R.string.label_about_us),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = colorResource(R.color.white),
-            fontFamily = PoppinsFamily,
+            style = AppTextStyles.bold(12),
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.clickable {
                 val intent = Intent(
@@ -68,19 +66,13 @@ fun BottomInfoRow() {
 
             Text(
                 text = stringResource(R.string.label_version, version),
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily
+                style = AppTextStyles.bold(12)
             )
         }
 
         Text(
             text = stringResource(R.string.label_charges),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = colorResource(R.color.white),
-            fontFamily = PoppinsFamily,
+            style = AppTextStyles.bold(12),
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.clickable {
                 val intent = Intent(

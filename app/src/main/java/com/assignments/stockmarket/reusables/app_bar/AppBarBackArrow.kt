@@ -30,6 +30,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.navigation.Routes.DASHBOARD
 import com.assignments.stockmarket.navigation.Routes.SETTINGS
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,11 +89,7 @@ fun AppBarBackArrow(
                 if (title != null) {
                     Text(
                         text = title,
-                        color = colorResource(R.color.white),
-                        fontSize = 18.sp,
-                        lineHeight = 18.sp,
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
+                        style = AppTextStyles.bold(18),
                         textAlign = TextAlign.Left,
                     )
                 }
@@ -100,11 +97,7 @@ fun AppBarBackArrow(
                 if (subTitle != null) {
                     Text(
                         text = subTitle,
-                        color = colorResource(R.color.white),
-                        fontSize = 12.sp,
-                        lineHeight = 12.sp,
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
+                        style = AppTextStyles.bold(12),
                         textAlign = TextAlign.Left,
                     )
                 }

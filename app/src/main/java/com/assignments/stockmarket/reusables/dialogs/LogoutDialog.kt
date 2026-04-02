@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun LogoutDialog(
@@ -47,10 +48,7 @@ fun LogoutDialog(
                 Column {
                     Text(
                         text = stringResource(R.string.action_logout),
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        color = colorResource(R.color.white),
+                        style = AppTextStyles.bold(18),
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -65,22 +63,15 @@ fun LogoutDialog(
             text = {
                 Text(
                     text = message,
-                    //text = stringResource(R.string.do_you_want_to_logout_from_your_account_you_will_need_to_enter_your_mpin_to_login_again),
-                    fontSize = 14.sp,
-                    color = colorResource(R.color.white),
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily
+                    style = AppTextStyles.bold(14),
                 )
             },
 
             confirmButton = {
                 TextButton(onClick = { onConfirm() }) {
                     Text(
-                        text = "Yes",
-                        fontSize = 14.sp,
-                        color = colorResource(R.color.white),
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily
+                        text = stringResource(R.string.yes),
+                        style = AppTextStyles.bold(14),
                     )
                 }
             },
@@ -88,11 +79,10 @@ fun LogoutDialog(
             dismissButton = {
                 TextButton(onClick = { onDismiss() }) {
                     Text(
-                        text = "No",
-                        color = colorResource(R.color.bg_button_secondary_light),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily
+                        text = stringResource(R.string.no),
+                        style = AppTextStyles.bold(14,
+                            colorResource(R.color.bg_button_secondary_light),
+                        )
                     )
                 }
             }

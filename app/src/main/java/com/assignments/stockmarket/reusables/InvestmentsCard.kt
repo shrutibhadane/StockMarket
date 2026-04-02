@@ -22,11 +22,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun InvestmentsCard(
@@ -36,7 +38,8 @@ fun InvestmentsCard(
     ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(horizontal = 8.dp),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFF1E3A70)),
@@ -50,21 +53,15 @@ fun InvestmentsCard(
         ) {
             Column {
                 Text(
-                    text = "Invested",
-                    color = colorResource(R.color.white),
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily
+                    text = stringResource(R.string.invested),
+                    style = AppTextStyles.bold(10),
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
                     text = investedValue,
-                    color = colorResource(R.color.white),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily
+                    style = AppTextStyles.bold(12),
                 )
             }
 
@@ -76,21 +73,17 @@ fun InvestmentsCard(
                 // Column for Total Returns text and value
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Total Returns",
-                        color = colorResource(R.color.white),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily
+                        text = stringResource(R.string.total_returns),
+                        style = AppTextStyles.bold(10),
                     )
 
                     Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
                         text = totalReturns,
-                        color = colorResource(R.color.text_error_light),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily
+                        style = AppTextStyles.bold(10,
+                        colorResource(R.color.text_error_light),
+                        )
                     )
                 }
 
@@ -101,8 +94,9 @@ fun InvestmentsCard(
                     painter = painterResource(id = R.drawable.ic_right_arrow), // your right arrow icon
                     contentDescription = "Go",
                     tint = colorResource(R.color.white),
-                    modifier = Modifier.size(24.dp)
-                    .clickable { arrowClick() }, // dynamic click
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { arrowClick() }, // dynamic click
 
                 )
             }

@@ -30,6 +30,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.change_password.components.PasswordField
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 
 @Composable
@@ -142,11 +143,8 @@ fun ChangePasswordScreen(navController: NavController) {
             ) {
                 Text(
                     text = stringResource(R.string.action_update_password),
-                    color = colorResource(R.color.bg_primary),
-                    fontSize = 14.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold
-                )
+                    style = AppTextStyles.bold(14, colorResource(R.color.bg_primary)),
+                    )
             }
         }
     }

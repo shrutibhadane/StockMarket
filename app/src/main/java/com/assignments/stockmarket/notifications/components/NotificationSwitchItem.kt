@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun NotificationSwitchItem(title: String) {
@@ -37,10 +38,7 @@ fun NotificationSwitchItem(title: String) {
 
             Text(
                 text = title,
-                fontFamily = PoppinsFamily,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.white),
+                style = AppTextStyles.bold(14),
                 modifier = Modifier.weight(1f)
             )
 

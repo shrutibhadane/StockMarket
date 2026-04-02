@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun AddMoneyButton() {
@@ -48,11 +49,8 @@ fun AddMoneyButton() {
 
             Text(
                 text = "Add",
-                fontFamily = PoppinsFamily,
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.bg_button_secondary_light)
-            )
+                style = AppTextStyles.bold(11, colorResource(R.color.bg_button_secondary_light)),
+                )
         }
     }
 }

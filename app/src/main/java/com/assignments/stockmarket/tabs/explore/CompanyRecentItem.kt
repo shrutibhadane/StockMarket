@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,6 +26,7 @@ import com.assignments.stockmarket.MarketTick
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import java.text.DecimalFormat
@@ -79,10 +81,7 @@ fun CompanyRecentItem(
         // Company symbol (short name e.g. RELIANCE, TCS)
         Text(
             text = company.symbol,
-            fontSize = 11.sp,
-            color = colorResource(R.color.white),
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Medium,
+            style = AppTextStyles.medium(11),
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -93,10 +92,8 @@ fun CompanyRecentItem(
             // Price text (e.g. ₹2,920.50)
             Text(
                 text = "₹${priceFormat.format(tick.price)}",
-                fontSize = 9.sp,
-                color = colorResource(R.color.white).copy(alpha = 0.85f),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Normal,
+                style = AppTextStyles.regular(9,
+                    colorResource(R.color.white).copy(alpha = 8.5f)),
                 textAlign = TextAlign.Center,
                 maxLines = 1
             )
@@ -106,10 +103,7 @@ fun CompanyRecentItem(
                 val sign = if (isPositive) "+" else "-"
                 Text(
                     text = "${sign}${pctFormat.format(abs(change))}%",
-                    fontSize = 10.sp,
-                    color = changeColor,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.SemiBold,
+                    style = AppTextStyles.semiBold(10, changeColor),
                     textAlign = TextAlign.Center,
                     maxLines = 1
                 )
@@ -117,11 +111,9 @@ fun CompanyRecentItem(
         } else {
             // No live data yet — show placeholder
             Text(
-                text = "—",
-                fontSize = 10.sp,
-                color = colorResource(R.color.white).copy(alpha = 0.6f),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Normal,
+                text = stringResource(R.string.dash),
+                style = AppTextStyles.regular(10,
+                    colorResource(R.color.white).copy(alpha = 0.6f)),
                 textAlign = TextAlign.Center,
                 maxLines = 1
             )

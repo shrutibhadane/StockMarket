@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun ProfileMenuItem(
@@ -64,10 +65,7 @@ fun ProfileMenuItem(
 
             Text(
                 text = title,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 12.sp,
-                color = colorResource(R.color.white),
+                style = AppTextStyles.bold(12),
                 modifier = Modifier.weight(1f)
             )
 
@@ -110,10 +108,9 @@ fun ProfileMenuItem(
 
                         Text(
                             text = actionText,
-                            color = colorResource(R.color.bg_primary),
-                            fontFamily = PoppinsFamily,
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.Bold
+                            style = AppTextStyles.bold(9,
+                                colorResource(R.color.bg_primary)
+                            )
                         )
                     }
                 }

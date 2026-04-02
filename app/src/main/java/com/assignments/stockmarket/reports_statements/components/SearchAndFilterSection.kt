@@ -22,23 +22,12 @@ fun SearchAndFilterSection() {
 
     Column(modifier = Modifier.padding(16.dp)) {
 
-        /*OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            placeholder = { Text("Search reports...") },
-            leadingIcon = {
-                Icon(Icons.Default.Search, contentDescription = null)
-            },
-            modifier = Modifier.fillMaxWidth()
-        )*/
-
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-
             FilterChip("Last 30 Days")
             FilterChip("All Types")
         }

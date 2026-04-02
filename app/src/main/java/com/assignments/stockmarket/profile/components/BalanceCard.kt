@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.navigation.Routes.INVESTMENT_AMOUNT
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun BalanceCard(navController: NavController) {
@@ -58,18 +59,12 @@ fun BalanceCard(navController: NavController) {
 
             Text(
                 text = stringResource(R.string.label_balance_zero),
-                color =  colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal
+                style = AppTextStyles.regular(14)
             )
 
             Text(
                 text = stringResource(R.string.label_stocks_balance),
-                color =  colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Normal
+                style = AppTextStyles.regular(10)
             )
         }
 
@@ -101,10 +96,9 @@ fun BalanceCard(navController: NavController) {
 
                 Text(
                     text = stringResource(R.string.action_add_money),
-                    color = colorResource(R.color.bg_primary),
-                    fontFamily = PoppinsFamily,
-                    fontSize =  9.sp,
-                    fontWeight = FontWeight.Bold
+                    style = AppTextStyles.bold(9,
+                        colorResource(R.color.bg_primary)
+                    )
                 )
             }
         }

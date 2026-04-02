@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 
 @Composable
@@ -56,18 +57,13 @@ fun SupportItem(
 
                 Text(
                     text = title,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                    color = colorResource(R.color.white)
-                )
+                    style = AppTextStyles.bold(14),
+                    )
 
                 Text(
                     text = subtitle,
-                    fontFamily = PoppinsFamily,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorResource(R.color.white).copy(alpha = 0.6f)
+                    style = AppTextStyles.bold(12,
+                        colorResource(R.color.white).copy(alpha = 0.6f))
                 )
             }
 

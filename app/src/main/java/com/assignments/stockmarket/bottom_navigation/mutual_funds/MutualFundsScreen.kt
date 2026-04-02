@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,6 +37,7 @@ import com.assignments.stockmarket.reusables.InvestmentsCard
 import com.assignments.stockmarket.reusables.MFImageBar
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun MutualFundsScreen(navController: NavController) {
@@ -68,11 +70,8 @@ fun MutualFundsScreen(navController: NavController) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = "Franklin India Opportunities Direct Fund Growth",
-                    color = colorResource(R.color.white),
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily
-                )
+                    style = AppTextStyles.bold(17),
+                    )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -81,44 +80,29 @@ fun MutualFundsScreen(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "Very High Risk",
-                        color = colorResource(R.color.text_secondary),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
+                        text = stringResource(R.string.very_high_risk),
+                        style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
+                        )
 
                     Text(
-                        text = " • ",
-                        color = colorResource(R.color.text_secondary),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
+                        text = stringResource(R.string.dot),
+                        style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
+                        )
 
                     Text(
-                        text = "Equity",
-                        color = colorResource(R.color.text_secondary),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
+                        text = stringResource(R.string.equity),
+                        style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
+                        )
 
                     Text(
-                        text = " • ",
-                        color = colorResource(R.color.text_secondary),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
+                        text = stringResource(R.string.dot),
+                        style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
+                        )
 
                     Text(
-                        text = "Thematic",
-                        color = colorResource(R.color.text_secondary),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
-                    )
+                        text = stringResource(R.string.thematic),
+                        style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
+                        )
                 }
             }
 
@@ -131,32 +115,23 @@ fun MutualFundsScreen(navController: NavController) {
 
                 Text(
                     text = "28.24%",
-                    color = colorResource(R.color.text_success_light),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                )
+                    style = AppTextStyles.bold(20, colorResource(R.color.text_success_light)),
+                    )
 
                 Spacer(modifier = Modifier.width(6.dp))
 
                 Text(
                     text = "3Y annualised",
-                    color = colorResource(R.color.text_secondary),
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                )
+                    style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
+                    )
             }
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = "-2.07%",
-                color = colorResource(R.color.text_error_light),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = PoppinsFamily,
-            )
+                style = AppTextStyles.bold(14, colorResource(R.color.text_error_light)),
+                )
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -179,8 +154,8 @@ fun MutualFundsScreen(navController: NavController) {
                         color = if (isSelected) Color(0xFF00FF00) else Color.Gray,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                 modifier = Modifier
-                                .clickable { selectedPeriod = period }
-                            .padding(8.dp)
+                                    .clickable { selectedPeriod = period }
+                                    .padding(8.dp)
                     )
                 }
             }

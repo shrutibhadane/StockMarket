@@ -27,6 +27,7 @@ import com.assignments.stockmarket.funds_payments.components.PaymentActionButton
 import com.assignments.stockmarket.funds_payments.components.TransactionItem
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun FundsPaymentsScreen(navController: NavController) {
@@ -56,12 +57,12 @@ fun FundsPaymentsScreen(navController: NavController) {
 
             PaymentActionButton(
                 icon = Icons.Default.Add,
-                title = "Add Money"
+                title = stringResource(R.string.action_add_money)
             )
 
             PaymentActionButton(
                 icon = Icons.Default.Remove,
-                title = "Withdraw Money"
+                title = stringResource(R.string.withdraw_money)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -72,11 +73,8 @@ fun FundsPaymentsScreen(navController: NavController) {
 
             Text(
                 text = stringResource(R.string.label_linked_bank_accounts),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                color = colorResource(R.color.white)
-            )
+                style = AppTextStyles.bold(14),
+                )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -98,10 +96,7 @@ fun FundsPaymentsScreen(navController: NavController) {
 
             Text(
                 text = stringResource(R.string.label_recent_transactions),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                color = colorResource(R.color.white)
+                style = AppTextStyles.bold(14),
             )
 
             TransactionItem(

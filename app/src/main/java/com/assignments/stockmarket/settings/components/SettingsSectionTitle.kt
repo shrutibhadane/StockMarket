@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun SettingsSectionTitle(title: String) {
@@ -21,10 +22,9 @@ fun SettingsSectionTitle(title: String) {
 
     Text(
         text = title,
-        color = colorResource(R.color.bg_button_secondary_light),
-        fontSize = 14.sp,
-        fontWeight = FontWeight.Bold,
-        fontFamily = PoppinsFamily,
+        style = AppTextStyles.bold(14,
+            colorResource(R.color.bg_button_secondary_light)
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 8.dp)

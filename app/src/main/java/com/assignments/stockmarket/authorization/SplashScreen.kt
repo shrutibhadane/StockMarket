@@ -26,6 +26,7 @@ import com.assignments.stockmarket.navigation.Routes.MPIN
 import com.assignments.stockmarket.navigation.Routes.MPIN_VERIFY
 import com.assignments.stockmarket.navigation.Routes.SPLASH
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import io.paperdb.Paper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -100,10 +101,7 @@ fun SplashScreen(navController: NavController) {
 
             Text(
                 text = stringResource(R.string.app_name),
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = AppTextStyles.bold(24),
                 textAlign = TextAlign.Center
             )
         }

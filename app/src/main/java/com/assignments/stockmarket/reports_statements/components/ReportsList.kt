@@ -19,6 +19,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 import com.assignments.stockmarket.search.SearchItem
 import com.assignments.stockmarket.search.SearchItemRow
+import com.assignments.stockmarket.utils.AppTextStyles
 
 
 @Composable
@@ -27,10 +28,7 @@ fun ReportsList(filteredItems: List<SearchItem>) {
     if (filteredItems.isEmpty()) {
         Text(
             text = stringResource(R.string.msg_data_not_available),
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            color = colorResource(R.color.white),
+            style = AppTextStyles.bold(16),
             modifier = Modifier
                 .padding(16.dp),
             textAlign = TextAlign.Center

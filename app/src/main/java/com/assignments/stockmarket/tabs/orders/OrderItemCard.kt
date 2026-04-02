@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
 import com.assignments.stockmarket.tabs.holdings.Holding
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun OrderItemCard(orders: Orders) {
@@ -53,20 +54,14 @@ fun OrderItemCard(orders: Orders) {
 
                 Text(
                     text = orders.time,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    color = colorResource(R.color.text_secondary)
+                    style = AppTextStyles.bold(8, colorResource(R.color.text_secondary)),
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = orders.status,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    color = colorResource(R.color.text_success)
+                    style = AppTextStyles.bold(8, colorResource(R.color.text_success)),
                 )
             }
 
@@ -78,20 +73,14 @@ fun OrderItemCard(orders: Orders) {
 
                 Text(
                     text = orders.name,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                    color = colorResource(R.color.white)
+                    style = AppTextStyles.bold(12),
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = orders.quantity,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
-                    color = colorResource(R.color.white)
+                    style = AppTextStyles.bold(10),
                 )
             }
 
@@ -103,20 +92,14 @@ fun OrderItemCard(orders: Orders) {
 
                 Text(
                     text = orders.type,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    color = colorResource(R.color.text_secondary)
+                    style = AppTextStyles.bold(8, colorResource(R.color.text_secondary)),
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = orders.avgValue,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    color = colorResource(R.color.text_secondary)
+                    style = AppTextStyles.bold(8, colorResource(R.color.text_secondary)),
                 )
             }
         }

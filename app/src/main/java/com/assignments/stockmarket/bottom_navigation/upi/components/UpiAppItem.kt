@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 
 @Composable
@@ -39,11 +40,8 @@ fun UpiAppItem(name: String, onClick: () -> Unit) {
         ) {
             Text(
                 text = name,
-                fontSize = 12.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.white)
-            )
+                style = AppTextStyles.bold(12),
+                )
         }
     }
     Spacer(modifier = Modifier.width(20.dp))

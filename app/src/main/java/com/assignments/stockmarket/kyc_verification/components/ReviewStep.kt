@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun ReviewStep(
@@ -32,47 +33,35 @@ fun ReviewStep(
 
         Text(
             stringResource(R.string.label_review_details),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Normal,
-            fontFamily = PoppinsFamily,
-            color = colorResource(R.color.white)
-        )
+            style = AppTextStyles.regular(18),
+            )
 
         Spacer(Modifier.height(16.dp))
 
         Text(
             "Name: $name",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Normal,
-            fontFamily = PoppinsFamily,
-            color = colorResource(R.color.white)
+            style = AppTextStyles.regular(14),
+            )
+
+        Spacer(Modifier.height(10.dp))
+
+        Text(
+            "DOB: $dob",
+            style = AppTextStyles.regular(14),
         )
 
         Spacer(Modifier.height(10.dp))
 
         Text(
-            "DOB: $dob", fontSize = 14.sp,
-            fontWeight = FontWeight.Normal,
-            fontFamily = PoppinsFamily,
-            color = colorResource(R.color.white)
+            "PAN: $pan",
+            style = AppTextStyles.regular(14),
         )
 
         Spacer(Modifier.height(10.dp))
 
         Text(
-            "PAN: $pan", fontSize = 14.sp,
-            fontWeight = FontWeight.Normal,
-            fontFamily = PoppinsFamily,
-            color = colorResource(R.color.white)
-        )
-
-        Spacer(Modifier.height(10.dp))
-
-        Text(
-            "Aadhaar: XXXX XXXX ${aadhaar.takeLast(4)}", fontSize = 14.sp,
-            fontWeight = FontWeight.Normal,
-            fontFamily = PoppinsFamily,
-            color = colorResource(R.color.white)
+            "Aadhaar: XXXX XXXX ${aadhaar.takeLast(4)}",
+            style = AppTextStyles.regular(14),
         )
 
         Spacer(Modifier.height(30.dp))
@@ -89,10 +78,9 @@ fun ReviewStep(
             ) {
                 Text(
                     stringResource(R.string.action_back),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.bg_primary)
+                    style = AppTextStyles.bold(14,
+                        colorResource(R.color.bg_primary)
+                    )
                 )
             }
 
@@ -110,10 +98,9 @@ fun ReviewStep(
             ) {
                 Text(
                     stringResource(R.string.action_submit_kyc),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.bg_primary)
+                    style = AppTextStyles.bold(14,
+                        colorResource(R.color.bg_primary)
+                    )
                 )
             }
         }

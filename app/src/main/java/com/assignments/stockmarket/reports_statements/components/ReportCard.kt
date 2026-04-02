@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun ReportCard(title: String) {
@@ -44,20 +45,16 @@ fun ReportCard(title: String) {
 
             Text(
                 text = title,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 12.sp,
-                color = colorResource(R.color.white)
+                style = AppTextStyles.bold(12
+                ),
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = "Feb 28, 2026 • 1.2 MB",
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 12.sp,
-                color = colorResource(R.color.white)
+                style = AppTextStyles.bold(12
+                ),
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -73,10 +70,7 @@ fun ReportCard(title: String) {
                 ) {
                     Text(
                         "View",
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp,
-                        color = colorResource(R.color.white)
+                        style = AppTextStyles.bold(12),
                     )
                 }
 
@@ -87,10 +81,7 @@ fun ReportCard(title: String) {
                 ) {
                     Text(
                         "Download",
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp,
-                        color = colorResource(R.color.white)
+                        style = AppTextStyles.bold(12),
                     )
                 }
             }

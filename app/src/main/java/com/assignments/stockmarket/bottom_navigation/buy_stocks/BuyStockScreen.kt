@@ -63,6 +63,7 @@ import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.reusables.bottom_bar.BottomBarButtons
 import com.assignments.stockmarket.tabs.explore.stockDetailsList
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import kotlinx.coroutines.delay
@@ -289,18 +290,12 @@ fun BuyStockScreen(
                     Column {
                         Text(
                             text = company?.name ?: stock?.name ?: decodedName,
-                            color = colorResource(R.color.white),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsFamily
+                            style = AppTextStyles.bold(18),
                         )
                         if (company != null) {
                             Text(
                                 text = company!!.symbol,
-                                color = colorResource(R.color.text_secondary),
-                                fontSize = 12.sp,
-                                fontFamily = PoppinsFamily,
-                                fontWeight = FontWeight.Medium
+                                style = AppTextStyles.medium(12, colorResource(R.color.text_secondary)),
                             )
                         }
                     }
@@ -321,38 +316,23 @@ fun BuyStockScreen(
                     ) {
                         Text(
                             text = stock.risk,
-                            color = colorResource(R.color.text_secondary),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsFamily,
-                        )
+                            style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
+                            )
                         Text(
                             text = " • ",
-                            color = colorResource(R.color.text_secondary),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsFamily,
+                            style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
                         )
                         Text(
                             text = stock.category,
-                            color = colorResource(R.color.text_secondary),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsFamily,
+                            style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
                         )
                         Text(
                             text = " • ",
-                            color = colorResource(R.color.text_secondary),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsFamily,
+                            style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
                         )
                         Text(
                             text = stock.theme,
-                            color = colorResource(R.color.text_secondary),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsFamily,
+                            style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
@@ -362,20 +342,14 @@ fun BuyStockScreen(
                 if (displayPrice > 0f) {
                     Text(
                         text = "₹${priceDisplayFormat.format(displayPrice)}",
-                        color = colorResource(R.color.white),
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily,
+                        style = AppTextStyles.bold(26),
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
 
                     Text(
                         text = "${sign}${changeFmt.format(abs(priceDiff))} (${changeFmt.format(abs(pctChange))}%)",
-                        color = changeColor,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = PoppinsFamily,
+                        style = AppTextStyles.semiBold(14, changeColor),
                     )
                 } else {
                     // Fallback from static data
@@ -386,28 +360,19 @@ fun BuyStockScreen(
                         ) {
                             Text(
                                 text = it.annualReturn.toString(),
-                                color = colorResource(R.color.text_success_light),
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = PoppinsFamily,
+                                style = AppTextStyles.bold(20, colorResource(R.color.text_success_light)),
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
                                 text = it.annualReturnPeriod,
-                                color = colorResource(R.color.text_secondary),
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = PoppinsFamily,
-                            )
+                                style = AppTextStyles.bold(10, colorResource(R.color.text_secondary)),
+                                )
                         }
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = it.dayChange.toString(),
-                            color = colorResource(R.color.text_error_light),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsFamily,
-                        )
+                            style = AppTextStyles.bold(14, colorResource(R.color.text_error_light)),
+                            )
                     }
                 }
 
@@ -556,11 +521,8 @@ private fun ConfirmedQtyBadge(
             ) {
                 Text(
                     text = qty.toString(),
-                    color = colorResource(R.color.white),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily
-                )
+                    style = AppTextStyles.bold(18),
+                    )
             }
 
             // Cross (X) button at top-right of the circle

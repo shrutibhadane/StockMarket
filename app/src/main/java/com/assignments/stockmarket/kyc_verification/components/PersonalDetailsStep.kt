@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import java.util.Calendar
 
 @Composable
@@ -47,10 +48,8 @@ fun PersonalDetailsStep(
     Column {
 
         Text(stringResource(R.string.label_personal_details),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Normal,
-            fontFamily = PoppinsFamily,
-            color = colorResource(R.color.white))
+            style = AppTextStyles.regular(18),
+            )
 
         Spacer(Modifier.height(16.dp))
 
@@ -62,11 +61,8 @@ fun PersonalDetailsStep(
             label = {
                 Text(
                     stringResource(R.string.label_full_name),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.white)
-                )
+                    style = AppTextStyles.bold(12),
+                    )
             },
             leadingIcon = {
                 Icon(
@@ -135,11 +131,8 @@ fun PersonalDetailsStep(
             label = {
                 Text(
                     stringResource(R.string.label_dob),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.white)
-                )
+                    style = AppTextStyles.bold(12),
+                    )
             },
             leadingIcon = {
                 Icon(
@@ -185,10 +178,9 @@ fun PersonalDetailsStep(
         ) {
             Text(
                 text = stringResource(R.string.action_continue),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = PoppinsFamily,
-                color = colorResource(R.color.bg_primary)
+                style = AppTextStyles.bold(14,
+                colorResource(R.color.bg_primary)
+                )
             )
         }
 

@@ -42,6 +42,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
@@ -49,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.R
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -117,11 +119,8 @@ fun BiDirectionalSlider(
     ) {
         // ── "Buy" label at top ──
         Text(
-            text = "Increase",
-            color = Color(0xFF4CAF50),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = PoppinsFamily,
+            text = stringResource(R.string.increase),
+            style = AppTextStyles.bold(12, colorResource(R.color.text_success)),
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .offset(y = (-22).dp)
@@ -151,10 +150,7 @@ fun BiDirectionalSlider(
         // ── "Sell" label at bottom ──
         Text(
             text = "Decrease",
-            color = Color(0xFFE53935),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = PoppinsFamily,
+            style = AppTextStyles.bold(12, colorResource(R.color.text_error)),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .offset(y = 22.dp)
@@ -196,10 +192,7 @@ fun BiDirectionalSlider(
             ) {
                 Text(
                     text = value.roundToInt().toString(),
-                    color = Color.Black,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.bold(12, colorResource(R.color.black)),
                     textAlign = TextAlign.Center
                 )
             }
@@ -267,10 +260,8 @@ fun SliderOverlay(
                 // ── Action label at top ──
                 Text(
                     text = actionLabel,
+                    style = AppTextStyles.bold(20),
                     color = if (actionLabel == "BUY") Color(0xFF4CAF50) else Color(0xFFE53935),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
                     modifier = Modifier.padding(top = 4.dp)
                 )
 
@@ -285,10 +276,7 @@ fun SliderOverlay(
                 // ── Qty label ──
                 Text(
                     text = "Qty: ${value.roundToInt()}",
-                    color = colorResource(R.color.white),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.semiBold(14),
                     modifier = Modifier.padding(vertical = 4.dp)
                 )
 
@@ -305,10 +293,7 @@ fun SliderOverlay(
                 ) {
                     Text(
                         text = "Confirm",
-                        color = colorResource(R.color.white),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsFamily
+                        style = AppTextStyles.bold(16),
                     )
                 }
             }

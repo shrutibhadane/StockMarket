@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.bottom_navigation.upi.components.UpiAppItem
 import com.assignments.stockmarket.bottom_navigation.upi.components.openUpiApp
 import com.assignments.stockmarket.reusables.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun UPIScreen(navController: NavController) {
@@ -57,24 +59,24 @@ fun UPIScreen(navController: NavController) {
         OutlinedTextField(
             value = amount,
             onValueChange = {  input ->
-                // ✅ Allow empty (for backspace)
+                //  Allow empty (for backspace)
                 if (input.isEmpty()) {
                     amount = input
                     return@OutlinedTextField
                 }
 
-                // ✅ Limit total length to 20
+                //  Limit total length to 20
                 if (input.length > 20) return@OutlinedTextField
 
-                // ✅ Allow only digits and dot
+                //  Allow only digits and dot
                 if (input.all { it.isDigit() || it == '.' }) {
 
                     val parts = input.split(".")
 
-                    // ✅ Only one dot & max 2 decimal places
+                    //  Only one dot & max 2 decimal places
                     if (parts.size <= 2 && (parts.size == 1 || parts[1].length <= 2)) {
 
-                        // ✅ Prevent starting with dot
+                        //  Prevent starting with dot
                         if (!input.startsWith(".")) {
                             amount = input
                         }
@@ -83,12 +85,9 @@ fun UPIScreen(navController: NavController) {
             },
             label = {
                 Text(
-                    "Enter Amount",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.white)
-                )
+                    stringResource(R.string.enter_amount),
+                    style = AppTextStyles.bold(12),
+                    )
             },
             leadingIcon = {
                 Icon(
@@ -142,11 +141,8 @@ fun UPIScreen(navController: NavController) {
             label = {
                 Text(
                     "Enter UPI ID (e.g. name@upi)",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
-                    color = colorResource(R.color.white)
-                )
+                    style = AppTextStyles.bold(12),
+                    )
             },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -166,12 +162,9 @@ fun UPIScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(30.dp))
 
         Text(
-            text = "Pay Using",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = PoppinsFamily,
-            color = colorResource(R.color.white)
-        )
+            text = stringResource(R.string.pay_using),
+            style = AppTextStyles.bold(14),
+            )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -235,11 +228,8 @@ fun UPIScreen(navController: NavController) {
         ) {
             Text(
                 text = "Proceed to Pay",
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                color = colorResource(R.color.bg_primary)
-            )
+                style = AppTextStyles.bold(14, colorResource(R.color.bg_primary)),
+                )
         }
     }
 }

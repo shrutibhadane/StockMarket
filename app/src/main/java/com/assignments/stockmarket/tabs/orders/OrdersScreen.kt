@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import com.assignments.stockmarket.R
 import com.assignments.stockmarket.tabs.holdings.Holding
 import com.assignments.stockmarket.tabs.holdings.HoldingItemCard
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun OrdersScreen(navController: NavController) {
@@ -30,11 +32,8 @@ fun OrdersScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "Today's Equity Orders (2)",
-            color = colorResource(R.color.white),
-            fontSize = 15.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.Bold,
+            text = stringResource(R.string.today_s_equity_orders_2),
+            style = AppTextStyles.bold(15),
             textAlign = TextAlign.Left,
             modifier = Modifier.fillMaxWidth()
         )

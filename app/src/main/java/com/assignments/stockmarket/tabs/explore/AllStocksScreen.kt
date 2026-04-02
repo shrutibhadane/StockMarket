@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -44,6 +45,7 @@ import com.assignments.stockmarket.db.CompanyEntity
 import com.assignments.stockmarket.db.CompanyRepository
 import com.assignments.stockmarket.reusables.app_bar.AppBarBackArrow
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import java.net.URLEncoder
@@ -98,11 +100,9 @@ fun AllStocksScreen(navController: NavController) {
             item {
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "End of List",
-                    color = colorResource(R.color.text_secondary),
-                    fontSize = 13.sp,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Normal,
+                    text = stringResource(R.string.end_of_list),
+                    style = AppTextStyles.regular(13,
+                    colorResource(R.color.text_secondary)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -170,19 +170,14 @@ fun AllStockListItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = company.name,
-                    color = colorResource(R.color.white),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
+                    style = AppTextStyles.semiBold(14),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = company.symbol,
-                    color = colorResource(R.color.text_secondary),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 11.sp,
+                    style = AppTextStyles.regular(11,
+                    colorResource(R.color.text_secondary)),
                     maxLines = 1
                 )
             }
@@ -194,26 +189,19 @@ fun AllStockListItem(
                 if (tick != null) {
                     Text(
                         text = "₹${allStocksPriceFormat.format(currentPrice)}",
-                        color = colorResource(R.color.white),
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp,
+                        style = AppTextStyles.semiBold(14),
                         maxLines = 1
                     )
                     Text(
                         text = changeText,
-                        color = changeColor,
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 11.sp,
+                        style = AppTextStyles.medium(11, changeColor),
                         maxLines = 1
                     )
                 } else {
                     Text(
-                        text = "—",
-                        color = colorResource(R.color.white).copy(alpha = 0.6f),
-                        fontFamily = PoppinsFamily,
-                        fontSize = 14.sp
+                        text = stringResource(R.string.dash),
+                        style = AppTextStyles.medium(14,
+                            colorResource(R.color.white).copy(alpha = 0.6f)),
                     )
                 }
             }

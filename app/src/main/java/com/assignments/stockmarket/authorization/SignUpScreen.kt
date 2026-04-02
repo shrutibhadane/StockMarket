@@ -53,6 +53,7 @@ import com.assignments.stockmarket.registerUser
 import com.assignments.stockmarket.reusables.CustomTextField
 import com.assignments.stockmarket.sendOtpApi
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
+import com.assignments.stockmarket.utils.AppTextStyles
 import kotlinx.coroutines.launch
 
 // Valid TLDs for email validation
@@ -127,10 +128,7 @@ fun SignUpScreen(
             // Sign up Title
             Text(
                 text = stringResource(R.string.label_sign_up),
-                color = colorResource(R.color.white),
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = AppTextStyles.bold(24),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -249,7 +247,9 @@ fun SignUpScreen(
             // Password Criteria List
             if (showPasswordCriteria) {
                 Spacer(modifier = Modifier.height(8.dp))
-                Column(modifier = Modifier.fillMaxWidth().padding(start = 4.dp)) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 4.dp)) {
                     PasswordCriteriaRow("At least 8 characters", hasMinLength)
                     PasswordCriteriaRow("At least 1 uppercase letter", hasUpperCase)
                     PasswordCriteriaRow("At least 1 lowercase letter", hasLowerCase)
@@ -307,7 +307,8 @@ fun SignUpScreen(
                         if (firstName.isEmpty()) {
                             firstNameError = "First Name should not be empty"; valid = false
                         } else if (!firstName.all { it.isLetter() }) {
-                            firstNameError = "First Name should contain only alphabets"; valid = false
+                            firstNameError = "First Name should contain only alphabets"; valid =
+                                false
                         }
 
                         if (lastName.isEmpty()) {
@@ -320,7 +321,8 @@ fun SignUpScreen(
                         if (username.isEmpty()) {
                             usernameError = "Username should not be empty"; valid = false
                         } else if (!usernameAllowed.matches(username)) {
-                            usernameError = "Username can only contain letters, numbers and #*&"; valid = false
+                            usernameError =
+                                "Username can only contain letters, numbers and #*&"; valid = false
                         } else if (username.length <= 5) {
                             usernameError = "Username must be more than 5 characters"; valid = false
                         }
@@ -345,7 +347,8 @@ fun SignUpScreen(
                         }
 
                         if (confirmPassword.isEmpty()) {
-                            confirmPasswordError = "Confirm Password should not be empty"; valid = false
+                            confirmPasswordError = "Confirm Password should not be empty"; valid =
+                                false
                         } else if (password != confirmPassword) {
                             confirmPasswordError = "Passwords do not match"; valid = false
                         }
@@ -405,9 +408,7 @@ fun SignUpScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = apiError.orEmpty(),
-                    color = Color.Red,
-                    fontSize = 14.sp,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.regular(14, colorResource(R.color.text_error)),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -420,10 +421,7 @@ fun SignUpScreen(
             // Bottom Text
             Text(
                 text = stringResource(R.string.msg_already_have_account),
-                color = colorResource(R.color.white),
-                fontSize = 12.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
+                style = AppTextStyles.bold(12),
                 modifier = Modifier
                     .padding(bottom = 20.dp)
                     .clickable { navController.navigate(LOGIN) }
@@ -437,17 +435,14 @@ fun SignUpScreen(
             onDismissRequest = { /* Prevent dismiss by tapping outside */ },
             title = {
                 Text(
-                    text = "Congratulations! 🎉",
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    text = stringResource(R.string.congratulations),
+                    style = AppTextStyles.bold(20),
                 )
             },
             text = {
                 Text(
-                    text = "Your account has been created successfully!",
-                    fontFamily = PoppinsFamily,
-                    fontSize = 15.sp
+                    text = stringResource(R.string.your_account_has_been_created_successfully),
+                    style = AppTextStyles.regular(15),
                 )
             },
             confirmButton = {
@@ -461,10 +456,8 @@ fun SignUpScreen(
                     }
                 ) {
                     Text(
-                        text = "Ok",
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        text = stringResource(R.string.ok),
+                        style = AppTextStyles.bold(16),
                     )
                 }
             }
@@ -487,9 +480,7 @@ private fun PasswordCriteriaRow(label: String, met: Boolean) {
         Spacer(modifier = Modifier.width(6.dp))
         Text(
             text = label,
-            color = if (met) Color.Green else Color.Red,
-            fontSize = 12.sp,
-            fontFamily = PoppinsFamily
+            style = AppTextStyles.regular(12, if (met) Color.Green else Color.Red),
         )
     }
 }

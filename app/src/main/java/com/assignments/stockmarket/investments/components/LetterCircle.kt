@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.assignments.stockmarket.ui.theme.PoppinsFamily
 import com.assignments.stockmarket.R
+import com.assignments.stockmarket.utils.AppTextStyles
 
 @Composable
 fun LetterCircle(letter: String) {
@@ -29,11 +30,9 @@ fun LetterCircle(letter: String) {
     ) {
         Text(
             text = letter,
-            color = colorResource(R.color.white),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
             lineHeight = 20.sp,
-            fontFamily = PoppinsFamily
+            style = AppTextStyles.bold(20),
+
         )
     }
 }

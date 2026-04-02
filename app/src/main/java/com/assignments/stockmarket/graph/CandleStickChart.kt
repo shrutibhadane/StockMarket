@@ -45,6 +45,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import androidx.compose.runtime.LaunchedEffect
+import com.assignments.stockmarket.utils.AppTextStyles
 
 private val CANDLE_GREEN = Color(0xFF7CFC00)
 private val CANDLE_RED = Color(0xFFFF6B6B)
@@ -93,9 +94,7 @@ fun ScrollableCandleChart(
         ) {
             Text(
                 text = "1 min candle",
-                color = Color.Gray,
-                fontSize = 10.sp,
-                fontFamily = PoppinsFamily
+                style = AppTextStyles.bold(14, colorResource(R.color.text_secondary))
             )
             // Countdown timer
             val mins = remainingSeconds / 60
@@ -103,9 +102,7 @@ fun ScrollableCandleChart(
             Text(
                 text = "⏱ ${String.format("%d:%02d", mins, secs)}",
                 color = if (remainingSeconds <= 10) CANDLE_RED else Color(0xFFAABBDD),
-                fontSize = 11.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = PoppinsFamily
+                style = AppTextStyles.bold(11),
             )
         }
 
@@ -205,10 +202,7 @@ fun ScrollableCandleChart(
 
                 Text(
                     text = "$arrow ₹${priceFmt.format(animatedPrice)}",
-                    color = priceColor,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsFamily,
+                    style = AppTextStyles.bold(11, priceColor),
                     modifier = Modifier.padding(end = 4.dp)
                 )
             }

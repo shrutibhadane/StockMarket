@@ -18,6 +18,8 @@
     <string name="label_full_name">Full Name</string>
     <string name="label_confirm_password">Confirm Password</string>
     <string name="msg_already_have_account">Already have an account? Login</string>
+    <string name="congratulations">Congratulations! 🎉</string>
+    <string name="your_account_has_been_created_successfully">Your account has been created successfully!</string>
 
     <string name="label_mpin">MPIN</string>
     <string name="label_otp">OTP</string>
@@ -210,5 +212,44 @@
 
     <!-- Active Devices -->
     <string name="this_device">This Device</string>
+    <string name="ok">Ok</string>
+
+    <!-- Welcome -->
+    <string name="welcome">Welcome</string>
+    <string name="trade_sphere">Trade Sphere</string>
+
+    <!--MF-->
+    <string name="very_high_risk">Very High Risk</string>
+    <string name="equity">Equity</string>
+    <string name="thematic">Thematic</string>
+    <string name="dot">" • "</string>
+
+    <!--UPI-->
+    <string name="enter_amount">Enter Amount</string>
+    <string name="pay_using">Pay Using</string>
+
+    <!-- Dashboard -->
+    <string name="explore">Explore</string>
+    <string name="holdings">Holdings</string>
+    <string name="positions">Positions</string>
+    <string name="orders">Orders</string>
+    <string name="live">Live</string>
+    <string name="withdraw_money">Withdraw Money</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="increase">Increase</string>
+    <string name="invested">Invested</string>
+    <string name="total_returns">Total Returns</string>
+    <string name="logged_out_from_all_devices">Logged out from all devices</string>
+    <string name="end_of_list">End of List</string>
+    <string name="dash">—</string>
+    <string name="loading_stocks">Loading stocks…</string>
+    <string name="connecting_to_live_data">Connecting to live data…</string>
+    <string name="most_traded_on_sphere">Most traded on Sphere</string>
+    <string name="view_all">View All</string>
+    <string name="left_arrow"><![CDATA[>]]></string>
+    <string name="holdings_2">HOLDINGS (2)</string>
+    <string name="holding_sphere">Holding Sphere</string>
+    <string name="today_s_equity_orders_2">Today\'s Equity Orders (2)</string>
 
 </resources>
